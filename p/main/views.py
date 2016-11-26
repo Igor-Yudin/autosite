@@ -143,7 +143,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 	# 		],
 	# 	},
 	# }
-	return render(request, 'main\success.html', { 'pages': pages, 'content': content })
+	return render(request, 'main/success.html', { 'pages': pages, 'content': content })
 
 def turn_features_in_css_rules(common_styles, features, page_name):
 	"""

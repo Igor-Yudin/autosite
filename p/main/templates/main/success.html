@@ -1,6 +1,7 @@
 {% extends 'main/base.html' %}
 {% load filters %}
 {% block content %}
+	<style>{{ raw|safe }}</style>
 	<div class="content">
 		{% for page in pages %}
 			<section class="{{ page }}">

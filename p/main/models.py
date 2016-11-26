@@ -121,8 +121,8 @@ class Image(models.Model):
 default_features = """main
 attachment: scroll
 page-height: 100vh
-background: ../images/main.jpg
-logo: ../images/l.png
+background: images/main.jpg
+logo: images/l.png
 logo-width: 189
 logo-height: 136
 logo-position: top left

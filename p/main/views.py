@@ -3,6 +3,7 @@ from .forms import SiteParametersForm, ContentForm, FeaturesForm
 from .models import SiteParameters, Content, Features
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 # Create your views here.
 def new_page(request):
@@ -94,7 +95,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 	import os
 	base_dir = os.path.dirname(os.path.abspath(__file__))
 	styles = create_css(styles)
-
+	
 	with open(str.format("{0}\static\css\dynamic.css", base_dir), 'w') as file_obj:
 		file_obj.write(styles)
 
@@ -143,7 +144,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 	# 		],
 	# 	},
 	# }
-	return render(request, 'main/success.html', { 'pages': pages, 'content': content })
+	return render(request, 'main/success.html', { 'pages': pages, 'content': content, 'raw': styles })
 
 def turn_features_in_css_rules(common_styles, features, page_name):
 	"""
@@ -156,7 +157,7 @@ def turn_features_in_css_rules(common_styles, features, page_name):
 		class_name: {
 			'position': 'relative',
 			'background': (lambda background: 
-								'url({0})'.format(background) if '.' in background
+								'url({0})'.format(get_image_url(background)) if '.' in background
 								else background)(features['background']),
 			'background-repeat': 'no-repeat',
 			'background-size': 'cover',
@@ -209,7 +210,7 @@ def turn_features_in_css_rules(common_styles, features, page_name):
 		styles.update(
 			{
 				class_name + ' .logo': {
-				'background-image': str.format('url({0})',features['logo']),
+				'background-image': str.format('url({0})',get_image_url(features['logo'])),
 				'background-repeat': 'no-repeat',
 				'background-size': 'contain',
 				'background-position': 'center center',
@@ -265,7 +266,7 @@ def turn_features_in_css_rules(common_styles, features, page_name):
 					'width': str(100 / int(columns_count) - 1) + '%',
 					'display': 'inline-block',
 					'background': (lambda background: 
-								'url({0})'.format(background) if '.' in background
+								'url({0})'.format(get_image_url(background)) if '.' in background
 								else background)(features['fl-block-background']),
 				},
 				class_name + ' .float-block .float-block-header h1':
@@ -307,7 +308,7 @@ def turn_features_in_css_rules(common_styles, features, page_name):
 						'width': '100px',
 						'hieght': '100px',
 						'padding': '0 20px',
-						'background-image': features['fl-single-image'],
+						'background-image': str.format('url({0})', get_image_url(features['fl-single-image'])),
 					},
 				})
 
@@ -336,3 +337,6 @@ def create_css(styles):
 			css += str.format('\t{0}:{1};\n', feature, value)
 		css += '}\n\n'
 	return css
+
+def get_image_url(image_name):
+	return static(image_name)

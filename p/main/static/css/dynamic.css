@@ -1,99 +1,85 @@
-.main {
-	background:linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(../images/main.jpg);
-	position:relative;
-	background-repeat:no-repeat;
-	background-size:cover;
-	height:100vh;
-	background-position:center center;
-	background-attachment:scroll;
-}
-
-.main .inf-block p {
-	font-size:22px;
-	color:#dbdbdb;
-	text-align:center;
-}
-
-* {
-	margin:0px;
-	padding:0px;
-}
-
-.features {
-	background:white;
-	position:relative;
-	background-repeat:no-repeat;
-	background-size:cover;
-	height:100vh;
-	background-position:center center;
-	background-attachment:fixed;
-}
-
-.features .inf-block h1 {
-	font-size:90px;
-	color:black;
-	text-align:center;
-}
-
-.centered-top-30vh {
-	margin:0 auto;
-	padding-top:30vh;
-}
-
-.about-us .float-block .float-block-image {
-	width:100px;
-	height:100px;
-	float:none;
-	margin:0 auto;
-	background-size:contain;
-}
-
-.about-us .float-block {
-	background:none;
-	width:99.0%;
-	display:inline-block;
-}
-
-.about-us .inf-block {
-	width:60%;
-	font-family:'Arial';
-}
-
-.features .float-block .float-block-text p {
-	font-size:14px;
-	color:#8c8783;
-	text-align:center;
-}
-
-.main .inf-block-position {
-	display:inline-table;
-	bottom:0;
-	position:absolute;
-	left:0;
-	margin:auto;
-	right:0;
-	top:0;
-}
-
 .features .inf-block-position {
 	margin:auto;
-	position:absolute;
 	left:0;
+	position:absolute;
 	top:15vh;
 	right:0;
 }
 
+.about-us .inf-block {
+	font-family:'Arial';
+	width:60%;
+}
+
 .features .float-block .float-block-image {
 	width:100px;
-	height:100px;
 	float:none;
-	margin:0 auto;
+	height:100px;
 	background-size:contain;
+	margin:0 auto;
+}
+
+.main .inf-block h1 {
+	color:white;
+	font-size:90px;
+	text-align:center;
+}
+
+.completely-centered {
+	bottom:0;
+	margin:auto;
+	left:0;
+	position:absolute;
+	right:0;
+	top:0;
+	display:inline-table;
+}
+
+.main .inf-block-position {
+	bottom:0;
+	margin:auto;
+	left:0;
+	position:absolute;
+	right:0;
+	top:0;
+	display:inline-table;
+}
+
+.about-us .float-block .float-block-text p {
+	color:#8c8783;
+	font-size:14px;
+	text-align:center;
 }
 
 .features .float-block .float-block-header h1 {
-	font-size:30px;
 	color:#121113;
+	font-size:30px;
+	text-align:center;
+}
+
+.features .float-block .float-block-text p {
+	color:#8c8783;
+	font-size:14px;
+	text-align:center;
+}
+
+.centered-top-30vh {
+	padding-top:30vh;
+	margin:0 auto;
+}
+
+.main .logo {
+	background-size:contain;
+	background-image:url(../images/l.png);
+	background-repeat:no-repeat;
+	width:189;
+	height:136;
+	background-position:center center;
+}
+
+.about-us .inf-block p {
+	color:#8c8783;
+	font-size:14px;
 	text-align:center;
 }
 
@@ -103,46 +89,104 @@
 	display:inline-block;
 }
 
-.about-us .inf-block-position {
-	display:inline-table;
-	bottom:0;
-	position:absolute;
-	left:0;
-	margin:auto;
-	right:0;
-	top:0;
+.about-us .float-block {
+	background:none;
+	width:99.0%;
+	display:inline-block;
 }
 
-.about-us .inf-block h1 {
-	font-size:90px;
-	color:#121113;
+.main .inf-block {
+	font-family:'Arial';
+	width:75%;
+}
+
+.main .logo-position {
+	top:0px;
+	left:0px;
+	position:absolute;
+}
+
+.features {
+	background:white;
+	background-size:cover;
+	position:relative;
+	background-attachment:fixed;
+	background-repeat:no-repeat;
+	height:100vh;
+	background-position:center center;
+}
+
+.about-us .inf-block-position {
+	bottom:0;
+	margin:auto;
+	left:0;
+	position:absolute;
+	right:0;
+	top:0;
+	display:inline-table;
+}
+
+.main {
+	background:linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(../images/main.jpg);
+	background-size:cover;
+	position:relative;
+	background-attachment:scroll;
+	background-repeat:no-repeat;
+	height:100vh;
+	background-position:center center;
+}
+
+* {
+	padding:0px;
+	margin:0px;
+}
+
+.main .inf-block p {
+	color:#dbdbdb;
+	font-size:22px;
 	text-align:center;
+}
+
+.about-us {
+	background:white;
+	background-size:cover;
+	position:relative;
+	background-attachment:fixed;
+	background-repeat:no-repeat;
+	height:100vh;
+	background-position:center center;
+}
+
+.about-us .logo-position {
 }
 
 .features .logo-position {
 }
 
-.main .inf-block h1 {
+.about-us .inf-block h1 {
+	color:#121113;
 	font-size:90px;
-	color:white;
 	text-align:center;
 }
 
-.about-us .float-block .float-block-text p {
-	font-size:14px;
+.features .inf-block p {
 	color:#8c8783;
-	text-align:center;
-}
-
-.about-us .inf-block p {
 	font-size:14px;
-	color:#8c8783;
 	text-align:center;
 }
 
-.features .inf-block {
-	width:60%;
-	font-family:'Arial';
+.about-us .float-block .float-block-image {
+	width:100px;
+	float:none;
+	height:100px;
+	background-size:contain;
+	margin:0 auto;
+}
+
+.about-us .float-block .float-block-header h1 {
+	color:#121113;
+	font-size:30px;
+	text-align:center;
 }
 
 html, body {
@@ -150,58 +194,14 @@ html, body {
 	height:100%;
 }
 
-.completely-centered {
-	display:inline-table;
-	bottom:0;
-	position:absolute;
-	left:0;
-	margin:auto;
-	right:0;
-	top:0;
-}
-
-.main .inf-block {
-	width:75%;
+.features .inf-block {
 	font-family:'Arial';
+	width:60%;
 }
 
-.about-us .logo-position {
-}
-
-.main .logo-position {
-	position:absolute;
-	left:0px;
-	top:0px;
-}
-
-.main .logo {
-	width:189;
-	background-repeat:no-repeat;
-	background-size:contain;
-	height:136;
-	background-image:url(../images/l.png);
-	background-position:center center;
-}
-
-.features .inf-block p {
-	font-size:14px;
-	color:#8c8783;
-	text-align:center;
-}
-
-.about-us {
-	background:white;
-	position:relative;
-	background-repeat:no-repeat;
-	background-size:cover;
-	height:100vh;
-	background-position:center center;
-	background-attachment:fixed;
-}
-
-.about-us .float-block .float-block-header h1 {
-	font-size:30px;
-	color:#121113;
+.features .inf-block h1 {
+	color:black;
+	font-size:90px;
 	text-align:center;
 }
 

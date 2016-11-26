@@ -1,7 +1,13 @@
 textarea {
 	height: 90%;
-	width: 50%;
+	width: 100%;
 	display: block;
+}
+
+form {
+	width: 40%;
+	float: left;
+	margin-right: 15px;
 }
 
 .content p {
@@ -51,4 +57,8 @@ button[type="submit"] {
 	height: 40px;
 	margin: 20px;
 	background: green;
+}
+
+.features-inf {
+	padding-top: 15px;
 }

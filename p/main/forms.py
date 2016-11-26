@@ -23,7 +23,7 @@ class ContentForm(forms.ModelForm):
 		}
 
 		help_texts = {
-			'text': _('Только для демонстрации, в проекте будет форма, кроме того в ней можно будет указывать изображения'),
+			'text': _('В данной форме показаны реальные данные для отображения'),
 		}
 
 class FeaturesForm(forms.ModelForm):

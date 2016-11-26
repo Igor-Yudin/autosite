@@ -3,3 +3,52 @@ textarea {
 	width: 50%;
 	display: block;
 }
+
+.content p {
+	margin: 10px 0px 0px 10px;
+	font-size: 30px;
+	font-style: italic;
+}
+
+.content h1 {
+	font-size: 25px;
+	font-weight: normal;
+	padding-left: 20px;
+	margin: 20px 0;
+}
+
+.content input {
+	display: block;
+}
+
+.content label {
+	float: left;
+	margin: 0 20px;
+}
+
+.content .button {
+	background: red;
+	border: 0px;
+	margin-left: 15px;
+	width: 200px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+
+.content .p {
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+hr {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+button[type="submit"] {
+	width: 200px;
+	height: 40px;
+	margin: 20px;
+	background: green;
+}

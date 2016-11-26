@@ -1,8 +1,70 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+	<div class="content">
+		<p>Форма не работает, только для демонстрации того, как будет</p>
+		<h1>Главная страница</h1>
+		<form>
+			<label for="name">Введите название</label>
+			<input id="name" type="text">
+			<label for="slogan">Введите ваш слоган</label>
+			<input id="slogan" type="text">
+			<label for="logo">Выберите логитп</label>
+			<input id="logo" type="file">
+			<label for="main-background">Выберите рисунок для фона</label>
+			<input id="main-background" type="file">
+		</form>
+		<h1>О нас</h1>
+		<form>
+			<label for="header">Введите главный загаловок</label>
+			<input id="header" type="text">
+			<label for="about-us-single">Загрузите главное изображение</label>
+			<input id="about-us-single" type="file">
+			<label for="about-us-background">Выберите рисунок для фона</label>
+			<input id="about-us-background" type="file">
+			<div class="p">
+				<label>Выберите картинку для данного параграфа</label>
+				<input id="p-1-image" type="file">
+				<label for="p-1-header">Введите загаловок параграфа</label>
+				<input id="p-1-header" type="text">
+				<label for="p-1-text">Выберите рисунок для фона</label>
+				<input id="p-1-text" type="file">
+			</div>
+			<div id="add" class="button" onclick="addParagraph()">Добавить параграф</div>
+		</form>
+		<p>И так далее для остальных страниц: преимeщества, каталог, форма, - при этом пользователь сам решает какие заполнить.</p>
+	</div>
+	<hr>
+	</div>
 	<form method="POST" class="content-form">{% csrf_token %}
 		{{ form.as_p }}
 		<button type="submit">OK</button>
 	</form>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+		function addParagraph() {
+			var btn = document.getElementById('add');
+			var div = document.createElement('div');
+			div.className = "p";
+			var lbl1 = document.createElement('label');
+			lbl1.innerHTML = "Выберите картинку для данного параграфа";
+			var lbl2 = document.createElement('label');
+			lbl2.innerHTML = "Введите загаловок параграфа";
+			var lbl3 = document.createElement('label');
+			lbl3.innerHTML = "Выберите рисунок для фона";
+			var input1 = document.createElement('input');
+			input1.type = "file";
+			var input2 = document.createElement('input');
+			input2.type = "text";
+			var input3 = document.createElement('input');
+			input3.type = "text";
+			div.appendChild(lbl1);
+			div.appendChild(input1);
+			div.appendChild(lbl2);
+			div.appendChild(input2);
+			div.appendChild(lbl3);
+			div.appendChild(input3);
+			$("#add").before(div);
+		}
+	</script>
 {% endblock %}

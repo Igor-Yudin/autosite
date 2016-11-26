@@ -4,10 +4,14 @@ textarea {
 	display: block;
 }
 
-form {
+.features-form {
 	width: 40%;
 	float: left;
 	margin-right: 15px;
+}
+
+form {
+	width: 50%;
 }
 
 .content p {

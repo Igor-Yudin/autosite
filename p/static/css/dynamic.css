@@ -1,0 +1,139 @@
+.main .logo-position {
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+
+.main .inf-block p {
+	color:white;
+	font-size:22px;
+	text-align:center;
+}
+
+.main .logo {
+	background-image:url(../images/l.png);
+	background-position:center center;
+	background-size:contain;
+	background-repeat:no-repeat;
+	height:136;
+	width:189;
+}
+
+.main .inf-block {
+	font-family:'Open Sans';
+	width:75%;
+}
+
+.main .inf-block-position {
+	bottom:0;
+	display:inline-table;
+	top:0;
+	margin:auto;
+	left:0;
+	position:absolute;
+	right:0;
+}
+
+* {
+	padding:0px;
+	margin:0px;
+}
+
+.centered-top-30vh {
+	padding-top:30vh;
+	margin:0 auto;
+}
+
+.about-us .inf-block p {
+	color:#121113;
+	font-size:14px;
+	text-align:center;
+}
+
+.about-us .logo-position {
+}
+
+.about-us .inf-block-position {
+	bottom:0;
+	display:inline-table;
+	top:0;
+	margin:auto;
+	left:0;
+	position:absolute;
+	right:0;
+}
+
+.main {
+	background-position:center center;
+	background-size:cover;
+	background-repeat:no-repeat;
+	height:100vh;
+	background-attachment:scroll;
+	position:relative;
+	background:linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(../images/main.jpg);
+}
+
+.main .inf-block h1 {
+	color:#dbdbdb;
+	font-size:90px;
+	text-align:center;
+}
+
+.about-us .inf-block {
+	font-family:'Open Sans';
+	width:60%;
+}
+
+.about-us .float-block .float-block-image {
+	background-image:;
+}
+
+.about-us .float-block .float-block-text p {
+	color:#8c8783;
+	font-size:14px;
+	text-align:center;
+}
+
+.about-us {
+	background-position:center center;
+	background-size:cover;
+	background-repeat:no-repeat;
+	height:100vh;
+	background-attachment:fixed;
+	position:relative;
+	background:white;
+}
+
+.completely-centered {
+	bottom:0;
+	display:inline-table;
+	top:0;
+	margin:auto;
+	left:0;
+	position:absolute;
+	right:0;
+}
+
+.about-us .float-block {
+	display:inline-block;
+	width:45.0%;
+	padding:0 5px;
+}
+
+.about-us .inf-block h1 {
+	color:#8c8783;
+	font-size:90px;
+	text-align:center;
+}
+
+html, body {
+	height:100%;
+	width:100%;
+}
+
+.about-us .float-block .float-block-header h1 {
+	color:#121113;
+	font-size:30px;
+	text-align:center;
+}
+

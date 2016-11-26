@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}
+{% load filters %}
+{% block content %}
+	<div class="content">
+		{% for page in pages %}
+			<section class="{{ page }}">
+				{% if content|get_item:page|get_item:'logo' %}
+					<div class="logo logo-position"></div>
+				{% endif %}
+				<div class="inf-block inf-block-position">
+					{% if content|get_item:page|get_item:'header' %}
+						<h1>{{ content|get_item:page|get_item:'header' }}</h1>
+					{% endif %}
+
+					{% if content|get_item:page|get_item:'slogan' %}
+						{{ content|get_item:page|get_item:'slogan'|linebreaks }}
+					{% endif %}
+
+					<!--Float-blocks, single-image-->
+					{% if content|get_item:page|get_item:'paragraphs' %}
+						{% if content|get_item:page|get_item:'single-position' == 'top' %}<!--Single image can be top-->
+							<div class="single-image"></div>
+						{% endif %}
+
+						<div class="float-block-container">
+							{% for block in content|get_item:page|get_item:'paragraphs'%}
+								<div class="float-block">
+									{% if block|get_item:'image' %}
+										<div class="float-block-image" style="background-image: {{ block|get_item:'image'|get_image_url }};"></div>
+									{% endif %}
+
+									{% if block|get_item:'header' %}
+									<div class="float-block-header">
+										<h1>{{ block|get_item:'header' }}</h1>
+									</div>
+									{% endif %}
+
+									{% if block|get_item:'text' %}
+									<div class="float-block-text">
+									<!-- That doesn't create lot of p -->
+										{{ block|get_item:'text'|linebreaks }}
+									</div>
+									{% endif %}
+								</div>
+							{% endfor %}
+						</div>
+
+						{% if content|get_item:page|get_item:'single-position' == 'bottom' %}<!--Single image can be down-->
+							<div class="single-image"></div>
+						{% endif %}
+					{% endif %}
+				</div>
+			</section>
+		{% endfor %}
+	</div>
+{% endblock %}

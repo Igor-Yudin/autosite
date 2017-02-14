@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SiteParametersForm, ContentForm, FeaturesForm
-from .models import SiteParameters, Content, Features, Image
+from .forms import SiteParametersForm, ContentJsonForm, FeaturesForm
+from .models import SiteParameters, ContentJson, Features, Image
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -125,10 +125,10 @@ def input_content(request, pk):
 						}
 						for i in range(paragraphs_count)
 					]
-		content = Content.objects.create(text = json.dumps(content))
+		content = ContentJson.objects.create(text = json.dumps(content))
 		return redirect('choose_features', params_pk = pk, content_pk = content.pk)
 	else:
-		form = ContentForm()
+		form = ContentJsonForm()
 	return render(request, 'main/input_content.html', {'form': form, 'pk': pk})
 
 def choose_features(request, params_pk, content_pk):
@@ -151,7 +151,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 	inf = inf.translate({ord(char) : None for char in '\r'})
 	inf = inf.split('\n\n')
 
-	content = get_object_or_404(Content, pk = content_pk)
+	content = get_object_or_404(ContentJson, pk = content_pk)
 	content = content.to_dict()
 	pages = content['order'].split(',')
 

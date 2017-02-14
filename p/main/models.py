@@ -106,7 +106,7 @@ default_content = {
 import json
 default_content = json.dumps(default_content)
 
-class Content(models.Model):
+class ContentJson(models.Model):
 	text = models.TextField(default = default_content)
 
 	def to_dict(self):
@@ -191,3 +191,5 @@ fl-image-form: square"""
 
 class Features(models.Model):
 	text = models.TextField(default = default_features)
+
+# class Content

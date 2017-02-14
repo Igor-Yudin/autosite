@@ -1,5 +1,5 @@
 from django import forms
-from .models import SiteParameters, Content, Features
+from .models import SiteParameters, ContentJson, Features
 from django.utils.translation import ugettext_lazy as _
 
 class SiteParametersForm(forms.ModelForm):
@@ -14,9 +14,9 @@ class SiteParametersForm(forms.ModelForm):
 			'good_type': _('Что вы предлагаете'),
 		}
 
-class ContentForm(forms.ModelForm):
+class ContentJsonForm(forms.ModelForm):
 	class Meta:
-		model = Content
+		model = ContentJson
 		fields = ('text',)
 		labels = {
 			'text': _('Контент'),

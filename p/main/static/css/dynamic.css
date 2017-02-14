@@ -4,7 +4,7 @@
 }
 
 .about-us {
-	background: url(/media/images/tiger_r99m5LF.jpg);
+	background: url(/media/images/butterfly_gmflMxD.jpg);
 	background-attachment: fixed;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -85,7 +85,7 @@
 }
 
 .main {
-	background: linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(/media/images/tiger_z2Cz55O.jpg);
+	background: linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(/media/images/butterfly_1VA994E.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -122,7 +122,7 @@
 }
 
 .main .logo {
-	background-image: url(/media/images/butterfly.jpg);
+	background-image: url(/media/images/butterfly_CaS9pZD.jpg);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: contain;

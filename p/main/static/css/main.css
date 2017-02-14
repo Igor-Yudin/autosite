@@ -14,6 +14,11 @@ form {
 	width: 50%;
 }
 
+.content textarea {
+	height: 100px;
+	width: 500px;
+}
+
 .content p {
 	margin: 10px 0px 0px 10px;
 	font-size: 30px;
@@ -44,6 +49,14 @@ form {
 	height: 40px;
 	line-height: 40px;
 	text-align: center;
+	cursor: pointer;
+	-webkit-transition: background 1s;
+	transition: background 1s;
+	color: floralwhite;
+}
+
+.content .button:hover {
+	background: #bf0000;
 }
 
 .content .p {
@@ -59,8 +72,17 @@ hr {
 button[type="submit"] {
 	width: 200px;
 	height: 40px;
-	margin: 20px;
+	margin: 20px 20px 20px 15px;
 	background: green;
+	color: floralwhite;
+	-webkit-transition: background 1s;
+	transition: background 1s;
+	cursor: pointer;
+	border: 0px;
+}
+
+button[type="submit"]:hover {
+	background: #006c00;
 }
 
 .features-inf {

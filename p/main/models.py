@@ -116,7 +116,11 @@ class Content(models.Model):
 		return json.dumps(self.text)
 
 class Image(models.Model):
-	image = models.FileField(upload_to = 'background')
+	image = models.ImageField(
+		upload_to = 'images',
+		null = True,
+		blank = True
+		)
 
 default_features = """main
 attachment: scroll

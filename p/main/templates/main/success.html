@@ -1,7 +1,13 @@
 {% extends 'main/base.html' %}
+
 {% load filters %}
+
+{% block links %}
+	<link rel="stylesheet" href="{{ css|get_static }}">
+{% endblock %}
+
 {% block content %}
-	<style>{{ raw|safe }}</style>
+	
 	<div class="content">
 		{% for page in pages %}
 			<section class="{{ page }}">

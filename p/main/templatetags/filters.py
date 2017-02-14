@@ -23,3 +23,10 @@ def linebreaksp(text):
 	"""
 	text = text.split('\n')
 	return "".join(["<p>%s</p>" % block for block in text])
+
+@register.filter(name = 'get_static')
+def get_static(filename):
+	"""
+	Returns url of dynamic css
+	"""
+	return static(filename)

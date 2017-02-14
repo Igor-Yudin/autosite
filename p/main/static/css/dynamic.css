@@ -1,207 +1,143 @@
-.about-us .inf-block p {
-	text-align:center;
-	color:#8c8783;
-	font-size:14px;
-}
-
 * {
-	margin:0px;
-	padding:0px;
-}
-
-.main .inf-block p {
-	text-align:center;
-	color:#dbdbdb;
-	font-size:22px;
-}
-
-.about-us .float-block {
-	background:none;
-	width:99.0%;
-	display:inline-block;
-}
-
-.about-us .float-block .float-block-text p {
-	color:#8c8783;
-	text-align:center;
-	font-size:14px;
-}
-
-.features .float-block .float-block-header h1 {
-	color:#121113;
-	text-align:center;
-	font-size:30px;
-}
-
-.features .float-block .float-block-image {
-	height:100px;
-	width:100px;
-	background-size:contain;
-	margin:0 auto;
-	float:none;
-}
-
-.centered-top-30vh {
-	margin:0 auto;
-	padding-top:30vh;
-}
-
-.about-us .float-block .float-block-image {
-	height:100px;
-	width:100px;
-	background-size:contain;
-	margin:0 auto;
-	float:none;
+	margin: 0px;
+	padding: 0px;
 }
 
 .about-us {
-	background:white;
-	background-attachment:fixed;
-	height:100vh;
-	position:relative;
-	background-size:cover;
-	background-position:center center;
-	background-repeat:no-repeat;
+	background: url(/media/images/tiger_r99m5LF.jpg);
+	background-attachment: fixed;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+	position: relative;
 }
 
-html, body {
-	height:100%;
-	width:100%;
+.about-us .float-block {
+	background: none;
+	display: inline-block;
+	width: 99.0%;
 }
 
-.features .inf-block {
-	width:60%;
-	font-family:'Arial';
+.about-us .float-block .float-block-header h1 {
+	color: #121113;
+	font-size: 30px;
+	text-align: center;
 }
 
-.features .inf-block h1 {
-	text-align:center;
-	color:black;
-	font-size:90px;
+.about-us .float-block .float-block-image {
+	background-size: contain;
+	float: none;
+	height: 100px;
+	margin: 0 auto;
+	width: 100px;
+}
+
+.about-us .float-block .float-block-text p {
+	color: #8c8783;
+	font-size: 14px;
+	text-align: center;
+}
+
+.about-us .inf-block {
+	font-family: 'Arial';
+	width: 60%;
+}
+
+.about-us .inf-block h1 {
+	color: #121113;
+	font-size: 90px;
+	text-align: center;
+}
+
+.about-us .inf-block p {
+	color: #8c8783;
+	font-size: 14px;
+	text-align: center;
+}
+
+.about-us .inf-block-position {
+	bottom: 0;
+	display: inline-table;
+	left: 0;
+	margin: auto;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .about-us .logo-position {
 }
 
-.main .inf-block {
-	width:75%;
-	font-family:'Arial';
-}
-
-.features .float-block {
-	background:none;
-	width:49.0%;
-	display:inline-block;
-}
-
-.features .logo-position {
-}
-
-.main .logo {
-	background-image:url(/static/images/l.png);
-	height:136;
-	width:189;
-	background-size:contain;
-	background-position:center center;
-	background-repeat:no-repeat;
-}
-
-.main .logo-position {
-	position:absolute;
-	left:0px;
-	top:0px;
-}
-
-.about-us .float-block .float-block-header h1 {
-	color:#121113;
-	text-align:center;
-	font-size:30px;
-}
-
-.about-us .inf-block-position {
-	bottom:0;
-	position:absolute;
-	display:inline-table;
-	margin:auto;
-	left:0;
-	right:0;
-	top:0;
-}
-
-.about-us .inf-block h1 {
-	text-align:center;
-	color:#121113;
-	font-size:90px;
+.centered-top-30vh {
+	margin: 0 auto;
+	padding-top: 30vh;
 }
 
 .completely-centered {
-	bottom:0;
-	position:absolute;
-	display:inline-table;
-	margin:auto;
-	left:0;
-	right:0;
-	top:0;
-}
-
-.main .inf-block h1 {
-	text-align:center;
-	color:white;
-	font-size:90px;
-}
-
-.about-us .inf-block {
-	width:60%;
-	font-family:'Arial';
-}
-
-.features .float-block .float-block-text p {
-	color:#8c8783;
-	text-align:center;
-	font-size:14px;
-}
-
-.features {
-	background:white;
-	background-attachment:fixed;
-	height:100vh;
-	position:relative;
-	background-size:cover;
-	background-position:center center;
-	background-repeat:no-repeat;
-}
-
-.features .inf-block p {
-	text-align:center;
-	color:#8c8783;
-	font-size:14px;
+	bottom: 0;
+	display: inline-table;
+	left: 0;
+	margin: auto;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .main {
-	background:linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(/static/images/main.jpg);
-	background-attachment:scroll;
-	height:100vh;
-	position:relative;
-	background-size:cover;
-	background-position:center center;
-	background-repeat:no-repeat;
+	background: linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(/media/images/tiger_z2Cz55O.jpg);
+	background-attachment: scroll;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+	position: relative;
+}
+
+.main .inf-block {
+	font-family: 'Arial';
+	width: 75%;
+}
+
+.main .inf-block h1 {
+	color: white;
+	font-size: 90px;
+	text-align: center;
+}
+
+.main .inf-block p {
+	color: #dbdbdb;
+	font-size: 22px;
+	text-align: center;
 }
 
 .main .inf-block-position {
-	bottom:0;
-	position:absolute;
-	display:inline-table;
-	margin:auto;
-	left:0;
-	right:0;
-	top:0;
+	bottom: 0;
+	display: inline-table;
+	left: 0;
+	margin: auto;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
-.features .inf-block-position {
-	position:absolute;
-	left:0;
-	margin:auto;
-	top:15vh;
-	right:0;
+.main .logo {
+	background-image: url(/media/images/butterfly.jpg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 136;
+	width: 189;
+}
+
+.main .logo-position {
+	left: 0px;
+	position: absolute;
+	top: 0px;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
 }
 

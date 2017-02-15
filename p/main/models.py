@@ -119,7 +119,8 @@ class Image(models.Model):
 	image = models.ImageField(
 		upload_to = 'images',
 		null = True,
-		blank = True
+		blank = True,
+		default = None
 		)
 
 default_features = """main
@@ -192,4 +193,118 @@ fl-image-form: square"""
 class Features(models.Model):
 	text = models.TextField(default = default_features)
 
-# class Content
+class Content(models.Model):
+	"""
+	Model for representing content.
+	"""
+
+	# Order
+	order = models.CharField(
+		max_length = 200,
+		blank = False
+	)
+
+	# Main page content
+	name = models.CharField(
+		max_length = 100,
+		blank = False
+	)
+
+	slogan = models.CharField(
+		max_length = 150,
+		blank = True,
+		null = True,
+		default = None
+	)
+	
+	logo = models.ImageField(
+		upload_to = 'images',
+		null = True,
+		blank = True,
+		default = None
+	)
+	
+	background = models.ImageField(
+		upload_to = 'images',
+		null = True,
+		blank = True,
+		default = None
+	)
+
+	# Pages, like about-us, features, catalog have the same structure,
+	# so all of them are represents by one model SimplePage,
+	# instances of whick have foreignkey to Content.
+
+	# Pages, like form, nav, footer have its personal structure, so
+	# they should be represented by their own classes.
+
+class SimplePage(models.Model):
+	"""
+	Model for representing simple pages.
+	"""
+	content = models.ForeignKey(
+		Content,
+		on_delete = models.CASCADE,
+		related_name = 'pages'
+	)
+
+	page_kind = models.CharField(
+		max_length = 15,
+		blank = False
+	)
+
+	header = models.CharField(
+		max_length = 100,
+		blank = True,
+		null = True,
+		default = None
+	)
+
+	background = models.ImageField(
+		upload_to = 'images',
+		null = True,
+		blank = True,
+		default = None
+	)
+
+	single_image = models.ImageField(
+		upload_to = 'images',
+		null = True,
+		blank = True,
+		default = None
+	)
+
+	# Simple page has some paragraphs represented by class SimplePageParagraph
+
+class SimplePageParagraph(models.Model):
+	"""
+	Model for representing simple page paragraphs.
+	"""
+	page = models.ForeignKey(
+		SimplePage,
+		on_delete = models.CASCADE,
+		related_name = 'paragraphs'
+	)
+
+	header = models.CharField(
+		max_length = 100,
+		blank = True,
+		null = True,
+		default = None
+	)
+
+	text = models.TextField()
+
+	background = models.ImageField(
+		upload_to = 'images',
+		null = True,
+		blank = True,
+		default = None
+	)
+
+	image = models.ImageField(
+		upload_to = 'images',
+		null = True,
+		blank = True,
+		default = None
+	)

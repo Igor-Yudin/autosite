@@ -3,12 +3,155 @@
 {% block links %}
 {% endblock %}
 
+{% block javascript %}
+  <script>
+    $('#id_pages-list').select(function() {
+    	var 
+    });
+  </script>
+{% endblock %}
+
 {% block content %}
 	<div class="content">
-		<form method="POST" action="{% url 'input_content' pk=pk %}" enctype="multipart/form-data">{% csrf_token %}
-			<input type="hidden" name="pages" value="main,about-us">
-			
-			<div id="main">
+		<form method="POST" action="{% url 'input_content' pk=pk %}" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			<input type="hidden" id="order" name="order" value="{{ order }}">
+
+			<div id="pages">
+				<div id="main_page">
+					<h1>Главная</h1>
+					{{ main_form.as_p }}
+				</div>
+
+				<div id="about_us_page">
+					<h1>О нас</h1>
+					{{ about_us_form.as_p }}
+
+					<h2>О нас: параграфы</h2>
+
+					<div id="id_about_us_p_formset">
+						{{ about_us_formset.management_form }}
+						{% for form in about_us_formset.forms %}
+							<div>
+							  {{ form.as_p }}
+						  </div>
+						{% endfor %}
+					</div>
+
+					<div id="empty_about_us" style="display: none">
+						<div>
+						  {{ about_us_formset.empty_form.as_p }}
+						 </div>
+					</div>
+
+					<input type="button" class="add-btn" value="Add more" id="add_more_to_about_us" target="about_us">
+					<input type="button" class="rmv-btn" value="Remove" id="remove_from_about_us" target="about_us">
+				</div>
+
+				<div id="catalog_page">
+					<h1>Каталог</h1>
+					{{ catalog_form.as_p }}
+
+					<h2>Каталог: параграфы</h2>
+
+					<div id="id_catalog_p_formset">
+						{{ catalog_formset.management_form }}
+						{% for form in catalog_formset.forms %}
+							<div>
+							  {{ form.as_p }}
+							 </div>
+						{% endfor %}
+					</div>
+
+					<div id="empty_catalog" style="display: none">
+						<div>
+							{{ catalog_formset.empty_form.as_p }}
+						</div>
+					</div>
+
+					<input type="button" class="add-btn" value="Add more" id="add_more_to_catalog" target="catalog">
+					<input type="button" class="rmv-btn" value="Remove" id="remove_from_about_us" target="catalog">
+				</div>
+			</div>
+
+			<ul class="choosen-pages">
+			  {% for page in pages %}
+			    <li class="checkbox-wrapper">
+				    <input type="checkbox" name="{{ page }}" checked>
+			      <p class="page-label">{{ page }}</p>
+			    </li>
+			  {% endfor %}
+			</ul>
+
+			<script>
+
+			  var pages_buff = {};
+
+			  $(':checkbox').each(function() {
+			  	$(this).change(function() {
+			  		var checked = $(this).prop('checked');
+			  		var name = $(this).attr('name');
+		  			var page_id = "#" + name + "_page";
+		  			var order_id = '#order';
+
+			  		if (checked)
+			  		{
+			  			 $('#pages').append(pages_buff[name]);
+			  			 bound();
+
+			  			 var order = $(order_id).val().split(',');
+			  			 order.push(name);
+			  			 $(order_id).val(order.join());
+			  		}
+			  		else
+			  		{
+			  			pages_buff[name] = '<div id="{0}_page">{1}</div>'.replace('{0}', name).replace('{1}', $(page_id).html());
+			  			$(page_id).remove();
+
+			  			var order = $(order_id).val().split(',');
+			  			var ind = order.indexOf(name);
+			  			if (ind > -1)
+			  			  order.splice(ind, 1);
+			  			$(order_id).val(order.join());
+			  		}
+			  	})
+			  });
+
+			  $('.add-btn').each(function() {
+			  	$(this).on('click', function() {
+
+				  	var target = $(this).attr('target');
+
+				  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
+				  	var empty_id = '#empty_' + target;
+				  	var formset_id = '#id_' + target + '_p_formset';
+
+				  	var form_idx = $(total_id).val();
+				  	$(formset_id).append($(empty_id).html().replace(/__prefix__/g, form_idx));
+				  	$(total_id).val(parseInt(form_idx) + 1);
+					})
+				});
+
+				$('.rmv-btn').each(function() {
+			  	$(this).on('click', function() {
+
+				  	var target = $(this).attr('target');
+
+				  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
+				  	var formset_id = '#id_' + target + '_p_formset';
+
+				  	var form_idx = $(total_id).val();
+				  	if (form_idx == 0)
+				  		return;
+
+				  	$(formset_id + '> div').last().remove();
+				  	$(total_id).val(parseInt(form_idx) - 1);
+					})
+				});
+			</script>
+
+			<!-- <div id="main">
 				<h1>Главная страница</h1>
 				<label for="name">Введите название</label>
 				<input name="name" id="name" type="text">
@@ -51,7 +194,7 @@
 
 				<div id="about-us-add" class="button" onclick="addParagraph(event)">Добавить параграф</div>
 				<div id="about-us-remove" class="button" onclick="removeParagraph(event)">Удалить параграф</div>				
-			</div>
+			</div> -->
 
 			<button type="submit">OK</button>
 		</form>
@@ -67,9 +210,40 @@
 
 		<p>И так далее для остальных страниц: преимeщества, каталог, форма, - при этом пользователь сам решает какие заполнить.</p>
 	</div>
-	<hr>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script>
+		function bound(){
+	  	$('.add-btn').each(function() {
+		  	$(this).on('click', function() {
+
+			  	var target = $(this).attr('target');
+
+			  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
+			  	var empty_id = '#empty_' + target;
+			  	var formset_id = '#id_' + target + '_p_formset';
+
+			  	var form_idx = $(total_id).val();
+			  	$(formset_id).append($(empty_id).html().replace(/__prefix__/g, form_idx));
+			  	$(total_id).val(parseInt(form_idx) + 1);
+				})
+			});
+
+			$('.rmv-btn').each(function() {
+		  	$(this).on('click', function() {
+
+			  	var target = $(this).attr('target');
+
+			  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
+			  	var formset_id = '#id_' + target + '_p_formset';
+
+			  	var form_idx = $(total_id).val();
+			  	if (form_idx == 0)
+			  		return;
+
+			  	$(formset_id + '> div').last().remove();
+			  	$(total_id).val(parseInt(form_idx) - 1);
+				})
+			});
+	  }
 		function addParagraph(e) {
 			var btn = document.getElementById(e.target.id);
 			var blockName = btn.parentNode.id;

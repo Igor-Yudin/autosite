@@ -12,6 +12,8 @@ textarea {
 
 form {
 	width: 50%;
+	display: block;
+	float: left;
 }
 
 .content textarea {
@@ -21,8 +23,8 @@ form {
 
 .content p {
 	margin: 10px 0px 0px 10px;
-	font-size: 30px;
-	font-style: italic;
+	font-size: 15px;
+	clear: both;
 }
 
 .content h1 {
@@ -87,4 +89,53 @@ button[type="submit"]:hover {
 
 .features-inf {
 	padding-top: 15px;
+}
+
+.pages-list {
+	float: left;
+}
+
+.page-label {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	padding: 5px;
+	pointer-events: none;
+}
+
+.choosen-pages {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.choosen-pages > li {
+	list-style: none;
+}
+
+.choosen-pages > li > p {
+	margin: 0;
+}
+
+.checkbox-wrapper {
+	position: relative;
+	width: 100px;
+	height: 25px;
+}
+
+input[type=checkbox] {
+	-webkit-appearance: none;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	outline: none;
+	border: none;
+	display: block;
+	background-color: antiquewhite;
+}
+
+input[type=checkbox]:checked {
+	background-color: coral;
 }

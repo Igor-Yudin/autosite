@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SiteParametersForm, ContentJsonForm, FeaturesForm
+from .forms import SiteParametersForm, ContentJsonForm, FeaturesForm, ContentForm, SimplePageForm, SimplePageParagraphForm
 from .models import SiteParameters, ContentJson, Features, Image
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
+from django.forms import formset_factory
 # I change static for background and logo because decide that this properties will be set in css, but I didn't change fl-bl-image and single
 # because they probably should set in html by content
 
@@ -47,89 +48,44 @@ def input_content(request, pk):
 	-page-p-i-header
 	]
 	"""
+	ParagraphFormSet = formset_factory(SimplePageParagraphForm)
+	pages = ['main', 'about_us', 'catalog', 'features', 'form']
+	order = ','.join(pages);
+
 	if request.method == "POST":
-		content = dict()
-		pages = request.POST.get('pages')
-		content['order'] = pages
-		for page in pages.split(','):
-			if page == 'main':
+	#	background = Image.objects.create(image = request.FILES.get('%s-background' % page))
 
-				background_url = "" # Use background_url to safe from unknown variables in lambda
-				if request.FILES.get('%s-background' % page):
-					background = Image.objects.create(image = request.FILES.get('%s-background' % page))
-					background_url = background.image.url
+		main_form = ContentForm(request.POST, request.FILES, prefix = 'main')
+		about_us_form = SimplePageForm(request.POST, request.FILES, prefix = 'about_us')
+		about_us_formset = ParagraphFormSet(request.POST, request.FILES, prefix = 'about_us_p')
 
-				logo_url = ""
-				if request.FILES.get('logo'):
-					logo = Image.objects.create(image = request.FILES.get('logo'))
-					logo_url = logo.image.url
+		catalog_form = SimplePageForm(request.POST, request.FILES, prefix = 'catalog')
+		catalog_formset = ParagraphFormSet(request.POST, request.FILES, prefix = 'catalog_p')
 
-				content.update(
-					{
-						page: {
-							'logo': (lambda url: url if url else None)(logo_url),
-							'header': request.POST.get('name'),
-							'slogan': request.POST.get('slogan'),
-							'background': (lambda url: url if url else None)(background_url),
-						}
-					}
-				)
-			else:
-				background_url = ""
-				if request.FILES.get('%s-background' % page):
-					background = Image.objects.create(image = request.FILES.get('%s-background' % page))
-					background_url = background.image.url
+		forms = [main_form, about_us_form, about_us_formset, catalog_form, catalog_formset]
 
-				single_url = ""
-				if request.FILES.get('%s-single' % page):
-					single = Image.objects.create(image = request.FILES.get('%s-single' % page))
-					single_url = single.image.url
-
-				content.update(
-					{
-						page: {
-							'header': request.POST.get('%s-header' % page),
-							'single-image': (lambda url: url if url else None)(single_url),
-							'background': (lambda url: url if url else None)(background_url),
-						}
-					}
-				)
-				paragraphs_count = int(request.POST.get('%s-p-count' % page))
-				if paragraphs_count != 0:
-					#Initialization
-					p_images_url = ["" for i in range(paragraphs_count)]
-					p_images = ["" for i in range(paragraphs_count)]
-					p_backgrounds_url = ["" for i in range(paragraphs_count)]
-					p_backgrounds = ["" for i in range(paragraphs_count)]
-
-					# Fill in images and background
-					for i in range(paragraphs_count):
-						file = request.FILES.get('%s-p-%s-image' % (page, i + 1))
-						if file:
-							p_images[i] = Image.objects.create(image = file)
-							p_images_url[i] = p_images[i].image.url
-
-					for i in range(paragraphs_count):
-						file = request.FILES.get('%s-p-%s-background' % (page, i + 1))
-						if file:
-							p_backgrounds[i] = Image.objects.create(image = file)
-							p_backgrounds_url[i] = p_backgrounds[i].image.url
-
-					# Update content dict with page paragraphs, consisting from header, text, image, background
-					content[page]['paragraphs'] = [
-						{
-							'header': request.POST.get('%s-p-%s-header' % (page, i + 1)),
-							'text': request.POST.get('%s-p-%s-text' % (page, i + 1)),
-							'image': (lambda url: url if url else None)(p_images_url[i]),
-							'background': (lambda url: url if url else None)(p_backgrounds_url[i]),
-						}
-						for i in range(paragraphs_count)
-					]
-		content = ContentJson.objects.create(text = json.dumps(content))
+		if all([form.is_valid() for form in forms]):
+			content = main_form.save(commit = False)
+			None / None
+			# content = ContentJson.objects.create(text = json.dumps(content))
 		return redirect('choose_features', params_pk = pk, content_pk = content.pk)
 	else:
-		form = ContentJsonForm()
-	return render(request, 'main/input_content.html', {'form': form, 'pk': pk})
+		main_form = ContentForm(prefix = 'main')
+		about_us_form = SimplePageForm(prefix = 'about_us')
+		about_us_formset = ParagraphFormSet(prefix = 'about_us_p')
+		catalog_form = SimplePageForm(prefix = 'catalog')
+		catalog_formset = ParagraphFormSet(prefix = 'catalog_p')
+
+	return render(request, 'main/input_content.html', {
+		'main_form': main_form,
+		'about_us_form': about_us_form,
+		'about_us_formset': about_us_formset,
+		'catalog_form': catalog_form,
+		'catalog_formset': catalog_formset,
+		'pages': pages,
+		'order': order,
+		'pk': pk,
+	})
 
 def choose_features(request, params_pk, content_pk):
 	if request.method == "POST":

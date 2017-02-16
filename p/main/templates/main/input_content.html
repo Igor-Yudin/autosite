@@ -1,13 +1,15 @@
 {% extends 'main/base.html' %}
 
-{% block links %}
-{% endblock %}
+{% load filters %}
+
+{% load static %}
 
 {% block javascript %}
+	<script src="{% static 'js/input_content.js' %}"></script>
   <script>
-    $('#id_pages-list').select(function() {
-    	var 
-    });
+    var pages_buff = {};
+	  bound_buttons();
+	  bound_checkboxes(pages_buff);
   </script>
 {% endblock %}
 
@@ -19,7 +21,75 @@
 			<input type="hidden" id="order" name="order" value="{{ order }}">
 
 			<div id="pages">
-				<div id="main_page">
+				{% for page in pages %}
+				  <div id="{{ page|concatenate:'_page' }}">
+				  	<h1>{{ page|capfirst }}</h1>
+				  	{{ forms|get_value:page |get_value_as_p:'general_form' }}
+
+					  {% if page != 'main' and page != 'contact_form' %}
+					  	<h2>{{ page|capfirst|concatenate:' :paragraphs' }}</h2>
+
+				  		{% with formset=forms|get_value:page|get_value:'formset' %}
+					  	<div id="{{ 'id_'|concatenate:page|concatenate:'_p_formset' }}">
+					  		{{ formset|get_attr:'management_form' }}
+					  		{% for f in formset|get_attr:'forms' %}
+					  			<div>
+					  				{{ f.as_p }}
+					  			</div>
+					  		{% endfor %}
+					  	</div>
+
+					  	<div id="{{ 'empty_'|concatenate:page }}" style="display: none">
+					  		<div>
+					  			{{ formset.empty_form.as_p }}
+					  		</div>
+					  	</div>
+				  	  {% endwith %}
+				  	  <input type="button" class="add-btn" value="Add" target="{{ page }}">
+						  <input type="button" class="rmv-btn" value="Remove" target="{{ page }}">
+					  {% endif %}
+					</div>
+				{% endfor %}
+		  </div>
+
+			<ul class="choosen-pages">
+			  {% for page in pages %}
+			    <li class="checkbox-wrapper">
+				    <input type="checkbox" name="{{ page }}" checked>
+			      <p class="page-label">{{ page }}</p>
+			    </li>
+			  {% endfor %}
+			</ul>
+
+			<button type="submit">OK</button>
+		</form>
+	</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Not using code -->
+{% block notparse %}
+<div id="main_page">
 					<h1>Главная</h1>
 					{{ main_form.as_p }}
 				</div>
@@ -75,251 +145,83 @@
 				</div>
 			</div>
 
-			<ul class="choosen-pages">
-			  {% for page in pages %}
-			    <li class="checkbox-wrapper">
-				    <input type="checkbox" name="{{ page }}" checked>
-			      <p class="page-label">{{ page }}</p>
-			    </li>
-			  {% endfor %}
-			</ul>
+		<script>
+			function addParagraph(e) {
+				var btn = document.getElementById(e.target.id);
+				var blockName = btn.parentNode.id;
 
-			<script>
+				var div = document.createElement('div');
+				var countField = document.getElementById(blockName + '-p-count')
+				countField.value = parseInt(countField.value) + 1;
+				var count = countField.value;
 
-			  var pages_buff = {};
+				div.id = blockName + "-p-" + count;
+				div.className = "p";
 
-			  $(':checkbox').each(function() {
-			  	$(this).change(function() {
-			  		var checked = $(this).prop('checked');
-			  		var name = $(this).attr('name');
-		  			var page_id = "#" + name + "_page";
-		  			var order_id = '#order';
+				var lbl1 = document.createElement('label');
+				lbl1.innerHTML = "Выберите рисунок для фона параграфа";
+				lbl1.htmlFor = blockName + "-id-p-" + count + "-background";
 
-			  		if (checked)
-			  		{
-			  			 $('#pages').append(pages_buff[name]);
-			  			 bound();
+				var lbl2 = document.createElement('label');
+				lbl2.innerHTML = "Выберите картинку для данного параграфа";
+				lbl2.htmlFor = blockName + "-id-p-" + count + "-image";
 
-			  			 var order = $(order_id).val().split(',');
-			  			 order.push(name);
-			  			 $(order_id).val(order.join());
-			  		}
-			  		else
-			  		{
-			  			pages_buff[name] = '<div id="{0}_page">{1}</div>'.replace('{0}', name).replace('{1}', $(page_id).html());
-			  			$(page_id).remove();
+				var lbl3 = document.createElement('label');
+				lbl3.innerHTML = "Введите загаловок параграфа";
+				lbl3.htmlFor = blockName + "-id-p-" + count + "-header";
 
-			  			var order = $(order_id).val().split(',');
-			  			var ind = order.indexOf(name);
-			  			if (ind > -1)
-			  			  order.splice(ind, 1);
-			  			$(order_id).val(order.join());
-			  		}
-			  	})
-			  });
+				var lbl4 = document.createElement('label');
+				lbl4.innerHTML = "Введите текст параграфа";
+				lbl4.htmlFor = blockName + "-id-p-" + count + "-text";
 
-			  $('.add-btn').each(function() {
-			  	$(this).on('click', function() {
+				var input1 = document.createElement('input');
+				input1.type = "file";
+				input1.name = blockName + "-p-" + count + "-background";
+				input1.id = blockName + "-id-p-" + count + "-background";
 
-				  	var target = $(this).attr('target');
+				var input2 = document.createElement('input');
+				input2.type = "file";
+				input2.name = blockName + "-p-" + count + "-image";
+				input2.id = blockName + "-id-p-" + count + "-image";
+				
+				var input3 = document.createElement('input');
+				input3.type = "text";
+				input3.name = blockName + "-p-" + count + "-header";
+				input3.id = blockName + "-id-p-" + count + "-header";
 
-				  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
-				  	var empty_id = '#empty_' + target;
-				  	var formset_id = '#id_' + target + '_p_formset';
+				var input4 = document.createElement('textarea');
+				input4.name = blockName + "-p-" + count + "-text";
+				input4.id = blockName + "-id-p-" + count + "-text";
 
-				  	var form_idx = $(total_id).val();
-				  	$(formset_id).append($(empty_id).html().replace(/__prefix__/g, form_idx));
-				  	$(total_id).val(parseInt(form_idx) + 1);
-					})
-				});
+				div.appendChild(lbl1);
+				div.appendChild(input1);
 
-				$('.rmv-btn').each(function() {
-			  	$(this).on('click', function() {
+				div.appendChild(lbl2);
+				div.appendChild(input2);
 
-				  	var target = $(this).attr('target');
+				div.appendChild(lbl3);
+				div.appendChild(input3);
 
-				  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
-				  	var formset_id = '#id_' + target + '_p_formset';
+				div.appendChild(lbl4);
+				div.appendChild(input4);
 
-				  	var form_idx = $(total_id).val();
-				  	if (form_idx == 0)
-				  		return;
+				id = "#" + e.target.id.toString();
+				$(id).before(div);
+			}
+			function removeParagraph(e) {
+				var blockName = e.target.parentNode.id;
+				var countField = document.getElementById(blockName + "-p-count");
 
-				  	$(formset_id + '> div').last().remove();
-				  	$(total_id).val(parseInt(form_idx) - 1);
-					})
-				});
-			</script>
+				count = parseInt(countField.value);
 
-			<!-- <div id="main">
-				<h1>Главная страница</h1>
-				<label for="name">Введите название</label>
-				<input name="name" id="name" type="text">
-				<label for="slogan">Введите ваш слоган</label>
-				<textarea name="slogan" id="slogan"></textarea>
-				<label for="logo">Выберите логотип</label>
-				<input name="logo" id="logo" type="file">
-				<label for="main-background">Выберите рисунок для фона</label>
-				<input name="main-background" id="main-background" type="file">
-			</div>
+				var paragraph = document.getElementById(blockName + '-p-' + count);
 
-			<div id="about-us">
+				if (count == 0)
+					return;
 
-				<h1>О нас</h1>
+				paragraph.parentNode.removeChild(paragraph);
 
-				<label for="about-us-header">Введите главный загаловок</label>
-				<input name="about-us-header" id="about-us-header" type="text">
-
-				<label for="about-us-single">Загрузите главное изображение</label>
-				<input name="about-us-single" id="about-us-single" type="file">
-
-				<label for="about-us-background">Выберите рисунок для фона</label>
-				<input name="about-us-background" id="about-us-background" type="file">
-
-				<input type="hidden" id="about-us-p-count" name="about-us-p-count" value="1">
-
-				<div id = "about-us-p-1" class="p">
-					<label for="about-us-p-1-background">Выберите рисунок для фона параграфа</label>
-					<input name="about-us-p-1-background" id="about-us-p-1-background" type="file">
-
-					<label>Выберите картинку для данного параграфа</label>
-					<input name="about-us-p-1-image" id="about-us-p-1-image" type="file">
-					
-					<label for="about-us-p-1-header">Введите загаловок параграфа</label>
-					<input name="about-us-p-1-header" id="about-us-p-1-header" type="text">
-
-					<label for="about-us-id-p-1-text">Введите текст параграфа</label>
-					<textarea name="about-us-p-1-text" id="about-us-id-p-1-text"></textarea>
-				</div>
-
-				<div id="about-us-add" class="button" onclick="addParagraph(event)">Добавить параграф</div>
-				<div id="about-us-remove" class="button" onclick="removeParagraph(event)">Удалить параграф</div>				
-			</div> -->
-
-			<button type="submit">OK</button>
-		</form>
-
-		<!-- <div class="side-options">
-			<label for="content-filling-clear">Пустой контент</label>
-			<input id="content-filling-clear" type="radio" name="content-filling" value="clear" checked>
-
-			<label for="content-filling-test1">Тест1</label>
-			<input id="content-filling-test1" type="radio" name="content-filling" value="test1">
-			<input type="hidden" name="content-filling-test1" value="">
-		</div> -->
-
-		<p>И так далее для остальных страниц: преимeщества, каталог, форма, - при этом пользователь сам решает какие заполнить.</p>
-	</div>
-	<script>
-		function bound(){
-	  	$('.add-btn').each(function() {
-		  	$(this).on('click', function() {
-
-			  	var target = $(this).attr('target');
-
-			  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
-			  	var empty_id = '#empty_' + target;
-			  	var formset_id = '#id_' + target + '_p_formset';
-
-			  	var form_idx = $(total_id).val();
-			  	$(formset_id).append($(empty_id).html().replace(/__prefix__/g, form_idx));
-			  	$(total_id).val(parseInt(form_idx) + 1);
-				})
-			});
-
-			$('.rmv-btn').each(function() {
-		  	$(this).on('click', function() {
-
-			  	var target = $(this).attr('target');
-
-			  	var total_id = '#id_' + target + '_p-TOTAL_FORMS';
-			  	var formset_id = '#id_' + target + '_p_formset';
-
-			  	var form_idx = $(total_id).val();
-			  	if (form_idx == 0)
-			  		return;
-
-			  	$(formset_id + '> div').last().remove();
-			  	$(total_id).val(parseInt(form_idx) - 1);
-				})
-			});
-	  }
-		function addParagraph(e) {
-			var btn = document.getElementById(e.target.id);
-			var blockName = btn.parentNode.id;
-
-			var div = document.createElement('div');
-			var countField = document.getElementById(blockName + '-p-count')
-			countField.value = parseInt(countField.value) + 1;
-			var count = countField.value;
-
-			div.id = blockName + "-p-" + count;
-			div.className = "p";
-
-			var lbl1 = document.createElement('label');
-			lbl1.innerHTML = "Выберите рисунок для фона параграфа";
-			lbl1.htmlFor = blockName + "-id-p-" + count + "-background";
-
-			var lbl2 = document.createElement('label');
-			lbl2.innerHTML = "Выберите картинку для данного параграфа";
-			lbl2.htmlFor = blockName + "-id-p-" + count + "-image";
-
-			var lbl3 = document.createElement('label');
-			lbl3.innerHTML = "Введите загаловок параграфа";
-			lbl3.htmlFor = blockName + "-id-p-" + count + "-header";
-
-			var lbl4 = document.createElement('label');
-			lbl4.innerHTML = "Введите текст параграфа";
-			lbl4.htmlFor = blockName + "-id-p-" + count + "-text";
-
-			var input1 = document.createElement('input');
-			input1.type = "file";
-			input1.name = blockName + "-p-" + count + "-background";
-			input1.id = blockName + "-id-p-" + count + "-background";
-
-			var input2 = document.createElement('input');
-			input2.type = "file";
-			input2.name = blockName + "-p-" + count + "-image";
-			input2.id = blockName + "-id-p-" + count + "-image";
-			
-			var input3 = document.createElement('input');
-			input3.type = "text";
-			input3.name = blockName + "-p-" + count + "-header";
-			input3.id = blockName + "-id-p-" + count + "-header";
-
-			var input4 = document.createElement('textarea');
-			input4.name = blockName + "-p-" + count + "-text";
-			input4.id = blockName + "-id-p-" + count + "-text";
-
-			div.appendChild(lbl1);
-			div.appendChild(input1);
-
-			div.appendChild(lbl2);
-			div.appendChild(input2);
-
-			div.appendChild(lbl3);
-			div.appendChild(input3);
-
-			div.appendChild(lbl4);
-			div.appendChild(input4);
-
-			id = "#" + e.target.id.toString();
-			$(id).before(div);
-		}
-		function removeParagraph(e) {
-			var blockName = e.target.parentNode.id;
-			var countField = document.getElementById(blockName + "-p-count");
-
-			count = parseInt(countField.value);
-
-			var paragraph = document.getElementById(blockName + '-p-' + count);
-
-			if (count == 0)
-				return;
-
-			paragraph.parentNode.removeChild(paragraph);
-
-			countField.value = count - 1;
-		}
-	</script>
+				countField.value = count - 1;
+			}
+		</script>
 {% endblock %}

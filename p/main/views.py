@@ -48,44 +48,149 @@ def input_content(request, pk):
 	-page-p-i-header
 	]
 	"""
+	def get_filled_in_forms(request, simplePages = ['about_us', 'catalog', 'features']):
+		"""
+		Gets request and number of pages that are using SimplePageForm.
+		Returns a list of filled in forms, creating from request and in
+		right order.
+		"""
+		forms = []
+		order = request.POST.get('order').split(',')
+
+		for page in order:
+			if page == 'main':
+				form = get_form_from_request(request, page)
+				forms.append(form)
+			elif page in simplePages:
+				form = get_form_from_request(request, page)
+				formset = get_form_from_request(request, page, is_p = True)
+				forms.append(form)
+				forms.append(formset)
+			elif page == 'contact_form':
+				pass
+		return forms
+
+	def get_forms_from_request(request, simplePages):
+		forms = {}
+		for page in request.POST.get('order').split(','):
+			if page == 'main':
+				forms.update({
+					page: {
+						'general_form': get_form_from_request(request, page),
+					},
+				})
+			elif page in simplePages:
+				forms.update({
+					page: {
+						'general_form': get_form_from_request(request, page),
+						'formset': get_form_from_request(request, page, is_p = True),
+					},
+				})
+			elif page == 'contact_form':
+				pass
+		return forms
+
+	def get_form_from_request(request, prefix, is_p = False):
+		if is_p:
+			form = ParagraphFormSet(request.POST, request.FILES, prefix = prefix + '_p')
+			return form
+		elif prefix == 'main':
+			form = ContentForm(request.POST, request.FILES, prefix = prefix)
+			return form
+		elif prefix in simplePages:
+			form = SimplePageForm(request.POST, request.FILES, prefix = prefix)
+			return form
+		elif prefix == 'contact_form':
+			pass
+
+	simplePages = ['about_us', 'catalog', 'features']
 	ParagraphFormSet = formset_factory(SimplePageParagraphForm)
-	pages = ['main', 'about_us', 'catalog', 'features', 'form']
-	order = ','.join(pages);
+	# Pages that are available for adding
+	pages = ['main', 'about_us', 'catalog', 'features']# , 'contact_form']
 
 	if request.method == "POST":
-	#	background = Image.objects.create(image = request.FILES.get('%s-background' % page))
 
-		main_form = ContentForm(request.POST, request.FILES, prefix = 'main')
-		about_us_form = SimplePageForm(request.POST, request.FILES, prefix = 'about_us')
-		about_us_formset = ParagraphFormSet(request.POST, request.FILES, prefix = 'about_us_p')
+		forms_list = get_filled_in_forms(request, simplePages)
+		forms = get_forms_from_request(request, simplePages)
+		order = request.POST.get('order');
 
-		catalog_form = SimplePageForm(request.POST, request.FILES, prefix = 'catalog')
-		catalog_formset = ParagraphFormSet(request.POST, request.FILES, prefix = 'catalog_p')
-
-		forms = [main_form, about_us_form, about_us_formset, catalog_form, catalog_formset]
-
-		if all([form.is_valid() for form in forms]):
+		if all([form.is_valid() for form in forms_list]):
+			main_form = forms.get('main').get('general_form')
 			content = main_form.save(commit = False)
-			None / None
+			content.order = order
+			content.save()
+
+			for page in order:
+				if page in simplePages:
+					general_form = forms.get('page').get('general_form')
+					formset = forms.get('page').get('formset')
+
+					general_form = general_form.save(commit = False)
+					general_form.page_kind = page
+					general_form.content = content
+					general_form.save()
+
+					for form in formset:
+						f = form.save(commit = False)
+						f.page = general_form
+						f.save()
+
+
+				elif page == 'contact_form':
+					pass
+
 			# content = ContentJson.objects.create(text = json.dumps(content))
 		return redirect('choose_features', params_pk = pk, content_pk = content.pk)
 	else:
-		main_form = ContentForm(prefix = 'main')
-		about_us_form = SimplePageForm(prefix = 'about_us')
-		about_us_formset = ParagraphFormSet(prefix = 'about_us_p')
-		catalog_form = SimplePageForm(prefix = 'catalog')
-		catalog_formset = ParagraphFormSet(prefix = 'catalog_p')
+		# Order of this pages
+		order = ','.join(pages);
+
+		forms = {}
+
+		for page in pages:
+			if page == 'main':
+				forms.update({
+					page: {
+						'general_form': ContentForm(prefix = 'main'),
+					},
+				})
+			elif page in simplePages:
+				forms.update({
+					page: {
+						'general_form': SimplePageForm(prefix = page),
+						'formset': ParagraphFormSet(prefix = page + '_p'),
+					},
+				})
+			elif page == 'contact_form':
+				pass # Create class for form
 
 	return render(request, 'main/input_content.html', {
-		'main_form': main_form,
-		'about_us_form': about_us_form,
-		'about_us_formset': about_us_formset,
-		'catalog_form': catalog_form,
-		'catalog_formset': catalog_formset,
+		'forms': forms,
 		'pages': pages,
 		'order': order,
 		'pk': pk,
 	})
+
+# def content_into_dict(pk):
+# 	content = get_object_or_404(Content, pk = pk)
+# 	d = {
+# 		'main': {
+# 			'name': content.name,
+# 			'slogan': content.slogan,
+# 			'background': content.background,
+# 			'logo': content.logo,
+# 		},
+# 	}
+# 	for page in content.pages.all():
+# 		d.update({
+# 			page: {
+# 				'header': page.header,
+# 				'image': page.single_image,
+# 				'background': page.background,
+# 				''
+# 			},
+# 		})
+
 
 def choose_features(request, params_pk, content_pk):
 	if request.method == "POST":

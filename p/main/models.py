@@ -144,7 +144,7 @@ effects: darken
 header-color: white
 columns: none
 
-about-us
+about_us
 attachment: fixed
 page-height: 100vh
 background: white

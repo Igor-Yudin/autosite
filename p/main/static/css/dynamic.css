@@ -3,8 +3,8 @@
 	padding: 0px;
 }
 
-.about-us {
-	background: url(/media/images/butterfly_cX3mw9K.jpg);
+.about_us {
+	background: url(/media/images/night_PpVftpD.jpg);
 	background-attachment: fixed;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -13,19 +13,19 @@
 	position: relative;
 }
 
-.about-us .float-block {
+.about_us .float-block {
 	background: none;
 	display: inline-block;
 	width: 99.0%;
 }
 
-.about-us .float-block .float-block-header h1 {
+.about_us .float-block .float-block-header h1 {
 	color: #121113;
 	font-size: 30px;
 	text-align: center;
 }
 
-.about-us .float-block .float-block-image {
+.about_us .float-block .float-block-image {
 	background-size: contain;
 	float: none;
 	height: 100px;
@@ -33,30 +33,30 @@
 	width: 100px;
 }
 
-.about-us .float-block .float-block-text p {
+.about_us .float-block .float-block-text p {
 	color: #8c8783;
 	font-size: 14px;
 	text-align: center;
 }
 
-.about-us .inf-block {
+.about_us .inf-block {
 	font-family: 'Arial';
 	width: 60%;
 }
 
-.about-us .inf-block h1 {
+.about_us .inf-block h1 {
 	color: #121113;
 	font-size: 90px;
 	text-align: center;
 }
 
-.about-us .inf-block p {
+.about_us .inf-block p {
 	color: #8c8783;
 	font-size: 14px;
 	text-align: center;
 }
 
-.about-us .inf-block-position {
+.about_us .inf-block-position {
 	bottom: 0;
 	display: inline-table;
 	left: 0;
@@ -66,7 +66,7 @@
 	top: 0;
 }
 
-.about-us .logo-position {
+.about_us .logo-position {
 }
 
 .centered-top-30vh {
@@ -85,7 +85,7 @@
 }
 
 .main {
-	background: linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(/media/images/butterfly_U7AjI1u.jpg);
+	background: linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(/media/images/city_UXaL4lO.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -122,7 +122,7 @@
 }
 
 .main .logo {
-	background-image: url(/media/images/butterfly_mk77JNS.jpg);
+	background-image: url(/media/images/butterfly_4fsocmN.jpg);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: contain;

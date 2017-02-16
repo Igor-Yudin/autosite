@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SiteParametersForm, ContentJsonForm, FeaturesForm, ContentForm, SimplePageForm, SimplePageParagraphForm
-from .models import SiteParameters, ContentJson, Features, Image
+from .models import SiteParameters, ContentJson, Features, Image, Content
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -112,18 +112,18 @@ def input_content(request, pk):
 
 		forms_list = get_filled_in_forms(request, simplePages)
 		forms = get_forms_from_request(request, simplePages)
-		order = request.POST.get('order');
+		changed_pages = request.POST.get('order').split(',');
 
 		if all([form.is_valid() for form in forms_list]):
 			main_form = forms.get('main').get('general_form')
 			content = main_form.save(commit = False)
-			content.order = order
+			content.order = request.POST.get('order')
 			content.save()
 
-			for page in order:
+			for page in changed_pages:
 				if page in simplePages:
-					general_form = forms.get('page').get('general_form')
-					formset = forms.get('page').get('formset')
+					general_form = forms.get(page).get('general_form')
+					formset = forms.get(page).get('formset')
 
 					general_form = general_form.save(commit = False)
 					general_form.page_kind = page
@@ -139,11 +139,10 @@ def input_content(request, pk):
 				elif page == 'contact_form':
 					pass
 
-			# content = ContentJson.objects.create(text = json.dumps(content))
-		return redirect('choose_features', params_pk = pk, content_pk = content.pk)
+			return redirect('choose_features', params_pk = pk, content_pk = content.pk)
 	else:
 		# Order of this pages
-		order = ','.join(pages);
+		order = ','.join(pages)
 
 		forms = {}
 
@@ -171,27 +170,6 @@ def input_content(request, pk):
 		'pk': pk,
 	})
 
-def content_into_dict(pk):
-	content = get_object_or_404(Content, pk = pk)
-	d = {
-		'main': {
-			'name': content.name,
-			'slogan': content.slogan,
-			'background': content.background,
-			'logo': content.logo,
-		},
-	}
-	for page in content.pages.all():
-		d.update({
-			page: {
-				'header': page.header,
-				'image': page.single_image,
-				'background': page.background,
-				''
-			},
-		})
-
-
 def choose_features(request, params_pk, content_pk):
 	if request.method == "POST":
 		form = FeaturesForm(request.POST)
@@ -212,14 +190,20 @@ def show_page(request, params_pk, content_pk, features_pk):
 	inf = inf.translate({ord(char) : None for char in '\r'})
 	inf = inf.split('\n\n')
 
-	content = get_object_or_404(ContentJson, pk = content_pk)
-	content = content.to_dict()
-	pages = content['order'].split(',')
+	#content = get_object_or_404(ContentJson, pk = content_pk)
+	# content = content.to_dict()
+	# pages = content['order'].split(',')
+
+	content = get_object_or_404(Content, pk = content_pk)
+	order = content.order
+	pages = content.order.split(',')
 
 	page_features = {}
 	for page in inf:
 		page = page.split('\n')
-		page_features[page[0]] = page[1:]
+		page_name = page[0]
+		list_of_features = page[1:]
+		page_features[page_name] = list_of_features
 
 	styles = {
 
@@ -257,11 +241,27 @@ def show_page(request, params_pk, content_pk, features_pk):
 		for line in page_features[page]:
 			line = line.split(': ')
 			features[line[0]] = line[1]
-			# For changing background and logo images
-			for c in content[page].keys():
-				if c == 'background' or c == 'logo': # or p == 'single'
-					features[c] = content[page][c]
-			#
+
+		# In order to set background and logo in div, we should pass
+		# their urls in css-file, as backgdound-image properties,
+		# so we copy them to features dict, from which css-file's created
+		if page == 'main':
+			if content.background:
+				features['background'] = content.background.url
+			if content.logo:
+				features['logo'] = content.logo.url
+		else:
+			content_simple_page = content.pages.all().get(page_kind = page)
+			if content_simple_page.background:
+				features['background'] = content_simple_page.background.url
+			if content_simple_page.single_image:
+				features['single_image'] = content_simple_page.single_image.url
+
+			# This is just for reminding that view shouldn't do something with
+			# paragraphs. Images urls are set in template in style attribure.
+			for paragraph in content_simple_page.paragraphs.all():
+				pass
+
 		turn_features_into_css_rules(styles, features, page)
 
 	import os
@@ -275,7 +275,8 @@ def show_page(request, params_pk, content_pk, features_pk):
 
 def turn_features_into_css_rules(common_styles, features, page_name):
 	"""
-	Add css rules to common_styles for class with name '.page_name'
+	Add css rules to common_styles gotten from features
+	for class with name '.page_name'
 	"""
 	class_name = '.' + page_name
 	styles = {

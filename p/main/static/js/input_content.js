@@ -115,7 +115,7 @@ function bound_checkboxes(buffer) {
 	  			// So it wraps inner html to the div-wrapper
 	  			// It might be done simplier with format(), [than with regex]
 	  			// but there's no such method.
-	  			buffer[name] = '<div id="{0}_page">{1}</div>'.replace('{0}', name).replace('{1}', $(page_id).html());
+	  			buffer[name] = $(page_id).clone(); // '<div id="{0}_page">{1}</div>'.replace('{0}', name).replace('{1}', $(page_id).html());
 	  			$(page_id).remove();
 
 	  			var order = $(order_id).val().split(',');

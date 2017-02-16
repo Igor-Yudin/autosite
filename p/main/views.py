@@ -171,25 +171,25 @@ def input_content(request, pk):
 		'pk': pk,
 	})
 
-# def content_into_dict(pk):
-# 	content = get_object_or_404(Content, pk = pk)
-# 	d = {
-# 		'main': {
-# 			'name': content.name,
-# 			'slogan': content.slogan,
-# 			'background': content.background,
-# 			'logo': content.logo,
-# 		},
-# 	}
-# 	for page in content.pages.all():
-# 		d.update({
-# 			page: {
-# 				'header': page.header,
-# 				'image': page.single_image,
-# 				'background': page.background,
-# 				''
-# 			},
-# 		})
+def content_into_dict(pk):
+	content = get_object_or_404(Content, pk = pk)
+	d = {
+		'main': {
+			'name': content.name,
+			'slogan': content.slogan,
+			'background': content.background,
+			'logo': content.logo,
+		},
+	}
+	for page in content.pages.all():
+		d.update({
+			page: {
+				'header': page.header,
+				'image': page.single_image,
+				'background': page.background,
+				''
+			},
+		})
 
 
 def choose_features(request, params_pk, content_pk):

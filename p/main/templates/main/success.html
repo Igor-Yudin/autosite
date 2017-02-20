@@ -12,6 +12,7 @@
 	<div class="content">
 		{% for page in pages %}
 			<section class="{{ page }}">
+			    <!-- There is main page structure -->
 				{% if page == 'main' %}
 				    {% if content.logo %}
 				        <div class="logo logo-position"></div>
@@ -24,6 +25,8 @@
 				            {{ content.slogan|linebreaks }}
 				        {% endif %}
 				    </div>
+
+				    <!-- There is simple page structure -->
 				{% else %}
 				    {% with simple_page_content=content.pages.all|page:page %}
 					    <div class="inf-block inf-block-position">

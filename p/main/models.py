@@ -210,12 +210,7 @@ class Content(models.Model):
 		blank = False
 	)
 
-	slogan = models.CharField(
-		max_length = 150,
-		blank = True,
-		null = True,
-		default = None
-	)
+	slogan = models.TextField(default = None)
 	
 	logo = models.ImageField(
 		upload_to = 'images',

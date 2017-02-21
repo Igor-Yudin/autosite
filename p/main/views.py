@@ -7,6 +7,11 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 import json
 # I change static for background and logo because decide that this properties will be set in css, but I didn't change fl-bl-image and single
 # because they probably should set in html by content
+# Подробное описание будующей системы смотри в файле Nostroweb дальнейшее развитие диплома
+# В упрощенной версии диплома предлагается ввести параметры целевой аудитории, ключевые слова и
+# контент: название, слоган, описание товара / услуги, о нас, контакты. Затемы автоматически
+# создается сайт. Автоматическое создание подразумевает размещение указанного тектса по
+# жестко заданному шаблону с добавлением изображений, фона и подбора шрифтов. Оучение проводится по цветам фона, темам изображений, размеру и цвету шрифта.
 
 # Create your views here.
 def new_page(request):

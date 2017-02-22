@@ -1,143 +1,62 @@
 * {
+	border: 0px;
+	font: inherit;
+	font-size: 100%;
 	margin: 0px;
 	padding: 0px;
+	vertical-align: baseline;
 }
 
-.about-us {
-	background: url(/media/images/butterfly_gmflMxD.jpg);
-	background-attachment: fixed;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	height: 100vh;
-	position: relative;
-}
-
-.about-us .float-block {
-	background: none;
-	display: inline-block;
-	width: 99.0%;
-}
-
-.about-us .float-block .float-block-header h1 {
-	color: #121113;
-	font-size: 30px;
-	text-align: center;
-}
-
-.about-us .float-block .float-block-image {
-	background-size: contain;
-	float: none;
-	height: 100px;
-	margin: 0 auto;
-	width: 100px;
-}
-
-.about-us .float-block .float-block-text p {
-	color: #8c8783;
-	font-size: 14px;
-	text-align: center;
-}
-
-.about-us .inf-block {
-	font-family: 'Arial';
-	width: 60%;
-}
-
-.about-us .inf-block h1 {
-	color: #121113;
-	font-size: 90px;
-	text-align: center;
-}
-
-.about-us .inf-block p {
-	color: #8c8783;
-	font-size: 14px;
-	text-align: center;
-}
-
-.about-us .inf-block-position {
-	bottom: 0;
-	display: inline-table;
+.inf-block-wrapper {
 	left: 0;
 	margin: auto;
 	position: absolute;
 	right: 0;
-	top: 0;
+	width: 75%;
 }
 
-.about-us .logo-position {
-}
-
-.centered-top-30vh {
-	margin: 0 auto;
-	padding-top: 30vh;
-}
-
-.completely-centered {
-	bottom: 0;
-	display: inline-table;
+.logo {
 	left: 0;
-	margin: auto;
 	position: absolute;
-	right: 0;
 	top: 0;
 }
 
 .main {
-	background: linear-gradient(rgba(0, 0, 0, .7), 		rgba(0, 0, 0, .7)), url(/media/images/butterfly_1VA994E.jpg);
+	background: floralwhite;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
 	height: 100vh;
-	position: relative;
 }
 
-.main .inf-block {
-	font-family: 'Arial';
-	width: 75%;
+.main h1 {
+	color: black;
+	font-size: 90;
 }
 
-.main .inf-block h1 {
-	color: white;
-	font-size: 90px;
+.main p {
+	color: black;
+	font-size: 45;
+}
+
+body {
+	font-family: Arial;
+	line-height: 1;
+}
+
+h1 {
+	font-size: 25;
 	text-align: center;
-}
-
-.main .inf-block p {
-	color: #dbdbdb;
-	font-size: 22px;
-	text-align: center;
-}
-
-.main .inf-block-position {
-	bottom: 0;
-	display: inline-table;
-	left: 0;
-	margin: auto;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.main .logo {
-	background-image: url(/media/images/butterfly_CaS9pZD.jpg);
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: contain;
-	height: 136;
-	width: 189;
-}
-
-.main .logo-position {
-	left: 0px;
-	position: absolute;
-	top: 0px;
 }
 
 html, body {
 	height: 100%;
 	width: 100%;
+}
+
+p {
+	font-size: 12;
+	text-align: center;
 }
 

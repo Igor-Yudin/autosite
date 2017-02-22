@@ -1,8 +1,5 @@
 {% extends 'main/base.html' %}
 
-{% block links %}
-{% endblock %}
-
 {% block content %}
 	<form method="POST" class="site-parameters-form">{% csrf_token %}
 		{{ form.as_p }}

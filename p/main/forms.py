@@ -17,23 +17,24 @@ class SiteParametersForm(forms.ModelForm):
 class ContentForm(forms.ModelForm):
 	class Meta:
 		model = Content
-		fields = ('text',)
+		fields = '__all__'
 		labels = {
-			'text': _('Контент'),
+			'name': _('Название кампании'),
+			'slogan': _('Слоган'),
+			'logo': _('Логотип'),
+			'about_us': _('Информация о кампании'),
+			'about_good': _('Информация о таваре/услуге'),
+			'contacts': _('Контакты'),
 		}
-
 		help_texts = {
-			'text': _('В данной форме показаны реальные данные для отображения'),
+			'name': _('Обязательно заполните данное поле!'),
+			'slogan': _('Необязательно для заполнения'),
+			'about_us': _('Необязательно для заполнения'),
+			'about_good': _('Необязательно для заполнения'),
+			'contacts': _('Необязательно для заполнения'),
 		}
 
 class FeaturesForm(forms.ModelForm):
 	class Meta:
 		model = Features
-		fields = ('text',)
-		labels = {
-			'text': _('Свойства'),
-		}
-
-		help_texts = {
-			'text': _('Данные свойства используются для отображения и будут получаться машинным обучением')
-		}
+		fields = '__all__'

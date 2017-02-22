@@ -2,6 +2,52 @@ from django.db import models
 import json
 
 # Create your models here.
+default_content = {
+		'main':{
+			'logo': True,
+			'header': "Кухни из Германии",
+			'slogan': "ПОД ЗАКАЗ ОТ 4000 ЕВРО\nГАРАНТИЯ 5 ЛЕТ\nРАБОТАЕМ ПО ВСЕЙ БЕЛАРУСИ",
+		},
+		'about-us': {
+			'logo': None,
+			'single-position': None, # single-position: 'top' | 'bottom'
+			'header': 'O нас',
+			'paragraphs':[
+				{
+					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tortor elit, egestas quis tincidunt ac, varius quis arcu. Donec auctor felis sed nibh aliquam tempus et eu tellus. Quisque consectetur eu leo id tincidunt. Duis et urna leo. Morbi vestibulum id nunc id eleifend. Mauris neque nibh, pulvinar ut elementum eget, luctus at nisl.',
+					'image': None,
+				},
+			],
+		},
+		'features': {
+			'logo': None,
+			'single-position': None,
+			'header': 'Почему у нас?',
+			'paragraphs':[
+				{
+					'header': 'Качество',
+					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+					'image': None,
+				},
+				{
+					'header': 'Красота',
+					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+					'image': None,
+				},
+				{
+					'header': 'Удобство',
+					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+					'image': None,
+				},
+				{
+					'header': 'Долговечность',
+					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+					'image': None,
+				},
+			],
+		},
+	}
+
 class SiteParameters(models.Model):
 	EDU = 1
 	BABY = 2
@@ -58,136 +104,46 @@ class SiteParameters(models.Model):
 	target = models.IntegerField(choices = TARGET, default = 1)
 	good_type = models.IntegerField(choices = TYPE, default = 1)
 
-default_content = {
-		'main':{
-			'logo': True,
-			'header': "Кухни из Германии",
-			'slogan': "ПОД ЗАКАЗ ОТ 4000 ЕВРО\nГАРАНТИЯ 5 ЛЕТ\nРАБОТАЕМ ПО ВСЕЙ БЕЛАРУСИ",
-		},
-		'about-us': {
-			'logo': None,
-			'single-position': None, # single-position: 'top' | 'bottom'
-			'header': 'O нас',
-			'paragraphs':[
-				{
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tortor elit, egestas quis tincidunt ac, varius quis arcu. Donec auctor felis sed nibh aliquam tempus et eu tellus. Quisque consectetur eu leo id tincidunt. Duis et urna leo. Morbi vestibulum id nunc id eleifend. Mauris neque nibh, pulvinar ut elementum eget, luctus at nisl.',
-					'image': None,
-				},
-			],
-		},
-		'features': {
-			'logo': None,
-			'single-position': None,
-			'header': 'Почему у нас?',
-			'paragraphs':[
-				{
-					'header': 'Качество',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-				{
-					'header': 'Красота',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-				{
-					'header': 'Удобство',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-				{
-					'header': 'Долговечность',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-			],
-		},
-	}
-import json
-default_content = json.dumps(default_content)
+class Features(models.Model):
+	font_family = models.CharField(max_length = 250, default = 'Arial')
+	header_size = models.IntegerField(default = 25)
+	p_size = models.IntegerField(default = 12)
+
+	main_background = models.CharField(max_length = 200, default = '#ffffff')
+	main_header_color = models.CharField(max_length = 30, default = 'black')
+	main_header_size = models.IntegerField(default = 90)
+	main_p_color = models.CharField(max_length = 30, default = 'black')
+	main_p_size = models.IntegerField(default = 45)
+
+	about_us_background = models.CharField(max_length = 200, default = '#ffffff')
+	about_us_header_color = models.CharField(max_length = 30, default = 'black')
+	about_us_p_color = models.CharField(max_length = 30, default = 'black')
+
+	about_good_background = models.CharField(max_length = 200, default = '#ffffff')
+	about_good_header_color = models.CharField(max_length = 30, default = 'black')
+	about_good_p_color = models.CharField(max_length = 30, default = 'black')
+
+	contacts_background = models.CharField(max_length = 200, default = '#ffffff')
+	contacts_header_color = models.CharField(max_length = 30, default = 'black')
+	contacts_p_color = models.CharField(max_length = 30, default = 'black')
 
 class Content(models.Model):
-	text = models.TextField(default = default_content)
+	"""
+	Model that represents all user-input content.
+	"""
+	name = models.CharField(max_length = 100)
 
-	def to_dict(self):
-		return json.loads(self.text)
+	slogan = models.TextField(blank = True)
 
-	def __str__(self):
-		return json.dumps(self.text)
-
-class Image(models.Model):
-	image = models.ImageField(
+	logo = models.ImageField(
 		upload_to = 'images',
 		null = True,
+		default = None,
 		blank = True
-		)
+	)
 
-default_features = """main
-attachment: scroll
-page-height: 100vh
-background: images/main.jpg
-logo: images/l.png
-logo-width: 189
-logo-height: 136
-logo-position: top left
-font-size: 22px
-header-size: 45px
-font-family: 'Arial'
-font-color: #dbdbdb
-inf-block-width: 75%
-inf-block-align: center
-inf-block-v-align: center
-main-text-size: 90px
-main-text-color: white
-effects: darken
-header-color: white
-columns: none
+	about_us = models.TextField(blank = True)
 
-about-us
-attachment: fixed
-page-height: 100vh
-background: white
-effects: none
-font-family: 'Arial'
-header-size: 30px
-header-color: #121113
-main-text-size: 90px
-main-text-color: #121113
-font-size: 14px
-font-color: #8c8783
-inf-block-width: 60%
-inf-block-align: center
-inf-block-v-align: center
-columns: 1
-fl-bl-text-align: center
-fl-bl-header-align: center
-fl-image-position: top
-fl-block-background: none
-fl-single-image: none
-fl-image-form: square
+	about_good = models.TextField(blank = True)
 
-features
-attachment: fixed
-page-height: 100vh
-background: white
-effects: none
-font-family: 'Arial'
-header-size: 30px
-header-color: #121113
-main-text-size: 90px
-main-text-color: black
-font-size: 14px
-font-color: #8c8783
-inf-block-width: 60%
-inf-block-align: center
-inf-block-v-align: to-top
-columns: 2
-fl-bl-text-align: center
-fl-bl-header-align: center
-fl-image-position: top
-fl-block-background: none
-fl-single-image: none
-fl-image-form: square"""
-
-class Features(models.Model):
-	text = models.TextField(default = default_features)
+	contacts = models.TextField(blank = True)

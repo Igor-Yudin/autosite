@@ -12,15 +12,15 @@
 	<div class="content">
 		<!-- There are pages -->
 
-		<div class="main">
-			<div class="inf-block-wrapper">
+		<section class="main">
 
-				{% if content.logo %}
-					<div class="logo">
-						<img src="{{ content.logo.url }}">
-					</div>
-				{% endif %}
+			{% if content.logo %}
+				<div class="logo">
+					<img src="{{ content.logo.url }}">
+				</div>
+			{% endif %}
 
+			<div class="inf_block_wrapper">
 				<header>
 					<h1> {{ content.name }} </h1>
 
@@ -28,35 +28,34 @@
 						{{ content.slogan|linebreaks }}
 					{% endif %}
 				</header>
-
 			</div>
-		</div>
+		</section>
 
 		{% if content.about_us %}
-			<div class="inf-block-wrapper">
-				<div class="about-us">
+			<section class="about_us">
+				<div class="inf_block_wrapper">
 					<!-- Title -->
 					{{ content.about_us|linebreaks }}
 				</div>
-			</div>
+			</section>
 		{% endif %}
 
 		{% if content.about_good %}
-			<div class="about-good">
-				<div class="inf-block-wrapper">
+			<section class="about_good">
+				<div class="inf_block_wrapper">
 					<!-- Title -->
 					{{ content.about_good|linebreaks }}
 				</div>
-			</div>
+			</section>
 		{% endif %}
 
 		{% if content.contacts %}
-			<div class="contacts">
-					<div class="inf-block-wrapper">
+			<section class="contacts">
+				<div class="inf_block_wrapper">
 					<!-- Title -->
-					{{ content.contacts }}
-					</div>
-			</div>
+					<p>{{ content.contacts }}</p>
+				</div>
+			</section>
 		{% endif %}
 
 	</div>

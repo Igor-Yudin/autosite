@@ -17,8 +17,9 @@ class SiteParametersForm(forms.ModelForm):
 class ContentForm(forms.ModelForm):
 	class Meta:
 		model = Content
-		fields = '__all__'
+		exclude = '__all__'
 		labels = {
+			'keywords': _('Ключевые слова'),
 			'name': _('Название кампании'),
 			'slogan': _('Слоган'),
 			'logo': _('Логотип'),
@@ -27,6 +28,7 @@ class ContentForm(forms.ModelForm):
 			'contacts': _('Контакты'),
 		}
 		help_texts = {
+			'keywords': _('Обязательно заполните данное поле!'),
 			'name': _('Обязательно заполните данное поле!'),
 			'slogan': _('Необязательно для заполнения'),
 			'about_us': _('Необязательно для заполнения'),

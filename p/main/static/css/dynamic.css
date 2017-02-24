@@ -7,11 +7,31 @@
 	vertical-align: baseline;
 }
 
-.inf-block-wrapper {
+.contacts {
+	background: #ffffff;
+	background-attachment: scroll;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+}
+
+.contacts h1 {
+	color: black;
+}
+
+.contacts p {
+	color: black;
+}
+
+.inf_block_wrapper {
+	bottom: 0;
+	display: inline-table;
 	left: 0;
 	margin: auto;
 	position: absolute;
 	right: 0;
+	top: 0;
 	width: 75%;
 }
 
@@ -22,7 +42,7 @@
 }
 
 .main {
-	background: floralwhite;
+	background: url(https://image.shutterstock.com/display_pic_with_logo/59982/520670536/stock-photo-lofoten-islands-is-an-archipelago-in-the-county-of-nordland-norway-is-known-for-a-distinctive-520670536.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -58,5 +78,9 @@ html, body {
 p {
 	font-size: 12;
 	text-align: center;
+}
+
+section {
+	position: relative;
 }
 

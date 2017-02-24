@@ -60,27 +60,55 @@ def choose_features(request, params_pk, content_pk):
 	# contacts-background
 	# contacts-headercolor
 	# contacts-pcolor
+	import requests
+	url = 'https://1d931b481ffaebd16485:0cfcc2c5ae4283efe13ed2ec75d03d1611166071@api.shutterstock.com/v2/images/search'
 
-	
-	if request.method == "POST":
-		form = FeaturesForm(request.POST)
-		if form.is_valid():
-			features = form.save()
-			return redirect('show_page', params_pk = params_pk,
-				content_pk = content_pk, features_pk = features.pk)
+	content = get_object_or_404(Content, pk = content_pk)
+	params = {
+		'url': url,
+		'keys': content.keywords,
+		'type': 'photo',
+		'orientation': 'horizontal',
+		'sort': 'popular',
+	}
+
+	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**params))
+
+	image_url = None
+	if r.status_code == 200:
+		image_url = r.json()['data'][0]['assets']['preview']['url']
 	else:
-		form = FeaturesForm()
-	return render(request, 'main/choose_features.html', {'form': form})
+		print('Error: status code is {code}'.format({'code': r.status_code }))
+
+	form = FeaturesForm(request.POST or None)
+	if form.is_valid():
+		features = form.save(commit = False)
+		features.main_background = image_url if image_url else feautres.main_background
+		features.save()
+		return redirect('show_page', params_pk = params_pk,
+			content_pk = content_pk, features_pk = features.pk)
+	else:
+		return render(request, 'main/choose_features.html', {'form': form})
+	# if request.method == "POST":
+	# 	form = FeaturesForm(request.POST)
+	# 	if form.is_valid():
+	# 		features = form.save()
+	# 		return redirect('show_page', params_pk = params_pk,
+	# 			content_pk = content_pk, features_pk = features.pk)
+	# else:
+	# 	form = FeaturesForm()
+	# return render(request, 'main/choose_features.html', {'form': form})
 
 def show_page(request, params_pk, content_pk, features_pk):
 
 	features = get_object_or_404(Features, pk = features_pk)
 	content = get_object_or_404(Content, pk = content_pk)
+
 	styles = create_styles(content, features)
+	styles = create_css(styles)
 
 	import os
 	base_dir = os.path.dirname(os.path.abspath(__file__))
-	styles = create_css(styles)
 	
 	with open("{0}/static/css/dynamic.css".format(base_dir), 'w') as file_obj:
 		file_obj.write(styles)
@@ -112,6 +140,10 @@ def create_styles(content, features):
 			'height': '100%',
 		},
 
+		'section': {
+			'position': 'relative',
+		},
+
 		'body': {
 			'line-height': '1',
 			'font-family': features.font_family,
@@ -127,11 +159,14 @@ def create_styles(content, features):
 			'text-align': 'center',
 		},
 
-		'.inf-block-wrapper': {
+		'.inf_block_wrapper': {
 			'position': 'absolute',
 			'margin': 'auto',
 			'left': '0',
 			'right': '0',
+			'top': '0',
+			'bottom': '0',
+			'display': 'inline-table',
 			'width': '75%',
 		},
 
@@ -155,7 +190,9 @@ def turn_features_into_css_rules(page, features):
 	Returns dict with css rules for the page.
 
 	"""
-	class_name = '.' + page.replace('_', '-')
+	class_name = '.' + page
+	header_class = class_name + ' h1' 
+	text_class = class_name + ' p'
 
 	background = getattr(features, '%s_background' % page)
 	header_color = getattr(features, '%s_header_color' % page)
@@ -176,27 +213,26 @@ def turn_features_into_css_rules(page, features):
 			'height': '100vh',
 		},
 
-		class_name + ' h1': {
+		header_class: {
 			'color': header_color,
 		},
 
-		class_name + ' p': {
+		text_class: {
 			'color': p_color,
 		},
 	}
 
 	if header_size:
-		styles[class_name + ' h1'].update({
+		styles[header_class].update({
 			'font-size': header_size,
 		})
 
 	if p_size:
-		styles[class_name + ' p'].update({
+		styles[text_class].update({
 			'font-size': p_size,
 		})
 
 	return styles
-	
 
 def create_css(styles):
 	"""

@@ -2,51 +2,6 @@ from django.db import models
 import json
 
 # Create your models here.
-default_content = {
-		'main':{
-			'logo': True,
-			'header': "Кухни из Германии",
-			'slogan': "ПОД ЗАКАЗ ОТ 4000 ЕВРО\nГАРАНТИЯ 5 ЛЕТ\nРАБОТАЕМ ПО ВСЕЙ БЕЛАРУСИ",
-		},
-		'about-us': {
-			'logo': None,
-			'single-position': None, # single-position: 'top' | 'bottom'
-			'header': 'O нас',
-			'paragraphs':[
-				{
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tortor elit, egestas quis tincidunt ac, varius quis arcu. Donec auctor felis sed nibh aliquam tempus et eu tellus. Quisque consectetur eu leo id tincidunt. Duis et urna leo. Morbi vestibulum id nunc id eleifend. Mauris neque nibh, pulvinar ut elementum eget, luctus at nisl.',
-					'image': None,
-				},
-			],
-		},
-		'features': {
-			'logo': None,
-			'single-position': None,
-			'header': 'Почему у нас?',
-			'paragraphs':[
-				{
-					'header': 'Качество',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-				{
-					'header': 'Красота',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-				{
-					'header': 'Удобство',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-				{
-					'header': 'Долговечность',
-					'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					'image': None,
-				},
-			],
-		},
-	}
 
 class SiteParameters(models.Model):
 	EDU = 1
@@ -56,7 +11,7 @@ class SiteParameters(models.Model):
 	OFF = 5
 
 	THEMES = (
-		(EDU, 'Образовательные устлуги'),
+		(EDU, 'Образовательные услуги'),
 		(BABY, 'Товары для детей'),
 		(SITE, 'Разработка сайтов'),
 		(CLOTH, 'Одежда'),
@@ -109,21 +64,21 @@ class Features(models.Model):
 	header_size = models.IntegerField(default = 25)
 	p_size = models.IntegerField(default = 12)
 
-	main_background = models.CharField(max_length = 200, default = '#ffffff')
+	main_background = models.CharField(max_length = 1000, default = '#ffffff')
 	main_header_color = models.CharField(max_length = 30, default = 'black')
 	main_header_size = models.IntegerField(default = 90)
 	main_p_color = models.CharField(max_length = 30, default = 'black')
 	main_p_size = models.IntegerField(default = 45)
 
-	about_us_background = models.CharField(max_length = 200, default = '#ffffff')
+	about_us_background = models.CharField(max_length = 1000, default = '#ffffff')
 	about_us_header_color = models.CharField(max_length = 30, default = 'black')
 	about_us_p_color = models.CharField(max_length = 30, default = 'black')
 
-	about_good_background = models.CharField(max_length = 200, default = '#ffffff')
+	about_good_background = models.CharField(max_length = 1000, default = '#ffffff')
 	about_good_header_color = models.CharField(max_length = 30, default = 'black')
 	about_good_p_color = models.CharField(max_length = 30, default = 'black')
 
-	contacts_background = models.CharField(max_length = 200, default = '#ffffff')
+	contacts_background = models.CharField(max_length = 1000, default = '#ffffff')
 	contacts_header_color = models.CharField(max_length = 30, default = 'black')
 	contacts_p_color = models.CharField(max_length = 30, default = 'black')
 
@@ -131,6 +86,8 @@ class Content(models.Model):
 	"""
 	Model that represents all user-input content.
 	"""
+	keywords = models.TextField()
+
 	name = models.CharField(max_length = 100)
 
 	slogan = models.TextField(blank = True)

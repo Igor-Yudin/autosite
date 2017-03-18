@@ -20,7 +20,7 @@
 				</div>
 			{% endif %}
 
-			<div class="inf_block_wrapper">
+			<div class="inf_block_wrapper main_inf_block">
 				<header>
 					<h1> {{ content.name }} </h1>
 
@@ -31,27 +31,27 @@
 			</div>
 		</section>
 
-		{% if content.about_us %}
-			<section class="about_us">
-				<div class="inf_block_wrapper">
-					<!-- Title -->
-					{{ content.about_us|linebreaks }}
-				</div>
-			</section>
-		{% endif %}
-
 		{% if content.about_good %}
 			<section class="about_good">
-				<div class="inf_block_wrapper">
+				<div class="inf_block_wrapper about_good_inf_block">
 					<!-- Title -->
 					{{ content.about_good|linebreaks }}
 				</div>
 			</section>
 		{% endif %}
 
+		{% if content.about_us %}
+			<section class="about_us">
+				<div class="inf_block_wrapper about_us_inf_block">
+					<!-- Title -->
+					{{ content.about_us|linebreaks }}
+				</div>
+			</section>
+		{% endif %}
+
 		{% if content.contacts %}
 			<section class="contacts">
-				<div class="inf_block_wrapper">
+				<div class="inf_block_wrapper contacts_inf_block">
 					<!-- Title -->
 					<p>{{ content.contacts }}</p>
 				</div>

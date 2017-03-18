@@ -1,10 +1,51 @@
 * {
 	border: 0px;
+	box-sizing: border-box;
 	font: inherit;
 	font-size: 100%;
 	margin: 0px;
 	padding: 0px;
 	vertical-align: baseline;
+}
+
+.about_good {
+	background: #ffffff;
+	background-attachment: scroll;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.about_good h1 {
+	color: black;
+}
+
+.about_good p {
+	color: black;
+}
+
+.about_good_inf_block {
+	margin: 0 auto;
+}
+
+.about_us {
+	background: #ffffff;
+	background-attachment: scroll;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.about_us h1 {
+	color: black;
+}
+
+.about_us p {
+	color: black;
+}
+
+.about_us_inf_block {
+	margin: 0 auto;
 }
 
 .contacts {
@@ -13,7 +54,6 @@
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 100vh;
 }
 
 .contacts h1 {
@@ -24,14 +64,11 @@
 	color: black;
 }
 
+.contacts_inf_block {
+	margin: 0 auto;
+}
+
 .inf_block_wrapper {
-	bottom: 0;
-	display: inline-table;
-	left: 0;
-	margin: auto;
-	position: absolute;
-	right: 0;
-	top: 0;
 	width: 75%;
 }
 
@@ -39,15 +76,20 @@
 	left: 0;
 	position: absolute;
 	top: 0;
+	width: 200px;
+}
+
+.logo img {
+	height: auto;
+	width: 100%;
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/59982/520670536/stock-photo-lofoten-islands-is-an-archipelago-in-the-county-of-nordland-norway-is-known-for-a-distinctive-520670536.jpg);
+	background: #ffffff;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 100vh;
 }
 
 .main h1 {
@@ -58,6 +100,10 @@
 .main p {
 	color: black;
 	font-size: 45;
+}
+
+.main_inf_block {
+	margin: 25vh auto 35vh auto;
 }
 
 body {
@@ -81,6 +127,9 @@ p {
 }
 
 section {
+	height: auto;
+	min-height: 20vh;
+	overflow: hidden;
 	position: relative;
 }
 

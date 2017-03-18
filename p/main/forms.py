@@ -17,7 +17,7 @@ class SiteParametersForm(forms.ModelForm):
 class ContentForm(forms.ModelForm):
 	class Meta:
 		model = Content
-		exclude = '__all__'
+		fields = '__all__'
 		labels = {
 			'keywords': _('Ключевые слова'),
 			'name': _('Название кампании'),

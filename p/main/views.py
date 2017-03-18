@@ -4,7 +4,6 @@ from .models import SiteParameters, Content, Features
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
-import json
 # I change static for background and logo because decide that this properties will be set in css, but I didn't change fl-bl-image and single
 # because they probably should set in html by content
 # Подробное описание будующей системы смотри в файле Nostroweb дальнейшее развитие диплома
@@ -75,15 +74,16 @@ def choose_features(request, params_pk, content_pk):
 	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**params))
 
 	image_url = None
-	if r.status_code == 200:
+	if r.status_code == 200 and r.json().get('total_count'):
 		image_url = r.json()['data'][0]['assets']['preview']['url']
 	else:
-		print('Error: status code is {code}'.format({'code': r.status_code }))
+		print('Error: status code is {code}'.format(code = r.status_code))
 
 	form = FeaturesForm(request.POST or None)
 	if form.is_valid():
 		features = form.save(commit = False)
-		features.main_background = image_url if image_url else feautres.main_background
+		if image_url:
+			features.main_background = image_url
 		features.save()
 		return redirect('show_page', params_pk = params_pk,
 			content_pk = content_pk, features_pk = features.pk)
@@ -133,16 +133,11 @@ def create_styles(content, features):
 			'font-size': '100%',
 			'font': 'inherit',
 			'vertical-align': 'baseline',
+			'box-sizing': 'border-box',
 		},
 
-		'html, body': {
-			'width': '100%',
-			'height': '100%',
-		},
 
-		'section': {
-			'position': 'relative',
-		},
+		# Set font
 
 		'body': {
 			'line-height': '1',
@@ -159,21 +154,58 @@ def create_styles(content, features):
 			'text-align': 'center',
 		},
 
+		# Set sizes, position, margin
+
+		'html, body': {
+			'width': '100%',
+			'height': '100%',
+		},
+
+		'section': {
+			'position': 'relative',
+			'min-height': '20vh',
+			'height': 'auto',
+			'overflow': 'hidden',
+		},
+
 		'.inf_block_wrapper': {
-			'position': 'absolute',
-			'margin': 'auto',
-			'left': '0',
-			'right': '0',
-			'top': '0',
-			'bottom': '0',
-			'display': 'inline-table',
+			# 'position': 'absolute',
+			# 'margin': 'auto',
+			# 'left': '0',
+			# 'right': '0',
+			# 'top': '0',
+			# 'bottom': '0',
+			# 'display': 'inline-table',
+			# 'width': '75%',
 			'width': '75%',
+		},
+
+		'.main_inf_block': {
+			'margin': '25vh auto 35vh auto',
 		},
 
 		'.logo': {
 			'position': 'absolute',
 			'top': '0',
 			'left': '0',
+			'width': '200px',
+		},
+
+		'.logo img': {
+			'width': '100%',
+			'height': 'auto',
+		},
+
+		'.about_good_inf_block': {
+			'margin': '0 auto',
+		},
+
+		'.about_us_inf_block': {
+			'margin': '0 auto',
+		},
+
+		'.contacts_inf_block': {
+			'margin': '0 auto',
 		},
 	}
 
@@ -187,9 +219,19 @@ def create_styles(content, features):
 
 def turn_features_into_css_rules(page, features):
 	"""
-	Returns dict with css rules for the page.
+	This method creates a dictionary that is the css-rules
+	representation of features for page.
+	Get page name and features-object, containing fields
+	for all pages.
+
+	Returns dict of css rules for the page.
 
 	"""
+
+	assert page is not "", "Page is an empty string"
+	assert page in ["main", "about_us", "about_good", "contacts"], 'Page name is incorrect'
+	assert isinstance(features, Features), "features is not an instance of Features"
+
 	class_name = '.' + page
 	header_class = class_name + ' h1' 
 	text_class = class_name + ' p'
@@ -197,10 +239,6 @@ def turn_features_into_css_rules(page, features):
 	background = getattr(features, '%s_background' % page)
 	header_color = getattr(features, '%s_header_color' % page)
 	p_color = getattr(features, '%s_p_color' % page)
-
-	# Only main page features
-	header_size = getattr(features, '%s_header_size' % page, None)
-	p_size = getattr(features, '%s_p_size' % page, None)
 
 	styles = {
 		class_name: {
@@ -210,7 +248,7 @@ def turn_features_into_css_rules(page, features):
 			'background-size': 'cover',
 			'background-position': 'center center',
 			'background-attachment': 'scroll',
-			'height': '100vh',
+			# 'min-height': '20vh' if page == 'contacts' else '40vh',
 		},
 
 		header_class: {
@@ -221,6 +259,10 @@ def turn_features_into_css_rules(page, features):
 			'color': p_color,
 		},
 	}
+
+	# Only main page has its sizes for header and slogan/p
+	header_size = getattr(features, '%s_header_size' % page, None)
+	p_size = getattr(features, '%s_p_size' % page, None)
 
 	if header_size:
 		styles[header_class].update({

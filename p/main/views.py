@@ -17,6 +17,7 @@ import os
 # жестко заданному шаблону с добавлением изображений, фона и подбора шрифтов. Оучение проводится по цветам фона, темам изображений, размеру и цвету шрифта.
 
 # Const
+NONE = 0
 IMAGE = 1
 COLOR = 2
 COLORIMAGE = 3
@@ -89,7 +90,7 @@ def get_image_url(themes):
 		'sort': 'popular',
 	}
 
-	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**args))
+	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**params))
 
 	image_url = None
 	if r.status_code == 200 and r.json().get('total_count'):
@@ -112,17 +113,17 @@ def get_font_colors(page_type, page_background):
 		if '.' in background:
 			response = requests.get(background)
 			image = Image.open(BytesIO(response.content))
-			colors_couts = {}
+			colors_counts = {}
 			colors = []
 			for pixel in image.getdata():
-				if colors.get(pixel):
+				if colors_counts.get(pixel):
 					colors_counts[pixel] += 1
 				else:
 					colors_counts[pixel] = 1
 					colors.append(pixel)
-			colors.sorted(key = lambda color: colors_counts[color])
+			colors.sort(key = lambda color: colors_counts[color])
 			color = colors[-1] # Choose biggest value
-			color = color[:-1] # Skip alpha component
+			color = color[:-1] if len(color) > 3 else color # Skip alpha component
 
 			return '#' + ''.join([format(channel, '02x') for channel in color])
 		else:
@@ -137,9 +138,9 @@ def get_font_colors(page_type, page_background):
 
 		difs = []
 		for b_color in colors:
-			dif = sum(map(lambda x, y: (x - y) ** 2, zip(a_color, b_color)))
+			dif = sum(map(lambda pair: (pair[0] - pair[1]) ** 2, zip(a_color, b_color)))
 			difs.append(dif)
-		ind = colors.index(max(difs))
+		ind = difs.index(max(difs))
 
 		return '#' + ''.join([format(channel, '02x') for channel in colors[ind]])
 
@@ -157,6 +158,7 @@ def get_font_colors(page_type, page_background):
 		p_color = '#161616'
 	else:
 		p_color = get_darker_color(h_color)
+	print(page_type, h_color, p_color)
 	return h_color, p_color
 
 def choose_features(request, params_pk, content_pk):
@@ -200,11 +202,14 @@ def choose_features(request, params_pk, content_pk):
 		# page_theme = get_page_theme(page, input_parameters)
 		# page_features['%s_theme' % page] = page_theme
 
+		page_theme = site_params.keywords
+
 		# Set page background
-		# if page_type != 'color' and page_theme != 'none':
-		# 	page_background = get_image_url(page_theme)
-		# 	if page_background:
-		# 		page_features['%s_background' % page] = page_background
+		if page_type != COLOR and page_type != NONE and page_theme != 'none':
+			page_background = get_image_url(page_theme)
+			if page_background:
+				page_features['%s_background' % page] = page_background
+
 		if not page_features.get('%s_background' % page):
 			page_features['%s_background' % page] = page_color
 

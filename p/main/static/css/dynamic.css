@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #c7c6c6;
+	background: url(https://image.shutterstock.com/display_pic_with_logo/1198163/324128621/stock-photo-businessman-hand-working-with-modern-technology-and-digital-layer-effect-as-business-strategy-324128621.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,11 +17,11 @@
 }
 
 .about_good h1 {
-	color: #161616;
+	color: #111111;
 }
 
 .about_good p {
-	color: #333333;
+	color: #252525;
 }
 
 .about_good_inf_block {
@@ -29,7 +29,7 @@
 }
 
 .about_us {
-	background: #d8f6ca;
+	background: #cbe4cd;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -37,11 +37,11 @@
 }
 
 .about_us h1 {
-	color: #161616;
+	color: #111111;
 }
 
 .about_us p {
-	color: #333333;
+	color: #252525;
 }
 
 .about_us_inf_block {
@@ -49,7 +49,7 @@
 }
 
 .contacts {
-	background: #f0aba9;
+	background: #54745b;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -57,11 +57,11 @@
 }
 
 .contacts h1 {
-	color: #161616;
+	color: #111111;
 }
 
 .contacts p {
-	color: #333333;
+	color: #252525;
 }
 
 .contacts_inf_block {
@@ -85,7 +85,7 @@
 }
 
 .main {
-	background: #66aa7f;
+	background: url(https://image.shutterstock.com/display_pic_with_logo/1198163/324128621/stock-photo-businessman-hand-working-with-modern-technology-and-digital-layer-effect-as-business-strategy-324128621.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -93,12 +93,12 @@
 }
 
 .main h1 {
-	color: #161616;
+	color: #111111;
 	font-size: 120;
 }
 
 .main p {
-	color: #333333;
+	color: #252525;
 	font-size: 48;
 }
 

@@ -4,6 +4,10 @@ from .models import SiteParameters, Content, Features
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
+import pandas as pd
+from sklearn.externals import joblib
+from colorsys import rgb_to_hls, hls_to_rgb
+import os
 # I change static for background and logo because decide that this properties will be set in css, but I didn't change fl-bl-image and single
 # because they probably should set in html by content
 # Подробное описание будующей системы смотри в файле Nostroweb дальнейшее развитие диплома
@@ -11,6 +15,13 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 # контент: название, слоган, описание товара / услуги, о нас, контакты. Затемы автоматически
 # создается сайт. Автоматическое создание подразумевает размещение указанного тектса по
 # жестко заданному шаблону с добавлением изображений, фона и подбора шрифтов. Оучение проводится по цветам фона, темам изображений, размеру и цвету шрифта.
+
+# Const
+IMAGE = 1
+COLOR = 2
+COLORIMAGE = 3
+SEPHEADER = 4
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Create your views here.
 def new_page(request):
@@ -33,6 +44,120 @@ def input_content(request, pk):
 		return redirect('choose_features', params_pk = pk, content_pk = content.pk)
 	else:
 		return render(request, 'main/input_content.html', {'form': form, 'pk': pk})
+
+def get_input_parameters(site_parameters):
+	with open('{0}/static/data/keywords.txt'.format(BASE_DIR)) as file_obj:
+		keywords = file_obj.read()
+
+	keywords_table = pd.DataFrame()
+	for keyword in keywords.lower().split(','):
+		keywords_table[keyword] = (0,)
+	for keyword in site_parameters.keywords.lower().split(', '):
+		keywords_table[keyword] = (1,)
+
+	keywords_table['gender'] = site_parameters.gender
+	keywords_table['age'] = site_parameters.age
+
+	return keywords_table
+
+def get_page_type(page, input_parameters):
+	clf = joblib.load('{0}/static/data/{1}_type_clf.pkl'.format(BASE_DIR, page))
+	page_type = clf.predict(input_parameters)
+	return page_type
+
+def get_page_color(page, input_parameters):
+	clf = joblib.load('{0}/static/data/{1}_color_clf.pkl'.format(BASE_DIR, page))
+	h, l, s = clf.predict(input_parameters)[0]
+	rgb = hls_to_rgb(h, l, s)
+	rgb = map(lambda x: format(int(x), '02x'), rgb)
+	return '#{rgb}'.format(rgb = ''.join(rgb))
+
+def get_page_theme(page, input_parameters):
+	clf = joblib.load('{0}/static/data/{1}_theme_clf.pkl'.format(BASE_DIR, page))
+	page_theme = clf.predict(input_parameters)
+	return ', '.join(page_theme)
+
+def get_image_url(themes):
+	import requests
+	url = 'https://1d931b481ffaebd16485:0cfcc2c5ae4283efe13ed2ec75d03d1611166071@api.shutterstock.com/v2/images/search'
+
+	params = {
+		'url': url,
+		'keys': themes,
+		'type': 'photo',
+		'orientation': 'horizontal',
+		'sort': 'popular',
+	}
+
+	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**args))
+
+	image_url = None
+	if r.status_code == 200 and r.json().get('total_count'):
+		image_url = r.json()['data'][0]['assets']['preview']['url']
+	else:
+		print('Error: status code is {code}'.format(code = r.status_code))
+	return image_url
+
+def get_font_colors(page_type, page_background):
+	"""
+	Returns colors for header and paragraphs.
+	Header color is figuring out for background
+	and paragraph color is a little bit lighter.
+	"""
+	def get_background_color(background):
+		from PIL import Image
+		import requests
+		from io import BytesIO
+
+		if '.' in background:
+			response = requests.get(background)
+			image = Image.open(BytesIO(response.content))
+			colors_couts = {}
+			colors = []
+			for pixel in image.getdata():
+				if colors.get(pixel):
+					colors_counts[pixel] += 1
+				else:
+					colors_counts[pixel] = 1
+					colors.append(pixel)
+			colors.sorted(key = lambda color: colors_counts[color])
+			color = colors[-1] # Choose biggest value
+			color = color[:-1] # Skip alpha component
+
+			return '#' + ''.join([format(channel, '02x') for channel in color])
+		else:
+			return background
+
+	def get_color_seperating_for(color):
+		a_color = color[1:]
+		a_color = list(map(''.join, zip(* [iter(a_color)] * 2)))
+		a_color = list(map(lambda x: int(x, 16), a_color))
+		
+		colors = ((17, 17, 17), (119, 119, 119), (255, 255, 255))
+
+		difs = []
+		for b_color in colors:
+			dif = sum(map(lambda x, y: (x - y) ** 2, zip(a_color, b_color)))
+			difs.append(dif)
+		ind = colors.index(max(difs))
+
+		return '#' + ''.join([format(channel, '02x') for channel in colors[ind]])
+
+	def get_darker_color(color):
+		color = color[1:]
+		color = list(map(''.join, zip(* [iter(color)] * 2)))
+		color = list(map(lambda x: int(x, 16), color))
+		darker_color = list(map(lambda x: x + 20 if x + 20 <= 255 else 255, color))
+		return '#' + ''.join([format(channel, '02x') for channel in darker_color])
+
+	background_color = get_background_color(page_background)
+	h_color = get_color_seperating_for(background_color)
+
+	if page_type == SEPHEADER:
+		p_color = '#161616'
+	else:
+		p_color = get_darker_color(h_color)
+	return h_color, p_color
 
 def choose_features(request, params_pk, content_pk):
 
@@ -59,45 +184,76 @@ def choose_features(request, params_pk, content_pk):
 	# contacts-background
 	# contacts-headercolor
 	# contacts-pcolor
-	import requests
-	url = 'https://1d931b481ffaebd16485:0cfcc2c5ae4283efe13ed2ec75d03d1611166071@api.shutterstock.com/v2/images/search'
 
-	content = get_object_or_404(Content, pk = content_pk)
-	params = {
-		'url': url,
-		'keys': content.keywords,
-		'type': 'photo',
-		'orientation': 'horizontal',
-		'sort': 'popular',
-	}
+	site_params = get_object_or_404(SiteParameters, pk = params_pk)
 
-	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**params))
+	# Machine learning
+	page_features = {}
+	input_parameters = get_input_parameters(site_params)
+	for page in ('main', 'about_good', 'about_us', 'contacts'):
+		page_type = get_page_type(page, input_parameters)
+		page_features['%s_type' % page] = page_type
 
-	image_url = None
-	if r.status_code == 200 and r.json().get('total_count'):
-		image_url = r.json()['data'][0]['assets']['preview']['url']
-	else:
-		print('Error: status code is {code}'.format(code = r.status_code))
+		page_color = get_page_color(page, input_parameters)
+		page_features['%s_color' % page] = page_color
 
-	form = FeaturesForm(request.POST or None)
-	if form.is_valid():
-		features = form.save(commit = False)
-		if image_url:
-			features.main_background = image_url
-		features.save()
-		return redirect('show_page', params_pk = params_pk,
-			content_pk = content_pk, features_pk = features.pk)
-	else:
-		return render(request, 'main/choose_features.html', {'form': form})
-	# if request.method == "POST":
-	# 	form = FeaturesForm(request.POST)
-	# 	if form.is_valid():
-	# 		features = form.save()
-	# 		return redirect('show_page', params_pk = params_pk,
-	# 			content_pk = content_pk, features_pk = features.pk)
+		# page_theme = get_page_theme(page, input_parameters)
+		# page_features['%s_theme' % page] = page_theme
+
+		# Set page background
+		# if page_type != 'color' and page_theme != 'none':
+		# 	page_background = get_image_url(page_theme)
+		# 	if page_background:
+		# 		page_features['%s_background' % page] = page_background
+		if not page_features.get('%s_background' % page):
+			page_features['%s_background' % page] = page_color
+
+		h_color, p_color = '#161616', '#333333' # get_font_colors(page_type, page_background)
+		page_features['%s_h_color' % page] = h_color
+		page_features['%s_p_color' % page] = p_color
+
+		if page == 'main':
+			page_features['%s_h_size' % page] = 120
+			page_features['%s_p_size' % page] = 48
+
+	features = Features()
+	features.font_family = 'Arial'
+	features.h_size = 48
+	features.p_size = 20
+
+	for k, v in page_features.items():
+		setattr(features, k, v)
+	features.save()
+	return redirect('show_page', params_pk = params_pk,
+								 content_pk = content_pk,
+								 features_pk = features.pk)
+
+	# features.main_type = 
+	# features.main_background = 
+	# features.main_h_size = 
+	# features.main_h_color = 
+	# features.main_p_size = 
+	# features.main_p_color = 
+
+	# features.about_good_type = 
+	# features.about_good_background = 
+	# features.about_good_h_color = 
+	# features.about_good_p_color = 
+
+	# features.about_us_type = 
+	# features.about_us_background = 
+	# features.about_us_h_color = 
+	# features.about_us_p_color = 
+
+	# if form.is_valid():
+	# 	features = form.save(commit = False)
+	# 	if image_url:
+	# 		features.main_background = image_url
+	# 	features.save()
+	# 	return redirect('show_page', params_pk = params_pk,
+	# 		content_pk = content_pk, features_pk = features.pk)
 	# else:
-	# 	form = FeaturesForm()
-	# return render(request, 'main/choose_features.html', {'form': form})
+	# 	return render(request, 'main/choose_features.html', {'form': form})
 
 def show_page(request, params_pk, content_pk, features_pk):
 
@@ -107,10 +263,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 	styles = create_styles(content, features)
 	styles = create_css(styles)
 
-	import os
-	base_dir = os.path.dirname(os.path.abspath(__file__))
-	
-	with open("{0}/static/css/dynamic.css".format(base_dir), 'w') as file_obj:
+	with open("{0}/static/css/dynamic.css".format(BASE_DIR), 'w') as file_obj:
 		file_obj.write(styles)
 
 	return render(request, 'main/success.html',
@@ -145,7 +298,7 @@ def create_styles(content, features):
 		},
 
 		'h1': {
-			'font-size': features.header_size,
+			'font-size': features.h_size,
 			'text-align': 'center',
 		},
 
@@ -209,11 +362,14 @@ def create_styles(content, features):
 		},
 	}
 
-	for page in ['about_us', 'about_good', 'contacts']:
-		if getattr(content, page, None):
-			styles.update(turn_features_into_css_rules(page, features))
-	else:
-		styles.update(turn_features_into_css_rules('main', features))
+	# Здесь есть функция, которая делает (if getattr), которая
+	# позволяет выставлять свойства только для выбранных страниц, я временно эту возможность убираю
+
+	for page in ('main', 'about_good', 'about_us', 'contacts'):
+		# if getattr(content, page, None):
+		styles.update(turn_features_into_css_rules(page, features))
+	# else:
+	# 	styles.update(turn_features_into_css_rules('main', features))
 
 	return styles
 
@@ -237,7 +393,7 @@ def turn_features_into_css_rules(page, features):
 	text_class = class_name + ' p'
 
 	background = getattr(features, '%s_background' % page)
-	header_color = getattr(features, '%s_header_color' % page)
+	h_color = getattr(features, '%s_h_color' % page)
 	p_color = getattr(features, '%s_p_color' % page)
 
 	styles = {
@@ -252,7 +408,7 @@ def turn_features_into_css_rules(page, features):
 		},
 
 		header_class: {
-			'color': header_color,
+			'color': h_color,
 		},
 
 		text_class: {
@@ -261,12 +417,12 @@ def turn_features_into_css_rules(page, features):
 	}
 
 	# Only main page has its sizes for header and slogan/p
-	header_size = getattr(features, '%s_header_size' % page, None)
+	h_size = getattr(features, '%s_h_size' % page, None)
 	p_size = getattr(features, '%s_p_size' % page, None)
 
-	if header_size:
+	if h_size:
 		styles[header_class].update({
-			'font-size': header_size,
+			'font-size': h_size,
 		})
 
 	if p_size:

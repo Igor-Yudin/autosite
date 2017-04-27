@@ -3,32 +3,18 @@ from django.db import models
 # Create your models here.
 
 class SiteParameters(models.Model):
-	EDU = 1
-	BABY = 2
-	SITE = 3
-	CLOTH = 4
-	OFF = 5
-
-	THEMES = (
-		(EDU, 'Образовательные услуги'),
-		(BABY, 'Товары для детей'),
-		(SITE, 'Разработка сайтов'),
-		(CLOTH, 'Одежда'),
-		(OFF, 'Товары для офиса'),
-	)
-
-	MALE = 1
-	FEMALE = 2
-	BOTH = 3
-	SEXES = (
+	BOTH = 1
+	MALE = 2
+	FEMALE = 3
+	GENDERS = (
 		(MALE, 'Мужчины'),
 		(FEMALE, 'Женщины'),
 		(BOTH, 'Мужчины и женщины'),
 	)
 
-	CHILD = 1
+	ADULT = 1
 	YOUTH = 2
-	ADULT = 3
+	CHILD = 3
 	SENIOR = 4
 
 	AGES = (
@@ -38,55 +24,83 @@ class SiteParameters(models.Model):
 		(SENIOR, '55+'),
 	)
 
-	CLIENTS = 1
-	BUISNESS = 2
-	TARGET = (
-		(CLIENTS, 'Клиенты'),
-		(BUISNESS, 'Бизнес'),
-	)
-
-	GOOD = 1
-	SERVICE = 2
-	TYPE = (
-		(GOOD, 'Продажа товара'),
-		(SERVICE, 'Оказание услуги'),
-	)
-
-	theme = models.IntegerField(choices = THEMES, default = 1)
-	sex = models.IntegerField(choices = SEXES, default = 1)
+	keywords = models.TextField()
+	gender = models.IntegerField(choices = GENDERS, default = 1)
 	age = models.IntegerField(choices = AGES, default = 1)
-	target = models.IntegerField(choices = TARGET, default = 1)
-	good_type = models.IntegerField(choices = TYPE, default = 1)
 
 class Features(models.Model):
+	NONE = 0
+	COLOR = 1
+	IMAGE = 2
+	COLORIMAGE = 3
+	SEPHEADER = 4
+
+	PAGE_TYPES = (
+		(COLOR, 'Color'),
+		(IMAGE, 'Image'),
+		(COLORIMAGE, 'Color and image'),
+		(SEPHEADER, 'Seperate header'),
+	)
+
 	font_family = models.CharField(max_length = 250, default = 'Arial')
-	header_size = models.IntegerField(default = 25)
+	h_size = models.IntegerField(default = 25)
 	p_size = models.IntegerField(default = 12)
 
+	main_type = models.CharField(choices = PAGE_TYPES,
+								 max_length = 20,
+								 default = COLOR)
 	main_background = models.CharField(max_length = 1000, default = '#ffffff')
-	main_header_color = models.CharField(max_length = 30, default = 'black')
-	main_header_size = models.IntegerField(default = 90)
+	main_h_color = models.CharField(max_length = 30, default = 'black')
+	main_h_size = models.IntegerField(default = 90)
 	main_p_color = models.CharField(max_length = 30, default = 'black')
 	main_p_size = models.IntegerField(default = 45)
 
+	about_us_type = models.CharField(choices = PAGE_TYPES,
+									 max_length = 20,
+									 default = NONE)
 	about_us_background = models.CharField(max_length = 1000, default = '#ffffff')
-	about_us_header_color = models.CharField(max_length = 30, default = 'black')
+	about_us_h_color = models.CharField(max_length = 30, default = 'black')
 	about_us_p_color = models.CharField(max_length = 30, default = 'black')
 
+	about_good_type = models.CharField(choices = PAGE_TYPES,
+									   max_length = 20,
+									   default = NONE)
 	about_good_background = models.CharField(max_length = 1000, default = '#ffffff')
-	about_good_header_color = models.CharField(max_length = 30, default = 'black')
+	about_good_h_color = models.CharField(max_length = 30, default = 'black')
 	about_good_p_color = models.CharField(max_length = 30, default = 'black')
 
+	contacts_type = models.CharField(choices = PAGE_TYPES,
+									 max_length = 20,
+									 default = NONE)
 	contacts_background = models.CharField(max_length = 1000, default = '#ffffff')
-	contacts_header_color = models.CharField(max_length = 30, default = 'black')
+	contacts_h_color = models.CharField(max_length = 30, default = 'black')
 	contacts_p_color = models.CharField(max_length = 30, default = 'black')
+
+class Page(models.Model):
+	"""
+	Model for representing a page.
+	"""
+	IMAGE = 1
+	COLOR = 2
+	COLORIMAGE = 3
+	SEPHEADER = 4
+
+	PAGE_TYPES = (
+		(IMAGE, 'Image'),
+		(COLOR, 'Color'),
+		(COLORIMAGE, 'Color and image'),
+		(SEPHEADER, 'seperate header'),
+	)
+	page_type = models.IntegerField(choices = PAGE_TYPES, default = COLOR)
+
+	header = models.CharField(max_length = 150)
+
+	text = models.TextField()
 
 class Content(models.Model):
 	"""
 	Model that represents all user-input content.
 	"""
-	keywords = models.TextField()
-
 	name = models.CharField(max_length = 100)
 
 	slogan = models.TextField(blank = True)
@@ -98,8 +112,11 @@ class Content(models.Model):
 		blank = True
 	)
 
-	about_us = models.TextField(blank = True)
+	about_good_header = models.CharField(blank = True, max_length = 150)
+	about_good_text = models.TextField(blank = True)
 
-	about_good = models.TextField(blank = True)
+	about_us_header = models.CharField(blank = True, max_length = 150)
+	about_us_text = models.TextField(blank = True)
 
-	contacts = models.TextField(blank = True)
+	contacts_header = models.CharField(blank = True, max_length = 150)
+	contacts_text = models.TextField(blank = True)

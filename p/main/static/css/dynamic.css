@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #ffffff;
+	background: #c7c6c6;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,11 +17,11 @@
 }
 
 .about_good h1 {
-	color: black;
+	color: #161616;
 }
 
 .about_good p {
-	color: black;
+	color: #333333;
 }
 
 .about_good_inf_block {
@@ -29,7 +29,7 @@
 }
 
 .about_us {
-	background: #ffffff;
+	background: #d8f6ca;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -37,11 +37,11 @@
 }
 
 .about_us h1 {
-	color: black;
+	color: #161616;
 }
 
 .about_us p {
-	color: black;
+	color: #333333;
 }
 
 .about_us_inf_block {
@@ -49,7 +49,7 @@
 }
 
 .contacts {
-	background: #ffffff;
+	background: #f0aba9;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -57,11 +57,11 @@
 }
 
 .contacts h1 {
-	color: black;
+	color: #161616;
 }
 
 .contacts p {
-	color: black;
+	color: #333333;
 }
 
 .contacts_inf_block {
@@ -85,7 +85,7 @@
 }
 
 .main {
-	background: #ffffff;
+	background: #66aa7f;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -93,13 +93,13 @@
 }
 
 .main h1 {
-	color: black;
-	font-size: 90;
+	color: #161616;
+	font-size: 120;
 }
 
 .main p {
-	color: black;
-	font-size: 45;
+	color: #333333;
+	font-size: 48;
 }
 
 .main_inf_block {
@@ -112,7 +112,7 @@ body {
 }
 
 h1 {
-	font-size: 25;
+	font-size: 48;
 	text-align: center;
 }
 
@@ -122,7 +122,7 @@ html, body {
 }
 
 p {
-	font-size: 12;
+	font-size: 20;
 	text-align: center;
 }
 

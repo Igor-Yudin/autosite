@@ -31,32 +31,37 @@
 			</div>
 		</section>
 
-		{% if content.about_good %}
+		<!-- { if content.about_good_header } -->
 			<section class="about_good">
 				<div class="inf_block_wrapper about_good_inf_block">
 					<!-- Title -->
-					{{ content.about_good|linebreaks }}
+					<header>
+						<h1> {{ content.about_good_header }} </h1>
+					</header>
+					{{ content.about_good_text|linebreaks }}
 				</div>
 			</section>
-		{% endif %}
+		<!-- { endif } -->
 
-		{% if content.about_us %}
 			<section class="about_us">
 				<div class="inf_block_wrapper about_us_inf_block">
 					<!-- Title -->
-					{{ content.about_us|linebreaks }}
+					<header>
+						<h1> {{ content.about_us_header }} </h1>
+					</header>
+					{{ content.about_us_text|linebreaks }}
 				</div>
 			</section>
-		{% endif %}
 
-		{% if content.contacts %}
 			<section class="contacts">
 				<div class="inf_block_wrapper contacts_inf_block">
 					<!-- Title -->
-					<p>{{ content.contacts }}</p>
+					<header>
+						<h1> {{ content.contacts_header }} </h1>
+					</header>
+					<p>{{ content.contacts_text }}</p>
 				</div>
 			</section>
-		{% endif %}
 
 	</div>
 {% endblock %}

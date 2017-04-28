@@ -8,6 +8,7 @@ import pandas as pd
 from sklearn.externals import joblib
 from colorsys import rgb_to_hls, hls_to_rgb
 import os
+from enum import IntEnum
 # I change static for background and logo because decide that this properties will be set in css, but I didn't change fl-bl-image and single
 # because they probably should set in html by content
 # Подробное описание будующей системы смотри в файле Nostroweb дальнейшее развитие диплома
@@ -22,7 +23,14 @@ IMAGE = 1
 COLOR = 2
 COLORIMAGE = 3
 SEPHEADER = 4
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+class PageTypes(IntEnum):
+	Image = 1
+	Color = 2
+	ColorImage = 3
+	SepHeader = 4
 
 # Create your views here.
 def new_page(request):
@@ -92,7 +100,7 @@ def get_image_url(themes):
 
 	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**params))
 
-	image_url = None
+	image_url = ''
 	if r.status_code == 200 and r.json().get('total_count'):
 		image_url = r.json()['data'][0]['assets']['preview']['url']
 	else:
@@ -168,24 +176,6 @@ def choose_features(request, params_pk, content_pk):
 	# 2. По ключевым словам определить тему изображений, найти несколько фотографий для фона
 	# и обычных картинок, при этом их цвет должен соответствовать выбранным, иначе заменить его цветом
 	# 3. На этом контент заканчивается, передается дальше.
-	# features:
-	# font-family
-	# header-size
-	# p-size
-	# main-background
-	# main-headercolor
-	# main-headersize
-	# main-slogancolor
-	# main-slogansize
-	# about-us-background
-	# about-us-headercolor
-	# about-us-pcolor
-	# about-good-background
-	# about-good-headercolor
-	# about-good-pcolor
-	# contacts-background
-	# contacts-headercolor
-	# contacts-pcolor
 
 	site_params = get_object_or_404(SiteParameters, pk = params_pk)
 
@@ -204,14 +194,12 @@ def choose_features(request, params_pk, content_pk):
 
 		page_theme = site_params.keywords
 
-		# Set page background
+		# Set page background image
 		if page_type != COLOR and page_type != NONE and page_theme != 'none':
-			page_background = get_image_url(page_theme)
-			if page_background:
-				page_features['%s_background' % page] = page_background
-
-		if not page_features.get('%s_background' % page):
-			page_features['%s_background' % page] = page_color
+			page_image = get_image_url(page_theme)
+			page_features['%s_image' % page] = page_image
+			if not page_image:
+				page_features['%s_type' % page] = COLOR
 
 		h_color, p_color = '#161616', '#333333' # get_font_colors(page_type, page_background)
 		page_features['%s_h_color' % page] = h_color
@@ -233,33 +221,6 @@ def choose_features(request, params_pk, content_pk):
 								 content_pk = content_pk,
 								 features_pk = features.pk)
 
-	# features.main_type = 
-	# features.main_background = 
-	# features.main_h_size = 
-	# features.main_h_color = 
-	# features.main_p_size = 
-	# features.main_p_color = 
-
-	# features.about_good_type = 
-	# features.about_good_background = 
-	# features.about_good_h_color = 
-	# features.about_good_p_color = 
-
-	# features.about_us_type = 
-	# features.about_us_background = 
-	# features.about_us_h_color = 
-	# features.about_us_p_color = 
-
-	# if form.is_valid():
-	# 	features = form.save(commit = False)
-	# 	if image_url:
-	# 		features.main_background = image_url
-	# 	features.save()
-	# 	return redirect('show_page', params_pk = params_pk,
-	# 		content_pk = content_pk, features_pk = features.pk)
-	# else:
-	# 	return render(request, 'main/choose_features.html', {'form': form})
-
 def show_page(request, params_pk, content_pk, features_pk):
 
 	features = get_object_or_404(Features, pk = features_pk)
@@ -274,7 +235,10 @@ def show_page(request, params_pk, content_pk, features_pk):
 	return render(request, 'main/success.html',
 		{
 			'content': content,
-			'css': 'css/dynamic.css'
+			'css': 'css/dynamic.css',
+			'types': PageTypes,
+			'pages': ('about_good', 'about_us', 'contacts'),
+			'features': features,
 		})
 
 def create_styles(content, features):
@@ -302,7 +266,7 @@ def create_styles(content, features):
 			'font-family': features.font_family,
 		},
 
-		'h1': {
+		'h1, h2': {
 			'font-size': features.h_size,
 			'text-align': 'center',
 		},
@@ -355,15 +319,27 @@ def create_styles(content, features):
 		},
 
 		'.about_good_inf_block': {
-			'margin': '0 auto',
+			'margin': '25vh auto 35vh auto',
 		},
 
 		'.about_us_inf_block': {
-			'margin': '0 auto',
+			'margin': '25vh auto 35vh auto',
 		},
 
 		'.contacts_inf_block': {
-			'margin': '0 auto',
+			'margin': '25vh auto 35vh auto',
+		},
+
+		'img': {
+			'align': 'center',
+		},
+
+		'.sepheader': {
+			'padding': '150px',
+		},
+
+		'.subheader': {
+			'background': '#ffffff',
 		},
 	}
 
@@ -397,14 +373,15 @@ def turn_features_into_css_rules(page, features):
 	header_class = class_name + ' h1' 
 	text_class = class_name + ' p'
 
-	background = getattr(features, '%s_background' % page)
+	page_type = getattr(features, '%s_type' % page)
+	color = getattr(features, '%s_color' % page)
+	image = getattr(features, '%s_image' % page)
 	h_color = getattr(features, '%s_h_color' % page)
 	p_color = getattr(features, '%s_p_color' % page)
 
 	styles = {
 		class_name: {
-			'background': (lambda b: 'url(%s)' % b if '.' in b
-							else b)(background),
+			'background': 'url(%s)' % image if page_type == IMAGE else color,
 			'background-repeat': 'no-repeat',
 			'background-size': 'cover',
 			'background-position': 'center center',
@@ -434,6 +411,20 @@ def turn_features_into_css_rules(page, features):
 		styles[text_class].update({
 			'font-size': p_size,
 		})
+
+	# set specific styles for sepheader
+	if page_type == SEPHEADER:
+		sepheader_class = class_name + ' .sepheader'
+		styles.update({
+			sepheader_class: {
+				'background': 'url(%s)' % image,
+				'background-repeat': 'no-repeat',
+				'background-size': 'cover',
+				'background-position': 'center center',
+				'background-attachment': 'scroll',
+				}
+			})
+		styles[class_name]['background'] = '#ffffff'
 
 	return styles
 

@@ -30,3 +30,10 @@ def get_static(filename):
 	Returns url of dynamic css
 	"""
 	return static(filename)
+
+@register.filter(name = 'attr')
+def attr(a, obj):
+	"""
+	Returns obj.a
+	"""
+	return getattr(obj, '{a}'.format(a = a), None)

@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/1198163/324128621/stock-photo-businessman-hand-working-with-modern-technology-and-digital-layer-effect-as-business-strategy-324128621.jpg);
+	background: #8c8f6f;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,19 +17,19 @@
 }
 
 .about_good h1 {
-	color: #111111;
+	color: #161616;
 }
 
 .about_good p {
-	color: #252525;
+	color: #333333;
 }
 
 .about_good_inf_block {
-	margin: 0 auto;
+	margin: 25vh auto 35vh auto;
 }
 
 .about_us {
-	background: #cbe4cd;
+	background: #d9c2b4;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -37,19 +37,19 @@
 }
 
 .about_us h1 {
-	color: #111111;
+	color: #161616;
 }
 
 .about_us p {
-	color: #252525;
+	color: #333333;
 }
 
 .about_us_inf_block {
-	margin: 0 auto;
+	margin: 25vh auto 35vh auto;
 }
 
 .contacts {
-	background: #54745b;
+	background: #395341;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -57,15 +57,15 @@
 }
 
 .contacts h1 {
-	color: #111111;
+	color: #161616;
 }
 
 .contacts p {
-	color: #252525;
+	color: #333333;
 }
 
 .contacts_inf_block {
-	margin: 0 auto;
+	margin: 25vh auto 35vh auto;
 }
 
 .inf_block_wrapper {
@@ -85,7 +85,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/1198163/324128621/stock-photo-businessman-hand-working-with-modern-technology-and-digital-layer-effect-as-business-strategy-324128621.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/318790/573856198/stock-photo-old-style-art-nouveau-hotel-573856198.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -93,12 +93,12 @@
 }
 
 .main h1 {
-	color: #111111;
+	color: #161616;
 	font-size: 120;
 }
 
 .main p {
-	color: #252525;
+	color: #333333;
 	font-size: 48;
 }
 
@@ -106,12 +106,20 @@
 	margin: 25vh auto 35vh auto;
 }
 
+.sepheader {
+	padding: 150px;
+}
+
+.subheader {
+	background: #ffffff;
+}
+
 body {
 	font-family: Arial;
 	line-height: 1;
 }
 
-h1 {
+h1, h2 {
 	font-size: 48;
 	text-align: center;
 }
@@ -119,6 +127,10 @@ h1 {
 html, body {
 	height: 100%;
 	width: 100%;
+}
+
+img {
+	align: center;
 }
 
 p {

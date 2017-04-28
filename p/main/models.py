@@ -46,33 +46,33 @@ class Features(models.Model):
 	h_size = models.IntegerField(default = 25)
 	p_size = models.IntegerField(default = 12)
 
-	main_type = models.CharField(choices = PAGE_TYPES,
-								 max_length = 20,
+	main_type = models.IntegerField(choices = PAGE_TYPES,
 								 default = COLOR)
-	main_background = models.CharField(max_length = 1000, default = '#ffffff')
+	main_color = models.CharField(max_length = 7, default = '#ffffff')
+	main_image = models.CharField(max_length = 1000, default = '')
 	main_h_color = models.CharField(max_length = 30, default = 'black')
 	main_h_size = models.IntegerField(default = 90)
 	main_p_color = models.CharField(max_length = 30, default = 'black')
 	main_p_size = models.IntegerField(default = 45)
 
-	about_us_type = models.CharField(choices = PAGE_TYPES,
-									 max_length = 20,
+	about_us_type = models.IntegerField(choices = PAGE_TYPES,
 									 default = NONE)
-	about_us_background = models.CharField(max_length = 1000, default = '#ffffff')
+	about_us_color = models.CharField(max_length = 7, default = '#ffffff')
+	about_us_image = models.CharField(max_length = 1000, default = '')
 	about_us_h_color = models.CharField(max_length = 30, default = 'black')
 	about_us_p_color = models.CharField(max_length = 30, default = 'black')
 
-	about_good_type = models.CharField(choices = PAGE_TYPES,
-									   max_length = 20,
+	about_good_type = models.IntegerField(choices = PAGE_TYPES,
 									   default = NONE)
-	about_good_background = models.CharField(max_length = 1000, default = '#ffffff')
+	about_good_color = models.CharField(max_length = 7, default = '#ffffff')
+	about_good_image = models.CharField(max_length = 1000, default = '')
 	about_good_h_color = models.CharField(max_length = 30, default = 'black')
 	about_good_p_color = models.CharField(max_length = 30, default = 'black')
 
-	contacts_type = models.CharField(choices = PAGE_TYPES,
-									 max_length = 20,
+	contacts_type = models.IntegerField(choices = PAGE_TYPES,
 									 default = NONE)
-	contacts_background = models.CharField(max_length = 1000, default = '#ffffff')
+	contacts_color = models.CharField(max_length = 7, default = '#ffffff')
+	contacts_image = models.CharField(max_length = 1000, default = '')
 	contacts_h_color = models.CharField(max_length = 30, default = 'black')
 	contacts_p_color = models.CharField(max_length = 30, default = 'black')
 

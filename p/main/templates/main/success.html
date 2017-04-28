@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %}
-
+<!-- Надо исправить все фильтры фттр. ОНИ УЖАСНЫ!!! -->
 {% load filters %}
 
 {% load static %}
@@ -27,41 +27,25 @@
 					{% if content.slogan %}
 						{{ content.slogan|linebreaks }}
 					{% endif %}
+
+					{% if 'main'|add:'_image'|attr:features %}
+						<img src="{{ features|attr:'main'|add:'_image' }}">
+					{% endif %}
 				</header>
 			</div>
 		</section>
 
-		<!-- { if content.about_good_header } -->
-			<section class="about_good">
-				<div class="inf_block_wrapper about_good_inf_block">
-					<!-- Title -->
-					<header>
-						<h1> {{ content.about_good_header }} </h1>
-					</header>
-					{{ content.about_good_text|linebreaks }}
-				</div>
+		{% for page in pages %}
+			<section class="{{ page }}">
+				{% with type=page|add:'_type'|attr:features image=page|add:'_image'|attr:features header=page|add:'_header'|attr:content text=page|add:'_text'|attr:content %}
+						<!-- Надо исправить здесь -->
+					{% if type == 1 or type == 2 or type == 3 %}
+						{% include  'main/page_usual.html' with header=header text=text image=image page=page %}
+					{% elif type == 4 %}
+						{% include 'main/page_sepheader.html' with header=header text=text page=page %}
+					{% endif %}
+				{% endwith %}
 			</section>
-		<!-- { endif } -->
-
-			<section class="about_us">
-				<div class="inf_block_wrapper about_us_inf_block">
-					<!-- Title -->
-					<header>
-						<h1> {{ content.about_us_header }} </h1>
-					</header>
-					{{ content.about_us_text|linebreaks }}
-				</div>
-			</section>
-
-			<section class="contacts">
-				<div class="inf_block_wrapper contacts_inf_block">
-					<!-- Title -->
-					<header>
-						<h1> {{ content.contacts_header }} </h1>
-					</header>
-					<p>{{ content.contacts_text }}</p>
-				</div>
-			</section>
-
+		{% endfor %}
 	</div>
 {% endblock %}

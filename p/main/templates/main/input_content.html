@@ -4,14 +4,56 @@
 
 {% block links %}
 	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block content %}
 	<div class="content">
 		<form method="POST" action="{% url 'input_content' pk=pk %}" enctype="multipart/form-data">
 			{% csrf_token %}
-			{{ form.as_p }}
-			<button type="submit">OK</button>
+			{% for field in form %}
+				{% if 'name' in field.html_name %}
+					<div class="form-group">
+						<label for="{{ field.id_for_label }}">
+							{{ field.label }}
+						</label>
+						<input id="{{ field.id_for_label }}" maxlength="{{ field.field.maxlength }}" name="{{ field.html_name }}" type="text" required>
+					</div>
+				{% elif 'header' in field.html_name %}
+					<div class="form-group">
+						<label for="{{ field.id_for_label }}">
+							{{ field.label }}
+						</label>
+						<input id="{{ field.id_for_label }}" maxlength="{{ field.field.maxlength }}" name="{{ field.html_name }}" type="text">
+					</div>
+				{% elif 'slogan' in field.html_name %}
+					<div class="form-group">
+						<label for="{{ field.id_for_label }}">
+							{{ field.label }}
+						</label>
+						<textarea class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" rows="3" required></textarea>
+					</div>
+				{% elif 'text' in field.html_name %}
+					<div class="form-group">
+						<label for="{{ field.id_for_label }}">
+							{{ field.label }}
+						</label>
+						<textarea class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" rows="5"></textarea>
+					</div>
+				{% elif 'logo' in field.html_name %}
+					<div class="form-group">
+						<label for="{{ field.id_for_label }}">
+							{{ field.label }}
+						</label>
+						<input type="file" class="form-control-file" id="{{ field.id_for_label }}" name="{{ field.html_name }}">
+					</div>
+				{% endif %}
+			{% endfor %}
+			<button type="submit" class="btn btn-success">OK</button>
 		</form>
 	</div>
 {% endblock %}

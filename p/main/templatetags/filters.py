@@ -36,4 +36,4 @@ def attr(a, obj):
 	"""
 	Returns obj.a
 	"""
-	return getattr(obj, '{a}'.format(a = a), None)
+	return getattr(obj, a, None)

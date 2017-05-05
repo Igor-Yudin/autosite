@@ -319,19 +319,15 @@ def create_styles(content, features):
 		},
 
 		'.about_good_inf_block': {
-			'margin': '25vh auto 35vh auto',
+			'margin': '15vh auto 35vh auto',
 		},
 
 		'.about_us_inf_block': {
-			'margin': '25vh auto 35vh auto',
+			'margin': '15vh auto 35vh auto',
 		},
 
 		'.contacts_inf_block': {
-			'margin': '25vh auto 35vh auto',
-		},
-
-		'img': {
-			'align': 'center',
+			'margin': '15vh auto 35vh auto',
 		},
 
 		'.sepheader': {
@@ -340,6 +336,17 @@ def create_styles(content, features):
 
 		'.subheader': {
 			'background': '#ffffff',
+		},
+
+		'.inf_block_wrapper h2': {
+			'margin-bottom': '15vh',
+		},
+
+		'img': {
+			'margin-left': 'calc(100% / 5)',
+			'width': '60%',
+			'margin-top': '5vh',
+			'border-radius': '70px',
 		},
 	}
 

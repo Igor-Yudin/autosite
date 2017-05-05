@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #8c8f6f;
+	background: #999f93;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -25,11 +25,11 @@
 }
 
 .about_good_inf_block {
-	margin: 25vh auto 35vh auto;
+	margin: 15vh auto 35vh auto;
 }
 
 .about_us {
-	background: #d9c2b4;
+	background: #bff5eb;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -45,11 +45,11 @@
 }
 
 .about_us_inf_block {
-	margin: 25vh auto 35vh auto;
+	margin: 15vh auto 35vh auto;
 }
 
 .contacts {
-	background: #395341;
+	background: #42563a;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -65,11 +65,15 @@
 }
 
 .contacts_inf_block {
-	margin: 25vh auto 35vh auto;
+	margin: 15vh auto 35vh auto;
 }
 
 .inf_block_wrapper {
 	width: 75%;
+}
+
+.inf_block_wrapper h2 {
+	margin-bottom: 15vh;
 }
 
 .logo {
@@ -85,7 +89,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/318790/573856198/stock-photo-old-style-art-nouveau-hotel-573856198.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/10899/257694766/stock-photo-crowd-at-a-concert-in-a-vintage-light-noise-added-257694766.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -130,7 +134,10 @@ html, body {
 }
 
 img {
-	align: center;
+	border-radius: 70px;
+	margin-left: calc(100% / 5);
+	margin-top: 5vh;
+	width: 60%;
 }
 
 p {

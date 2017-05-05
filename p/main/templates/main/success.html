@@ -11,7 +11,6 @@
 {% block content %}
 	<div class="content">
 		<!-- There are pages -->
-
 		<section class="main">
 
 			{% if content.logo %}
@@ -37,14 +36,19 @@
 
 		{% for page in pages %}
 			<section class="{{ page }}">
+
 				{% with type=page|add:'_type'|attr:features image=page|add:'_image'|attr:features header=page|add:'_header'|attr:content text=page|add:'_text'|attr:content %}
-						<!-- Надо исправить здесь -->
+
+					<!-- Надо исправить здесь -->
+					
 					{% if type == 1 or type == 2 or type == 3 %}
 						{% include  'main/page_usual.html' with header=header text=text image=image page=page %}
 					{% elif type == 4 %}
 						{% include 'main/page_sepheader.html' with header=header text=text page=page %}
 					{% endif %}
+
 				{% endwith %}
+
 			</section>
 		{% endfor %}
 	</div>

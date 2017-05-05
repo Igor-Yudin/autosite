@@ -21,7 +21,6 @@ class SiteParameters(models.Model):
 		(CHILD, '5 - 15'),
 		(YOUTH, '15-25'),
 		(ADULT, '25-55'),
-		(SENIOR, '55+'),
 	)
 
 	keywords = models.TextField()

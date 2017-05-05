@@ -2,17 +2,51 @@ from django import forms
 from .models import SiteParameters, Content, Features
 from django.utils.translation import ugettext_lazy as _
 
+CATEGORIES_NAMES = (
+	'transport',
+	'business',
+	'food',
+	'house',
+	'sports',
+	'game',
+	'devices',
+	'arts',
+	'events',
+	'musics',
+	'education',
+	'job',
+	'connection',
+	'life',
+	'finances',
+	'beauty',
+	'innovations',
+	'pets',
+	'app',
+	'services',
+	'goods',
+	'web',
+	'health',
+)
+
+CATEGORIES = tuple(zip(CATEGORIES_NAMES, CATEGORIES_NAMES))
+
 class SiteParametersForm(forms.ModelForm):
+	keywords = forms.MultipleChoiceField(widget = forms.CheckboxSelectMultiple, choices = CATEGORIES, label = 'Ключевые слова')
+
 	class Meta:
 		model = SiteParameters
 		fields = '__all__'
 		labels = {
-			'theme': _('Категория товаров или услуг'),
-			'sex': _('Пол целевой аудитории'),
+			'gender': _('Пол целевой аудитории'),
 			'age': _('Возраст целевой аудитории'),
-			'target': _('Группа основных покупателей'),
-			'good_type': _('Что вы предлагаете'),
+			'keywords': _('Ключевые слова'),
 		}
+
+	def clean_keywords(self):
+		keywords = self.cleaned_data['keywords']
+		if not keywords:
+			raise forms.ValidationError('Необходимо выбрать хотя бы одно ключевое слово')
+		return ', '.join(keywords)
 
 class ContentForm(forms.ModelForm):
 	class Meta:

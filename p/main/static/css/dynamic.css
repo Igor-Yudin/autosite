@@ -17,11 +17,11 @@
 }
 
 .about_good h1 {
-	color: #ffffff;
+	color: #111111;
 }
 
 .about_good p {
-	color: #ffffff;
+	color: #252525;
 }
 
 .about_good_inf_block {
@@ -37,7 +37,7 @@
 }
 
 .about_us .sepheader {
-	background: url(http://www.solidbackgrounds.com/images/1920x1080/1920x1080-black-solid-color-background.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/187633/300998063/stock-photo-woman-looking-at-health-monitoring-app-on-smartphone-300998063.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -45,7 +45,7 @@
 }
 
 .about_us h1 {
-	color: #ffffff;
+	color: #111111;
 }
 
 .about_us p {
@@ -65,11 +65,11 @@
 }
 
 .contacts h1 {
-	color: #ffffff;
+	color: #111111;
 }
 
 .contacts p {
-	color: #ffffff;
+	color: #252525;
 }
 
 .contacts_inf_block {
@@ -97,7 +97,7 @@
 }
 
 .main {
-	background: url(http://www.solidbackgrounds.com/images/1920x1080/1920x1080-black-solid-color-background.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/187633/300998063/stock-photo-woman-looking-at-health-monitoring-app-on-smartphone-300998063.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -105,12 +105,12 @@
 }
 
 .main h1 {
-	color: #ffffff;
+	color: #111111;
 	font-size: 120;
 }
 
 .main p {
-	color: #ffffff;
+	color: #252525;
 	font-size: 48;
 }
 

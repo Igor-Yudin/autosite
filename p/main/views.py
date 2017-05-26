@@ -105,7 +105,7 @@ def get_image_url(themes):
 		image_url = r.json()['data'][0]['assets']['preview']['url']
 	else:
 		print('Error: status code is {code}'.format(code = r.status_code))
-	return 'http://www.solidbackgrounds.com/images/1920x1080/1920x1080-black-solid-color-background.jpg' # image_url
+	return image_url
 
 def get_font_colors(page_type, page_background):
 	"""
@@ -121,21 +121,21 @@ def get_font_colors(page_type, page_background):
 		if '.' in background:
 			response = requests.get(background)
 			image = Image.open(BytesIO(response.content))
-			colors_counts = {}
-			colors = []
-			for pixel in image.getdata():
-				if colors_counts.get(pixel):
-					colors_counts[pixel] += 1
+
+			# Colors frequenties
+			colors_freq = {}
+
+			for pixel_color in image.getdata():
+				if colors_freq.get(pixel_color):
+					colors_freq[pixel_color] += 1
 				else:
-					colors_counts[pixel] = 1
-					colors.append(pixel)
-			color = max(colors, key = lambda color: colors_counts[color])
-			# colors.sort(key = lambda color: colors_counts[color])
+					colors_freq[pixel_color] = 1
 
-			# print('Five colors: ', *colors[-5:])
+			# Choose the most frequently color
+			color = max(colors_freq, key = lambda color: colors_freq[color])
 
-			# color = colors[-5] # Choose biggest value
-			color = color[:-1] if len(color) > 3 else color # Skip alpha component
+			# Skip alpha component
+			color = color[:-1] if len(color) > 3 else color
 
 			return '#' + ''.join(format(channel, '02x') for channel in color)
 		else:
@@ -154,8 +154,6 @@ def get_font_colors(page_type, page_background):
 			dif = sum(map(lambda a, b: (a - b) ** 2, a_color, b_color))
 			difs.append(dif)
 		ind = difs.index(max(difs))
-
-		print('Dif: ', *difs)
 
 		return '#' + ''.join(format(channel, '02x') for channel in colors[ind])
 

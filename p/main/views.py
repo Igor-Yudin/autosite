@@ -105,7 +105,7 @@ def get_image_url(themes):
 		image_url = r.json()['data'][0]['assets']['preview']['url']
 	else:
 		print('Error: status code is {code}'.format(code = r.status_code))
-	return image_url
+	return 'http://www.solidbackgrounds.com/images/1920x1080/1920x1080-black-solid-color-background.jpg' # image_url
 
 def get_font_colors(page_type, page_background):
 	"""
@@ -129,11 +129,15 @@ def get_font_colors(page_type, page_background):
 				else:
 					colors_counts[pixel] = 1
 					colors.append(pixel)
-			colors.sort(key = lambda color: colors_counts[color])
-			color = colors[-1] # Choose biggest value
+			color = max(colors, key = lambda color: colors_counts[color])
+			# colors.sort(key = lambda color: colors_counts[color])
+
+			# print('Five colors: ', *colors[-5:])
+
+			# color = colors[-5] # Choose biggest value
 			color = color[:-1] if len(color) > 3 else color # Skip alpha component
 
-			return '#' + ''.join([format(channel, '02x') for channel in color])
+			return '#' + ''.join(format(channel, '02x') for channel in color)
 		else:
 			return background
 
@@ -146,18 +150,21 @@ def get_font_colors(page_type, page_background):
 
 		difs = []
 		for b_color in colors:
-			dif = sum(map(lambda pair: (pair[0] - pair[1]) ** 2, zip(a_color, b_color)))
+			# Calculate distance for each color (sum of each channel difference squared)
+			dif = sum(map(lambda a, b: (a - b) ** 2, a_color, b_color))
 			difs.append(dif)
 		ind = difs.index(max(difs))
 
-		return '#' + ''.join([format(channel, '02x') for channel in colors[ind]])
+		print('Dif: ', *difs)
+
+		return '#' + ''.join(format(channel, '02x') for channel in colors[ind])
 
 	def get_darker_color(color):
 		color = color[1:]
 		color = list(map(''.join, zip(* [iter(color)] * 2)))
 		color = list(map(lambda x: int(x, 16), color))
 		darker_color = list(map(lambda x: x + 20 if x + 20 <= 255 else 255, color))
-		return '#' + ''.join([format(channel, '02x') for channel in darker_color])
+		return '#' + ''.join(format(channel, '02x') for channel in darker_color)
 
 	background_color = get_background_color(page_background)
 	h_color = get_color_seperating_for(background_color)
@@ -166,7 +173,6 @@ def get_font_colors(page_type, page_background):
 		p_color = '#161616'
 	else:
 		p_color = get_darker_color(h_color)
-	print(page_type, h_color, p_color)
 	return h_color, p_color
 
 def choose_features(request, params_pk, content_pk):
@@ -201,7 +207,7 @@ def choose_features(request, params_pk, content_pk):
 			if not page_image:
 				page_features['%s_type' % page] = COLOR
 
-		h_color, p_color = '#161616', '#333333' # get_font_colors(page_type, page_background)
+		h_color, p_color = get_font_colors(page_type, page_image) # '#161616', '#333333'
 		page_features['%s_h_color' % page] = h_color
 		page_features['%s_p_color' % page] = p_color
 

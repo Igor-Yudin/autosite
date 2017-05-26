@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #999f93;
+	background: #c0c3bb;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,11 +17,11 @@
 }
 
 .about_good h1 {
-	color: #161616;
+	color: #ffffff;
 }
 
 .about_good p {
-	color: #333333;
+	color: #ffffff;
 }
 
 .about_good_inf_block {
@@ -29,7 +29,15 @@
 }
 
 .about_us {
-	background: #bff5eb;
+	background: #ffffff;
+	background-attachment: scroll;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.about_us .sepheader {
+	background: url(http://www.solidbackgrounds.com/images/1920x1080/1920x1080-black-solid-color-background.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -37,11 +45,11 @@
 }
 
 .about_us h1 {
-	color: #161616;
+	color: #ffffff;
 }
 
 .about_us p {
-	color: #333333;
+	color: #161616;
 }
 
 .about_us_inf_block {
@@ -49,7 +57,7 @@
 }
 
 .contacts {
-	background: #42563a;
+	background: #dbc484;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -57,11 +65,11 @@
 }
 
 .contacts h1 {
-	color: #161616;
+	color: #ffffff;
 }
 
 .contacts p {
-	color: #333333;
+	color: #ffffff;
 }
 
 .contacts_inf_block {
@@ -89,7 +97,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/10899/257694766/stock-photo-crowd-at-a-concert-in-a-vintage-light-noise-added-257694766.jpg);
+	background: url(http://www.solidbackgrounds.com/images/1920x1080/1920x1080-black-solid-color-background.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -97,12 +105,12 @@
 }
 
 .main h1 {
-	color: #161616;
+	color: #ffffff;
 	font-size: 120;
 }
 
 .main p {
-	color: #333333;
+	color: #ffffff;
 	font-size: 48;
 }
 

@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+	<a onclick="this.href='data:text/html;charset=UTF-8,'+encodeURIComponent(document.documentElement.outerHTML)" href="#" download="page.html">Download</a>
 	<div class="content">
 		<!-- There are pages -->
 		<section class="main">
@@ -27,8 +28,8 @@
 						{{ content.slogan|linebreaks }}
 					{% endif %}
 
-					{% if 'main'|add:'_image'|attr:features %}
-						<img src="{{ features|attr:'main'|add:'_image' }}">
+					{% if 'main'|add:'_type'|attr:features == 3 %}
+						<img src="{{ 'main'|add:'_image'|attr:features }}">
 					{% endif %}
 				</header>
 			</div>

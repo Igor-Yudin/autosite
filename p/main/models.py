@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 class SiteParameters(models.Model):
 	BOTH = 1
 	MALE = 2

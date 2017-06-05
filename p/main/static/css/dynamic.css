@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #c0c3bb;
+	background: #accb98;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -29,15 +29,7 @@
 }
 
 .about_us {
-	background: #ffffff;
-	background-attachment: scroll;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-}
-
-.about_us .sepheader {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/187633/300998063/stock-photo-woman-looking-at-health-monitoring-app-on-smartphone-300998063.jpg);
+	background: #7c118105;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -49,7 +41,7 @@
 }
 
 .about_us p {
-	color: #161616;
+	color: #252525;
 }
 
 .about_us_inf_block {
@@ -57,7 +49,7 @@
 }
 
 .contacts {
-	background: #dbc484;
+	background: #7f8571;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -97,7 +89,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/187633/300998063/stock-photo-woman-looking-at-health-monitoring-app-on-smartphone-300998063.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/3016328/406413574/stock-photo-business-desk-concept-marketing-strategy-406413574.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;

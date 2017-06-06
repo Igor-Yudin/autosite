@@ -130,7 +130,7 @@ def get_page_color(page, input_parameters):
 	rgb = map(lambda x: format(int(x), '02x'), rgb)
 	return '#{rgb}'.format(rgb=''.join(rgb))
 
-def get_image_url(keys):
+def get_image_url(keys, n):
 	"""
 	Функция для поиска наиболее релевантых фотографий на сайте
 	shutterstock по ключевым словам, введенным пользователем
@@ -147,11 +147,18 @@ def get_image_url(keys):
 
 	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**params))
 
-	image_url = ''
+	images_urls = []
 	if r.status_code == 200 and r.json().get('total_count'):
-		image_url = r.json()['data'][0]['assets']['preview']['url']
+		images_urls = [img['assets']['preview']['url'] for img in r.json()['data']]
 	else:
 		print('Error: status code is {code}'.format(code = r.status_code))
+
+	image_url = None
+	if images_urls:
+		if n < len(images_urls):
+			image_url = images_urls[n]
+		else:
+			image_url = images_urls[n % len(images_urls)]
 	return image_url
 
 def get_font_colors(page_type, page_background):
@@ -275,6 +282,9 @@ def choose_features(request, params_pk, content_pk):
 	# Входные параметры для обучения, полученные по введенным
 	input_parameters = get_input_parameters(site_params)
 
+	# Индекс изобржаения
+	image_ind = 0
+
 	# Для каждой страницы определется тип, цвет, цвет загаловка
 	# и цвет текста
 	for page in ('main', 'about_good', 'about_us', 'contacts'):
@@ -292,7 +302,8 @@ def choose_features(request, params_pk, content_pk):
 		# ее тип подразумевает наличие изображения
 		page_image = None
 		if page_type != COLOR and page_type != NONE and page_theme != 'none':
-			page_image = get_image_url(page_theme)
+			page_image = get_image_url(page_theme, image_ind)
+			image_ind += 1
 			page_features['%s_image' % page] = page_image
 			if not page_image:
 				page_features['%s_type' % page] = COLOR
@@ -490,7 +501,9 @@ def turn_features_into_css_rules(page, features):
 		class_name: {
 			'background': 'url(%s)' % image if page_type == IMAGE else color,
 			'background-repeat': 'no-repeat',
-			'background-size': 'cover',
+			
+			# Здесь размер искажается, но это позволяет убрать ватермарк
+			'background-size': '100% 115%',
 			'background-position': 'center center',
 			'background-attachment': 'scroll',
 			# 'min-height': '20vh' if page == 'contacts' else '40vh',

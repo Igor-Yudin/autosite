@@ -13,7 +13,7 @@
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: 100% 115%;
 }
 
 .about_good h2 {
@@ -33,11 +33,11 @@
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: 100% 115%;
 }
 
 .about_us .sepheader {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/1020994/524194510/stock-photo-excited-girl-dancing-and-listening-music-with-headphones-and-smart-phone-in-the-street-with-hair-524194510.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/64397/213104491/stock-photo-closeup-of-young-woman-hands-outstretched-in-cupped-shape-selective-focus-retro-toned-image-213104491.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -45,7 +45,7 @@
 }
 
 .about_us h2 {
-	color: #ffffff;
+	color: #111111;
 }
 
 .about_us p {
@@ -61,7 +61,7 @@
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: 100% 115%;
 }
 
 .contacts h2 {
@@ -101,7 +101,7 @@
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: 100% 115%;
 }
 
 .main h2 {

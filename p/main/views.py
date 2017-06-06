@@ -124,7 +124,7 @@ def get_page_color(page, input_parameters):
 		x = x if x >= 0 else 0
 		return x
 
-	rgb = list(map(lambda x: trim_bounds(x), rgb))
+	rgb = map(lambda x: trim_bounds(x), rgb)
 
 	# Перевод значаний каналов в шестнадцатиричное значение
 	rgb = map(lambda x: format(int(x), '02x'), rgb)
@@ -317,7 +317,6 @@ def choose_features(request, params_pk, content_pk):
 		h_color, p_color = get_font_colors(page_type, page_background)
 		page_features['%s_h_color' % page] = h_color
 		page_features['%s_p_color' % page] = p_color
-		print(page, h_color, p_color)
 
 		# Установить размер текста для главной страницы
 		if page == 'main':
@@ -326,7 +325,7 @@ def choose_features(request, params_pk, content_pk):
 
 	# Сформировать свойства страницы
 	features = Features()
-	features.font_family = 'Arial'
+	# features.font_family = 'Arial'
 	features.h_size = 48
 	features.p_size = 20
 
@@ -449,7 +448,7 @@ def create_styles(content, features):
 			'margin-bottom': '15vh',
 		},
 
-		'img': {
+		'.single': {
 			'margin-left': 'calc(100% / 5)',
 			'width': '60%',
 			'margin-top': '5vh',
@@ -483,7 +482,6 @@ def turn_features_into_css_rules(page, features):
 	Возвращает словарь css свойств для страницы.
 	"""
 
-	assert page is not "", "Page is an empty string"
 	assert page in ["main", "about_us", "about_good", "contacts"], 'Page name is incorrect'
 	assert isinstance(features, Features), "features is not an instance of Features"
 
@@ -501,9 +499,9 @@ def turn_features_into_css_rules(page, features):
 		class_name: {
 			'background': 'url(%s)' % image if page_type == IMAGE else color,
 			'background-repeat': 'no-repeat',
-			
-			# Здесь размер искажается, но это позволяет убрать ватермарк
-			'background-size': '100% 115%',
+			# Если постаить размер 100% 115%,
+			# размер искажается, но это позволяет убрать ватермарк
+			'background-size': 'cover',
 			'background-position': 'center center',
 			'background-attachment': 'scroll',
 			# 'min-height': '20vh' if page == 'contacts' else '40vh',

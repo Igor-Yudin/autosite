@@ -16,7 +16,7 @@ class SiteParameters(models.Model):
 	SENIOR = 4
 
 	AGES = (
-		(CHILD, '5 - 15'),
+		(CHILD, '5-15'),
 		(YOUTH, '15-25'),
 		(ADULT, '25-55'),
 	)
@@ -25,6 +25,8 @@ class SiteParameters(models.Model):
 	gender = models.IntegerField(choices = GENDERS, default = 1)
 	age = models.IntegerField(choices = AGES, default = 1)
 
+
+default_font_family = 'Palatino, "Palatino Linotype", "Book Antiqua", "Hoefler Text", Georgia, "Lucida Bright", Cambria, Times, "Times New Roman", serif'
 class Features(models.Model):
 	NONE = 0
 	COLOR = 1
@@ -39,7 +41,7 @@ class Features(models.Model):
 		(SEPHEADER, 'Seperate header'),
 	)
 
-	font_family = models.CharField(max_length = 250, default = 'Arial')
+	font_family = models.CharField(max_length = 250, default = default_font_family)
 	h_size = models.IntegerField(default = 25)
 	p_size = models.IntegerField(default = 12)
 
@@ -94,13 +96,22 @@ class Page(models.Model):
 
 	text = models.TextField()
 
+default_name = 'Django'
+default_slogan = 'Django makes it easier to build better Web apps more quickly and with less code.'
+default_about_good_h = 'Meet Django'
+default_about_good_text = 'Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of Web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.'
+default_about_us_h = 'About the Django Software Foundation'
+default_about_us_text = 'Development of Django is supported by an independent foundation established as a 501(c)(3) non-profit. Like most open-source foundations, the goal of the Django Software Foundation is to promote, support, and advance its open-source project: in our case, the Django Web framework.'
+default_contacts_h = 'Stay in the loop'
+default_contacts_text = 'Subscribe to one of our mailing lists to stay up to date with everything in the Django community.'
+
 class Content(models.Model):
 	"""
 	Model that represents all user-input content.
 	"""
-	name = models.CharField(max_length = 100)
+	name = models.CharField(max_length = 100, default = default_name)
 
-	slogan = models.TextField(blank = True)
+	slogan = models.TextField(blank=True, default = default_slogan)
 
 	logo = models.ImageField(
 		upload_to = 'images',
@@ -109,11 +120,11 @@ class Content(models.Model):
 		blank = True
 	)
 
-	about_good_header = models.CharField(blank = True, max_length = 150)
-	about_good_text = models.TextField(blank = True)
+	about_good_header = models.CharField(blank = True, max_length = 150, default = default_about_good_h)
+	about_good_text = models.TextField(blank = True, default = default_about_good_text)
 
-	about_us_header = models.CharField(blank = True, max_length = 150)
-	about_us_text = models.TextField(blank = True)
+	about_us_header = models.CharField(blank = True, max_length = 150, default = default_about_us_h)
+	about_us_text = models.TextField(blank = True, default = default_about_us_text)
 
-	contacts_header = models.CharField(blank = True, max_length = 150)
-	contacts_text = models.TextField(blank = True)
+	contacts_header = models.CharField(blank = True, max_length = 150, default = default_contacts_h)
+	contacts_text = models.TextField(blank = True, default = default_contacts_text)

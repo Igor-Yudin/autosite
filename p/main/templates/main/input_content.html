@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -21,28 +22,28 @@
 						<label for="{{ field.id_for_label }}">
 							{{ field.label }}
 						</label>
-						<input id="{{ field.id_for_label }}" maxlength="{{ field.field.maxlength }}" name="{{ field.html_name }}" type="text" required>
+						<input id="{{ field.id_for_label }}" maxlength="{{ field.field.maxlength }}" name="{{ field.html_name }}" type="text" value="{{ field.value }}" required>
 					</div>
 				{% elif 'header' in field.html_name %}
 					<div class="form-group">
 						<label for="{{ field.id_for_label }}">
 							{{ field.label }}
 						</label>
-						<input id="{{ field.id_for_label }}" maxlength="{{ field.field.maxlength }}" name="{{ field.html_name }}" type="text">
+						<input id="{{ field.id_for_label }}" maxlength="{{ field.field.maxlength }}" name="{{ field.html_name }}" type="text" value="{{ field.value }}">
 					</div>
 				{% elif 'slogan' in field.html_name %}
 					<div class="form-group">
 						<label for="{{ field.id_for_label }}">
 							{{ field.label }}
 						</label>
-						<textarea class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" rows="3" required></textarea>
+						<textarea class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" rows="3" required>{{ field.value }}</textarea>
 					</div>
 				{% elif 'text' in field.html_name %}
 					<div class="form-group">
 						<label for="{{ field.id_for_label }}">
 							{{ field.label }}
 						</label>
-						<textarea class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" rows="5"></textarea>
+						<textarea class="form-control" id="{{ field.id_for_label }}" name="{{ field.html_name }}" rows="5">{{ field.value }}</textarea>
 					</div>
 				{% elif 'logo' in field.html_name %}
 					<div class="form-group">

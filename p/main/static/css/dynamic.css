@@ -9,11 +9,11 @@
 }
 
 .about_good {
-	background: #cfbaba;
+	background: #fdfdfd;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: 100% 115%;
+	background-size: cover;
 }
 
 .about_good h2 {
@@ -29,15 +29,7 @@
 }
 
 .about_us {
-	background: #ffffff;
-	background-attachment: scroll;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: 100% 115%;
-}
-
-.about_us .sepheader {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/64397/213104491/stock-photo-closeup-of-young-woman-hands-outstretched-in-cupped-shape-selective-focus-retro-toned-image-213104491.jpg);
+	background: #d7d8d8;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -49,7 +41,7 @@
 }
 
 .about_us p {
-	color: #161616;
+	color: #252525;
 }
 
 .about_us_inf_block {
@@ -57,11 +49,11 @@
 }
 
 .contacts {
-	background: #daff93;
+	background: #bfbfbf;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: 100% 115%;
+	background-size: cover;
 }
 
 .contacts h2 {
@@ -97,11 +89,11 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/1020994/524194510/stock-photo-excited-girl-dancing-and-listening-music-with-headphones-and-smart-phone-in-the-street-with-hair-524194510.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/1198163/319414127/stock-photo-top-view-of-businessman-hand-working-with-modern-technology-and-digital-layer-effect-as-business-319414127.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-size: 100% 115%;
+	background-size: cover;
 }
 
 .main h2 {
@@ -122,12 +114,19 @@
 	padding: 150px;
 }
 
+.single {
+	border-radius: 70px;
+	margin-left: calc(100% / 5);
+	margin-top: 5vh;
+	width: 60%;
+}
+
 .subheader {
 	background: #ffffff;
 }
 
 body {
-	font-family: Arial;
+	font-family: Palatino, "Palatino Linotype", "Book Antiqua", "Hoefler Text", Georgia, "Lucida Bright", Cambria, Times, "Times New Roman", serif;
 	line-height: 1;
 }
 
@@ -139,13 +138,6 @@ h1, h2 {
 html, body {
 	height: 100%;
 	width: 100%;
-}
-
-img {
-	border-radius: 70px;
-	margin-left: calc(100% / 5);
-	margin-top: 5vh;
-	width: 60%;
 }
 
 p {

@@ -1,5 +1,4 @@
 {% extends 'main/base.html' %}
-<!-- Надо исправить все фильтры фттр. ОНИ УЖАСНЫ!!! -->
 {% load filters %}
 
 {% load static %}
@@ -28,8 +27,8 @@
 						{{ content.slogan|linebreaks }}
 					{% endif %}
 
-					{% if 'main'|add:'_type'|attr:features == 3 %}
-						<img src="{{ 'main'|add:'_image'|attr:features }}">
+					{% if features|page:'main'|attr:'type' == 3 %}
+						<img src="{{ features|page:'main'|attr:'image' }}">
 					{% endif %}
 				</header>
 			</div>
@@ -38,10 +37,8 @@
 		{% for page in pages %}
 			<section class="{{ page }}">
 
-				{% with type=page|add:'_type'|attr:features image=page|add:'_image'|attr:features header=page|add:'_header'|attr:content text=page|add:'_text'|attr:content %}
+				{% with type=features|page:page|attr:'type' image=features|page:page|attr:'image' header=content|page:page|attr:'header' text=content|page:page|attr:'text' %}
 
-					<!-- Надо исправить здесь -->
-					
 					{% if type == 1 or type == 2 or type == 3 %}
 						{% include  'main/page_usual.html' with header=header text=text image=image page=page %}
 					{% elif type == 4 %}

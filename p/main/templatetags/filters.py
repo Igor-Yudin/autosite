@@ -3,19 +3,6 @@ from django import template
 
 register = template.Library()
 
-@register.filter(name = 'get_item')
-def get_item(dictionary, key):
-	return dictionary.get(key)
-
-@register.filter(name = 'get_image_url')
-def get_image_url(image_name):
-	"""
-	Returns string url(image_path)
-	"""
-	if image_name == None:
-		return 'none'
-	return "url(%s)" % static('images/' + image_name)
-
 @register.filter(name = 'linebreaksp')
 def linebreaksp(text):
 	"""
@@ -24,16 +11,14 @@ def linebreaksp(text):
 	text = text.split('\n')
 	return "".join(["<p>%s</p>" % block for block in text])
 
-@register.filter(name = 'get_static')
-def get_static(filename):
+@register.filter(name='page')
+def page(obj, page):
 	"""
-	Returns url of dynamic css
+	Returns field for page
 	"""
-	return static(filename)
+	return (obj, page)
 
-@register.filter(name = 'attr')
-def attr(a, obj):
-	"""
-	Returns obj.a
-	"""
-	return getattr(obj, '{a}'.format(a = a), None)
+@register.filter(name='attr')
+def attr(obj_page, attr):
+	obj, page = obj_page
+	return getattr(obj, '{page}_{attr}'.format(page=page, attr=attr))

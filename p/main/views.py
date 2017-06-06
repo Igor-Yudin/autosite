@@ -306,6 +306,7 @@ def choose_features(request, params_pk, content_pk):
 		h_color, p_color = get_font_colors(page_type, page_background)
 		page_features['%s_h_color' % page] = h_color
 		page_features['%s_p_color' % page] = p_color
+		print(page, h_color, p_color)
 
 		# Установить размер текста для главной страницы
 		if page == 'main':
@@ -476,7 +477,7 @@ def turn_features_into_css_rules(page, features):
 	assert isinstance(features, Features), "features is not an instance of Features"
 
 	class_name = '.' + page
-	header_class = class_name + ' h1' 
+	header_class = class_name + ' h2' 
 	text_class = class_name + ' p'
 
 	page_type = getattr(features, '%s_type' % page)

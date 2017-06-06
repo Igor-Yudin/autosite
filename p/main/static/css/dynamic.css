@@ -16,7 +16,7 @@
 	background-size: cover;
 }
 
-.about_good h1 {
+.about_good h2 {
 	color: #111111;
 }
 
@@ -36,7 +36,7 @@
 	background-size: cover;
 }
 
-.about_us h1 {
+.about_us h2 {
 	color: #111111;
 }
 
@@ -56,7 +56,7 @@
 	background-size: cover;
 }
 
-.contacts h1 {
+.contacts h2 {
 	color: #ffffff;
 }
 
@@ -96,7 +96,7 @@
 	background-size: cover;
 }
 
-.main h1 {
+.main h2 {
 	color: #111111;
 	font-size: 120;
 }

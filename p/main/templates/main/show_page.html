@@ -40,8 +40,6 @@
 
 				{% with type=features|page:page|attr:'type' image=features|page:page|attr:'image' header=content|page:page|attr:'header' text=content|page:page|attr:'text' %}
 
-					<!-- {{ type }} -->
-
 					{% if type == types.Image or type == types.Color %}
 						{% include  'main/page_usual.html' with header=header text=text page=page %}
 					{% elif type == types.ColorImage %}

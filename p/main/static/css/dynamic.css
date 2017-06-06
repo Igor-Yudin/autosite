@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #fdfdfd;
+	background: #60981f;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,11 +17,11 @@
 }
 
 .about_good h2 {
-	color: #111111;
+	color: #ffffff;
 }
 
 .about_good p {
-	color: #252525;
+	color: #ffffff;
 }
 
 .about_good_inf_block {
@@ -29,7 +29,7 @@
 }
 
 .about_us {
-	background: #d7d8d8;
+	background: #4cf86c;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -41,7 +41,7 @@
 }
 
 .about_us p {
-	color: #252525;
+	color: #161616;
 }
 
 .about_us_inf_block {
@@ -49,7 +49,7 @@
 }
 
 .contacts {
-	background: #bfbfbf;
+	background: #75908f;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -57,11 +57,11 @@
 }
 
 .contacts h2 {
-	color: #111111;
+	color: #ffffff;
 }
 
 .contacts p {
-	color: #252525;
+	color: #ffffff;
 }
 
 .contacts_inf_block {
@@ -89,7 +89,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/1198163/319414127/stock-photo-top-view-of-businessman-hand-working-with-modern-technology-and-digital-layer-effect-as-business-319414127.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/324673/530776507/stock-photo-high-speed-railway-train-530776507.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -97,12 +97,12 @@
 }
 
 .main h2 {
-	color: #ffffff;
+	color: #111111;
 	font-size: 120;
 }
 
 .main p {
-	color: #ffffff;
+	color: #161616;
 	font-size: 48;
 }
 

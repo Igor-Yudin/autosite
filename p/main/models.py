@@ -1,6 +1,9 @@
 from django.db import models
 
 class SiteParameters(models.Model):
+	"""
+	Модель для хранения парметров сайта.
+	"""
 	BOTH = 1
 	MALE = 2
 	FEMALE = 3
@@ -27,7 +30,12 @@ class SiteParameters(models.Model):
 
 
 default_font_family = 'Palatino, "Palatino Linotype", "Book Antiqua", "Hoefler Text", Georgia, "Lucida Bright", Cambria, Times, "Times New Roman", serif'
+
+
 class Features(models.Model):
+	"""
+	Модель для хранения свойств страницы.
+	"""
 	NONE = 0
 	COLOR = 1
 	IMAGE = 2
@@ -75,27 +83,6 @@ class Features(models.Model):
 	contacts_h_color = models.CharField(max_length = 30, default = 'black')
 	contacts_p_color = models.CharField(max_length = 30, default = 'black')
 
-class Page(models.Model):
-	"""
-	Model for representing a page.
-	"""
-	IMAGE = 1
-	COLOR = 2
-	COLORIMAGE = 3
-	SEPHEADER = 4
-
-	PAGE_TYPES = (
-		(IMAGE, 'Image'),
-		(COLOR, 'Color'),
-		(COLORIMAGE, 'Color and image'),
-		(SEPHEADER, 'seperate header'),
-	)
-	page_type = models.IntegerField(choices = PAGE_TYPES, default = COLOR)
-
-	header = models.CharField(max_length = 150)
-
-	text = models.TextField()
-
 default_name = 'Django'
 default_slogan = 'Django makes it easier to build better Web apps more quickly and with less code.'
 default_about_good_h = 'Meet Django'
@@ -107,7 +94,7 @@ default_contacts_text = 'Subscribe to one of our mailing lists to stay up to dat
 
 class Content(models.Model):
 	"""
-	Model that represents all user-input content.
+	Модель для хранения контента страницы.
 	"""
 	name = models.CharField(max_length = 100, default = default_name)
 

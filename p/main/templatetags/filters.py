@@ -14,11 +14,14 @@ def linebreaksp(text):
 @register.filter(name='page')
 def page(obj, page):
 	"""
-	Returns field for page
+	Returns page and obj
 	"""
 	return (obj, page)
 
 @register.filter(name='attr')
 def attr(obj_page, attr):
+	"""
+	Returns attr of page in obj
+	"""
 	obj, page = obj_page
 	return getattr(obj, '{page}_{attr}'.format(page=page, attr=attr))

@@ -64,14 +64,6 @@ class ContentForm(forms.ModelForm):
 			'contacts_header': _('Контакты (загаловок)'),
 			'contacts_text': _('Контакты (текст)'),
 		}
-		# help_texts = {
-		# 	'keywords': _('Обязательно заполните данное поле!'),
-		# 	'name': _('Обязательно заполните данное поле!'),
-		# 	'slogan': _('Необязательно для заполнения'),
-		# 	'about_us': _('Необязательно для заполнения'),
-		# 	'about_good': _('Необязательно для заполнения'),
-		# 	'contacts': _('Необязательно для заполнения'),
-		# }
 
 class FeaturesForm(forms.ModelForm):
 	class Meta:

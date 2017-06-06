@@ -25,6 +25,9 @@ SEPHEADER = 4 # В качестве фона для загаловка испо�
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class PageTypes():
+	"""
+	Перечень типов страниц
+	"""
 	def __init__(self):
 		self.Image = 1
 		self.Color = 2
@@ -32,7 +35,7 @@ class PageTypes():
 		self.SepHeader = 4
 
 
-def new_page(request):
+def input_parameters(request):
 	"""
 	Данное представление создает форму для ввода характеристик
 	целевой аудитории и ключевых слов, производит ее валидацию.
@@ -47,7 +50,7 @@ def new_page(request):
 			return redirect('input_content', pk=site_params.pk)
 	else:
 		form = SiteParametersForm()
-	return render(request, 'main/new_page.html', {'form': form})
+	return render(request, 'main/input_parameters.html', {'form': form})
 
 def input_content(request, pk):
 	"""
@@ -130,11 +133,7 @@ def get_page_color(page, input_parameters):
 	rgb = map(lambda x: format(int(x), '02x'), rgb)
 	return '#{rgb}'.format(rgb=''.join(rgb))
 
-def get_image_url(keys, n):
-	"""
-	Функция для поиска наиболее релевантых фотографий на сайте
-	shutterstock по ключевым словам, введенным пользователем
-	"""
+def get_images_urls(keys):
 	url = 'https://1d931b481ffaebd16485:0cfcc2c5ae4283efe13ed2ec75d03d1611166071@api.shutterstock.com/v2/images/search'
 
 	params = {
@@ -152,6 +151,14 @@ def get_image_url(keys, n):
 		images_urls = [img['assets']['preview']['url'] for img in r.json()['data']]
 	else:
 		print('Error: status code is {code}'.format(code = r.status_code))
+
+	return images_urls
+
+def get_image_url(images_urls, n):
+	"""
+	Функция для поиска наиболее релевантых фотографий на сайте
+	shutterstock по ключевым словам, введенным пользователем
+	"""
 
 	image_url = None
 	if images_urls:
@@ -245,8 +252,8 @@ def get_font_colors(page_type, page_background):
 		color = list(map(''.join, zip(* [iter(color)] * 2)))
 		color = list(map(lambda x: int(x, 16), color))
 
-		# Увеличить значение цветов канала на 20, если это возможно
-		lighter_color = list(map(lambda x: x + 20 if x + 20 <= 255 else 255, color))
+		# Увеличить значение цветов канала на 5, если это возможно
+		lighter_color = list(map(lambda x: x + 5 if x + 5 <= 255 else 255, color))
 
 		# Вернуть значение цвета в формает css rgb
 		return '#' + ''.join(format(channel, '02x') for channel in lighter_color)
@@ -282,6 +289,12 @@ def choose_features(request, params_pk, content_pk):
 	# Входные параметры для обучения, полученные по введенным
 	input_parameters = get_input_parameters(site_params)
 
+	# Получить ключевые слова, которые будут использованы
+	# для поиска картинок для страницы
+	themes = site_params.keywords
+
+	# Лист релевантных изображений
+	images_urls = get_images_urls(themes)
 	# Индекс изобржаения
 	image_ind = 0
 
@@ -294,15 +307,11 @@ def choose_features(request, params_pk, content_pk):
 		page_color = get_page_color(page, input_parameters)
 		page_features['%s_color' % page] = page_color
 
-		# Получить ключевые слова, которые будут использованы
-		# для поиска картинок для страницы
-		page_theme = site_params.keywords
-
 		# Установить изображение для страницы, если
 		# ее тип подразумевает наличие изображения
 		page_image = None
-		if page_type != COLOR and page_type != NONE and page_theme != 'none':
-			page_image = get_image_url(page_theme, image_ind)
+		if page_type != COLOR and page_type != NONE and themes != 'none':
+			page_image = get_image_url(images_urls, image_ind)
 			image_ind += 1
 			page_features['%s_image' % page] = page_image
 			if not page_image:
@@ -350,7 +359,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 	with open("{0}/static/css/dynamic.css".format(BASE_DIR), 'w') as file_obj:
 		file_obj.write(styles)
 
-	return render(request, 'main/success.html',
+	return render(request, 'main/show_page.html',
 		{
 			'content': content,
 			'css': 'css/dynamic.css',

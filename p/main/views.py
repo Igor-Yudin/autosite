@@ -283,6 +283,7 @@ def choose_features(request, params_pk, content_pk):
 
 		# Установить изображение для страницы, если
 		# ее тип подразумевает наличие изображения
+		page_image = None
 		if page_type != COLOR and page_type != NONE and page_theme != 'none':
 			page_image = get_image_url(page_theme)
 			page_features['%s_image' % page] = page_image
@@ -290,7 +291,8 @@ def choose_features(request, params_pk, content_pk):
 				page_features['%s_type' % page] = COLOR
 
 		# Получить цвет загаловка и текста
-		h_color, p_color = get_font_colors(page_type, page_image)
+		page_background = page_image if page_image else page_color
+		h_color, p_color = get_font_colors(page_type, page_background)
 		page_features['%s_h_color' % page] = h_color
 		page_features['%s_p_color' % page] = p_color
 

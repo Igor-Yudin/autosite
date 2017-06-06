@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #93964e;
+	background: url(https://image.shutterstock.com/display_pic_with_logo/2117717/496978936/stock-photo-woman-visiting-art-gallery-lifestyle-concept-496978936.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,11 +17,11 @@
 }
 
 .about_good h1 {
-	color: #ffffff;
+	color: #111111;
 }
 
 .about_good p {
-	color: #ffffff;
+	color: #252525;
 }
 
 .about_good_inf_block {
@@ -29,7 +29,7 @@
 }
 
 .about_us {
-	background: #5cf49a;
+	background: #c1107fb;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -49,7 +49,7 @@
 }
 
 .contacts {
-	background: #dac77e;
+	background: #41503c;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -89,7 +89,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/2453201/411973459/stock-photo-event-management-flowchart-concept-411973459.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/2117717/496978936/stock-photo-woman-visiting-art-gallery-lifestyle-concept-496978936.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -97,12 +97,12 @@
 }
 
 .main h1 {
-	color: #ffffff;
+	color: #111111;
 	font-size: 120;
 }
 
 .main p {
-	color: #ffffff;
+	color: #252525;
 	font-size: 48;
 }
 

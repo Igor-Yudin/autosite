@@ -29,7 +29,7 @@
 }
 
 .about_us {
-	background: #c1107fb;
+	background: #c1fffb;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -37,11 +37,11 @@
 }
 
 .about_us h1 {
-	color: #ffffff;
+	color: #111111;
 }
 
 .about_us p {
-	color: #ffffff;
+	color: #252525;
 }
 
 .about_us_inf_block {

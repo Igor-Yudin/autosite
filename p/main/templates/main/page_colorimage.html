@@ -2,4 +2,7 @@
 	<!-- Title -->
 	<h2> {{ header }} </h2>
 	{{ text|linebreaks }}
+	{% if image %}
+		<img src = "{{ image }}" }}>
+	{% endif %}
 </div>

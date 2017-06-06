@@ -8,7 +8,6 @@ from sklearn.externals import joblib
 from colorsys import rgb_to_hls, hls_to_rgb
 from PIL import Image
 from io import BytesIO
-from enum import IntEnum
 import pandas as pd
 import os
 import requests
@@ -25,11 +24,12 @@ SEPHEADER = 4 # В качестве фона для загаловка испо�
 # Корневая директория приложения внутри проекта
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-class PageTypes(IntEnum):
-	Image = 1
-	Color = 2
-	ColorImage = 3
-	SepHeader = 4
+class PageTypes():
+	def __init__(self):
+		self.Image = 1
+		self.Color = 2
+		self.ColorImage = 3
+		self.SepHeader = 4
 
 
 def new_page(request):
@@ -118,6 +118,13 @@ def get_page_color(page, input_parameters):
 
 	# Конвертация цвета из hls в rgb
 	rgb = hls_to_rgb(h, l, s)
+
+	def trim_bounds(x):
+		x = x if x <= 255 else 255
+		x = x if x >= 0 else 0
+		return x
+
+	rgb = list(map(lambda x: trim_bounds(x), rgb))
 
 	# Перевод значаний каналов в шестнадцатиричное значение
 	rgb = map(lambda x: format(int(x), '02x'), rgb)
@@ -291,7 +298,11 @@ def choose_features(request, params_pk, content_pk):
 				page_features['%s_type' % page] = COLOR
 
 		# Получить цвет загаловка и текста
-		page_background = page_image if page_image else page_color
+		if page_type in (COLOR, COLORIMAGE):
+			page_background = page_color
+		else:
+			page_background = page_image
+
 		h_color, p_color = get_font_colors(page_type, page_background)
 		page_features['%s_h_color' % page] = h_color
 		page_features['%s_p_color' % page] = p_color
@@ -332,7 +343,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 		{
 			'content': content,
 			'css': 'css/dynamic.css',
-			'types': PageTypes,
+			'types': PageTypes(),
 			'pages': ('about_good', 'about_us', 'contacts'),
 			'features': features,
 		})

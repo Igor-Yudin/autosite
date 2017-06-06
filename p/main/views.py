@@ -164,10 +164,22 @@ def get_font_colors(page_type, page_background):
 			response = requests.get(background)
 			image = Image.open(BytesIO(response.content))
 
+			# Получить центр изображения 
+			center_width_half, center_height_half = image.width // 6, image.height // 10
+			half_width, half_height = image.width // 2, image.height // 2
+
+			# Границы центра изображения
+			box = (half_width - center_width_half,
+				   half_height - center_height_half,
+				   half_width + center_width_half,
+				   half_height + center_height_half)
+
+			center_image = image.crop(box)
+
 			# Частоты цветов
 			colors_freq = {}
 
-			for pixel_color in image.getdata():
+			for pixel_color in center_image.getdata():
 				if colors_freq.get(pixel_color):
 					colors_freq[pixel_color] += 1
 				else:

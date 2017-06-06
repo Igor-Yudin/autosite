@@ -10,7 +10,7 @@
 {% block content %}
 	<!-- <a onclick="this.href='data:text/html;charset=UTF-8,'+encodeURIComponent(document.documentElement.outerHTML)" href="#" download="page.html">Download</a> -->
 	<div class="content">
-		<!-- There are pages -->
+		<!-- Главная страница -->
 		<section class="main">
 
 			{% if content.logo %}
@@ -27,21 +27,22 @@
 						{{ content.slogan|linebreaks }}
 					{% endif %}
 
-					{% if features|page:'main'|attr:'type' == 3 %}
+					{% if features|page:'main'|attr:'type' == types.ColorImage.value %}
 						<img src="{{ features|page:'main'|attr:'image' }}">
 					{% endif %}
 				</header>
 			</div>
 		</section>
 
+		<!-- Страницы -->
 		{% for page in pages %}
 			<section class="{{ page }}">
 
 				{% with type=features|page:page|attr:'type' image=features|page:page|attr:'image' header=content|page:page|attr:'header' text=content|page:page|attr:'text' %}
 
-					{% if type == 1 or type == 2 or type == 3 %}
+					{% if type == types.Image.value or type == types.Color.value or type == types.ColorImage.value %}
 						{% include  'main/page_usual.html' with header=header text=text image=image page=page %}
-					{% elif type == 4 %}
+					{% elif type == types.SepHeader.value %}
 						{% include 'main/page_sepheader.html' with header=header text=text page=page %}
 					{% endif %}
 

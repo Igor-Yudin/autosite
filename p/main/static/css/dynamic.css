@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #accb98;
+	background: #93964e;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,11 +17,11 @@
 }
 
 .about_good h1 {
-	color: #111111;
+	color: #ffffff;
 }
 
 .about_good p {
-	color: #252525;
+	color: #ffffff;
 }
 
 .about_good_inf_block {
@@ -29,7 +29,7 @@
 }
 
 .about_us {
-	background: #7c118105;
+	background: #5cf49a;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -37,11 +37,11 @@
 }
 
 .about_us h1 {
-	color: #111111;
+	color: #ffffff;
 }
 
 .about_us p {
-	color: #252525;
+	color: #ffffff;
 }
 
 .about_us_inf_block {
@@ -49,7 +49,7 @@
 }
 
 .contacts {
-	background: #7f8571;
+	background: #dac77e;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -57,11 +57,11 @@
 }
 
 .contacts h1 {
-	color: #111111;
+	color: #ffffff;
 }
 
 .contacts p {
-	color: #252525;
+	color: #ffffff;
 }
 
 .contacts_inf_block {
@@ -89,7 +89,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/3016328/406413574/stock-photo-business-desk-concept-marketing-strategy-406413574.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/2453201/411973459/stock-photo-event-management-flowchart-concept-411973459.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -97,12 +97,12 @@
 }
 
 .main h1 {
-	color: #111111;
+	color: #ffffff;
 	font-size: 120;
 }
 
 .main p {
-	color: #252525;
+	color: #ffffff;
 	font-size: 48;
 }
 

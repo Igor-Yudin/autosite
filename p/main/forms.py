@@ -31,7 +31,12 @@ CATEGORIES_NAMES = (
 CATEGORIES = tuple(zip(CATEGORIES_NAMES, CATEGORIES_NAMES))
 
 class SiteParametersForm(forms.ModelForm):
-	keywords = forms.MultipleChoiceField(widget = forms.CheckboxSelectMultiple, choices = CATEGORIES, label = 'Ключевые слова')
+	keywords = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+										 choices=CATEGORIES,
+										 label='Ключевые слова',
+										 error_messages={
+										 					'required': _('Необходимо указать хотя бы одно ключевое слово')
+										 				})
 
 	class Meta:
 		model = SiteParameters
@@ -53,7 +58,6 @@ class ContentForm(forms.ModelForm):
 		model = Content
 		fields = '__all__'
 		labels = {
-			'keywords': _('Ключевые слова'),
 			'name': _('Название кампании'),
 			'slogan': _('Слоган'),
 			'logo': _('Логотип'),
@@ -63,6 +67,11 @@ class ContentForm(forms.ModelForm):
 			'about_good_text': _('Информация о таваре/услуге (текст)'),
 			'contacts_header': _('Контакты (загаловок)'),
 			'contacts_text': _('Контакты (текст)'),
+		}
+		error_messages = {
+			'name': {
+				'required': _('Укажите название кампании'),
+			},
 		}
 
 class FeaturesForm(forms.ModelForm):

@@ -127,7 +127,7 @@ def get_page_color(page, input_parameters):
 		x = x if x >= 0 else 0
 		return x
 
-	rgb = map(lambda x: trim_bounds(x), rgb)
+	rgb = map(trim_bounds, rgb)
 
 	# Перевод значаний каналов в шестнадцатиричное значение
 	rgb = map(lambda x: format(int(x), '02x'), rgb)

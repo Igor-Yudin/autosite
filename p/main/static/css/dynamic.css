@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #60981f;
+	background: #b1b0b0;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -17,11 +17,11 @@
 }
 
 .about_good h2 {
-	color: #ffffff;
+	color: #111111;
 }
 
 .about_good p {
-	color: #ffffff;
+	color: #161616;
 }
 
 .about_good_inf_block {
@@ -29,7 +29,7 @@
 }
 
 .about_us {
-	background: #4cf86c;
+	background: #dfd1d1;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -49,7 +49,7 @@
 }
 
 .contacts {
-	background: #75908f;
+	background: #6b6b6b;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -89,7 +89,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/324673/530776507/stock-photo-high-speed-railway-train-530776507.jpg);
+	background: url(https://image.shutterstock.com/display_pic_with_logo/4224190/588472259/stock-photo-healthy-lifestyle-good-food-and-exercise-invest-in-your-health-588472259.jpg);
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;

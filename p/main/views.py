@@ -11,6 +11,7 @@ from io import BytesIO
 import pandas as pd
 import os
 import requests
+import re
 
 
 # Константные значения, отражающие шаблоны страниц
@@ -26,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class PatternType():
 	"""
-	Перечень типов страниц
+	Перечень типов шаблонов страниц
 	"""
 	def __init__(self):
 		self.Image = 1
@@ -139,22 +140,22 @@ def get_images_urls(keys):
 	params = {
 		'url': url,
 		'keys': keys,
-		'type': 'photo',
+		'image_type': 'photo',
 		'orientation': 'horizontal',
 		'sort': 'popular',
 	}
 
-	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={type}&sort={sort}'.format(**params))
+	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={image_type}&sort={sort}'.format(**params))
 
 	images_urls = []
 	if r.status_code == 200 and r.json().get('total_count'):
 		images_urls = [img['assets']['preview']['url'] for img in r.json()['data']]
 	else:
-		print('Error: status code is {code}'.format(code = r.status_code))
+		print('Error: status code is {code}'.format(code=r.status_code))
 
 	return images_urls
 
-def get_image_url(images_urls, n):
+def get_image_url(images_urls, ind):
 	"""
 	Функция для поиска наиболее релевантых фотографий на сайте
 	shutterstock по ключевым словам, введенным пользователем
@@ -162,10 +163,10 @@ def get_image_url(images_urls, n):
 
 	image_url = ''
 	if images_urls:
-		if n < len(images_urls):
-			image_url = images_urls[n]
+		if ind < len(images_urls):
+			image_url = images_urls[ind]
 		else:
-			image_url = images_urls[n % len(images_urls)]
+			image_url = images_urls[ind % len(images_urls)]
 	return image_url
 
 def get_font_colors(page_type, page_background):
@@ -207,7 +208,7 @@ def get_font_colors(page_type, page_background):
 					colors_freq[pixel_color] = 1
 
 			# Выбор наиболее часто встречаемого цвета
-			color = max(colors_freq, key = lambda color: colors_freq[color])
+			color = max(colors_freq, key=lambda color: colors_freq[color])
 
 			# Убрать альфа-канал
 			color = color[:-1] if len(color) > 3 else color
@@ -332,23 +333,26 @@ def choose_features(request, params_pk, content_pk):
 			getattr(features, page).text_size = 48
 
 	features.save()
-	return redirect('show_page', params_pk = params_pk,
-								 content_pk = content_pk,
-								 features_pk = features.pk)
+	return redirect('show_page', params_pk=params_pk,
+								 content_pk=content_pk,
+								 features_pk=features.pk)
 
 def show_page(request, params_pk, content_pk, features_pk):
 	"""
 	Данное представление формирует файл css и отображает страницу
 	с введенным пользователем контентом и свойствами
 	"""
-	features = get_object_or_404(Features, pk = features_pk)
-	content = get_object_or_404(Content, pk = content_pk)
+	features = get_object_or_404(Features, pk=features_pk)
+	content = get_object_or_404(Content, pk=content_pk)
 
 	styles = create_styles(content, features)
 	styles = create_css(styles)
 
 	with open("{0}/static/css/dynamic.css".format(BASE_DIR), 'w') as file_obj:
 		file_obj.write(styles)
+
+	headers = {page: getattr(content, '%s_header' % page) for page in ('about_good', 'about_us', 'contacts')}
+	texts = {page: getattr(content, '%s_text' % page) for page in ('about_good', 'about_us', 'contacts')}
 
 	return render(request, 'main/show_page.html',
 		{
@@ -357,13 +361,14 @@ def show_page(request, params_pk, content_pk, features_pk):
 			'types': PatternType(),
 			'pages': ('about_good', 'about_us', 'contacts'),
 			'features': features,
+			'headers': headers,
+			'texts': texts,
 		})
 
 def create_styles(content, features):
 	"""
 	Возвращает словарь с набором css свойств для свойств
 	"""
-	import re
 	styles = {
 
 		# Общие стили

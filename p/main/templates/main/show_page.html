@@ -38,7 +38,7 @@
 		{% for page in pages %}
 			<section class="{{ page }}">
 
-				{% with page_features=features|get:page header=content|page:page|attr:'header' text=content|page:page|attr:'text' %}
+				{% with page_features=features|get:page header=headers|get_item:page text=texts|get_item:page %}
 
 					{% with pattern_type=page_features.pattern_type image=page_features.image %}
 

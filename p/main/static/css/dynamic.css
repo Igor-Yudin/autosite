@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #bab9b9;
+	background: #d6d5d5;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -31,15 +31,7 @@
 }
 
 .about_us {
-	background: #ffffff;
-	background-attachment: scroll;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-}
-
-.about_us .sepheader {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/137002/222207526/stock-photo-sporting-goods-isolated-on-white-222207526.jpg);
+	background: #f3f2e2;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -61,7 +53,7 @@
 }
 
 .contacts {
-	background: #ffcec0;
+	background: #c3bfa5;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -103,7 +95,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/3809243/392190700/stock-photo-blur-background-of-people-shopping-in-department-store-in-shopping-mall-with-bokeh-sporting-goods-392190700.jpg);
+	background: #a0ffcb;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;

@@ -11,21 +11,28 @@ def linebreaksp(text):
 	text = text.split('\n')
 	return "".join(["<p>%s</p>" % block for block in text])
 
-# Возвращать кортеж, если надо работать с несколькими параметрами в фильтре следующем
-@register.filter(name='page')
-def page(obj, page):
+@register.filter(name="get_item")
+def get_item(d, key):
 	"""
-	Returns page and obj
+	Returns dictionary value by key.
 	"""
-	return (obj, page)
+	return d.get(key, None)
 
-@register.filter(name='attr')
-def attr(obj_page, attr):
-	"""
-	Returns attr of page in obj
-	"""
-	obj, page = obj_page
-	return getattr(obj, '{page}_{attr}'.format(page=page, attr=attr))
+# Возвращать кортеж, если надо работать с несколькими параметрами в фильтре
+# @register.filter(name='page')
+# def page(obj, page):
+# 	"""
+# 	Returns page and obj
+# 	"""
+# 	return (obj, page)
+
+# @register.filter(name='attr')
+# def attr(obj_page, attr):
+# 	"""
+# 	Returns attr of page in obj
+# 	"""
+# 	obj, page = obj_page
+# 	return getattr(obj, '{page}_{attr}'.format(page=page, attr=attr))
 
 @register.filter(name="get")
 def get(obj, attr):

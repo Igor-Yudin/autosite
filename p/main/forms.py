@@ -1,5 +1,5 @@
 from django import forms
-from .models import SiteParameters, Content, Features
+from .models import SiteParameters, Content
 from django.utils.translation import ugettext_lazy as _
 
 CATEGORIES_NAMES = (
@@ -73,8 +73,3 @@ class ContentForm(forms.ModelForm):
 				'required': _('Укажите название кампании'),
 			},
 		}
-
-class FeaturesForm(forms.ModelForm):
-	class Meta:
-		model = Features
-		fields = '__all__'

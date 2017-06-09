@@ -32,9 +32,9 @@ class SiteParameters(models.Model):
 default_font_family = 'Palatino, "Palatino Linotype", "Book Antiqua", "Hoefler Text", Georgia, "Lucida Bright", Cambria, Times, "Times New Roman", serif'
 
 
-class Features(models.Model):
+class PageFeatures(models.Model):
 	"""
-	Модель для хранения свойств страницы.
+	Модель для хранения свойств секции страницы.
 	"""
 	NONE = 0
 	COLOR = 1
@@ -49,39 +49,87 @@ class Features(models.Model):
 		(SEPHEADER, 'Seperate header'),
 	)
 
-	font_family = models.CharField(max_length = 250, default = default_font_family)
-	h_size = models.IntegerField(default = 25)
-	p_size = models.IntegerField(default = 12)
+	# MAIN = 1
+	# ABOUT_GOOD = 2
+	# ABOUT_US = 3
+	# CONTACTS = 4
 
-	main_type = models.IntegerField(choices = PAGE_TYPES,
-								 default = COLOR)
-	main_color = models.CharField(max_length = 7, default = '#ffffff')
-	main_image = models.CharField(max_length = 1000, default = '')
-	main_h_color = models.CharField(max_length = 30, default = 'black')
-	main_h_size = models.IntegerField(default = 90)
-	main_p_color = models.CharField(max_length = 30, default = 'black')
-	main_p_size = models.IntegerField(default = 45)
+	# PAGE_NAMES = (
+	# 	(MAIN, 'Main'),
+	# 	(ABOUT_GOOD, 'About good'),
+	# 	(ABOUT_US, 'About us'),
+	# 	(CONTACTS, 'Contacts'),
+	# )
 
-	about_us_type = models.IntegerField(choices = PAGE_TYPES,
-									 default = NONE)
-	about_us_color = models.CharField(max_length = 7, default = '#ffffff')
-	about_us_image = models.CharField(max_length = 1000, default = '')
-	about_us_h_color = models.CharField(max_length = 30, default = 'black')
-	about_us_p_color = models.CharField(max_length = 30, default = 'black')
+	# name = models.IntegerField(choices=PAGE_NAMES, default=NONE)
+	pattern_type = models.IntegerField(choices=PAGE_TYPES, default=COLOR)
+	color = models.CharField(max_length=7, default='#ffffff')
+	image = models.CharField(max_length=1000, default='')
+	header_color = models.CharField(max_length=30, default='#000000')
+	header_size = models.IntegerField(default=48)
+	text_color = models.CharField(max_length=30, default='#000000')
+	text_size = models.IntegerField(default=20)
 
-	about_good_type = models.IntegerField(choices = PAGE_TYPES,
-									   default = NONE)
-	about_good_color = models.CharField(max_length = 7, default = '#ffffff')
-	about_good_image = models.CharField(max_length = 1000, default = '')
-	about_good_h_color = models.CharField(max_length = 30, default = 'black')
-	about_good_p_color = models.CharField(max_length = 30, default = 'black')
 
-	contacts_type = models.IntegerField(choices = PAGE_TYPES,
-									 default = NONE)
-	contacts_color = models.CharField(max_length = 7, default = '#ffffff')
-	contacts_image = models.CharField(max_length = 1000, default = '')
-	contacts_h_color = models.CharField(max_length = 30, default = 'black')
-	contacts_p_color = models.CharField(max_length = 30, default = 'black')
+class Features(models.Model):
+	"""
+	Модель для хранения свойств страницы.
+	"""
+	# NONE = 0
+	# COLOR = 1
+	# IMAGE = 2
+	# COLORIMAGE = 3
+	# SEPHEADER = 4
+
+	# PAGE_TYPES = (
+	# 	(COLOR, 'Color'),
+	# 	(IMAGE, 'Image'),
+	# 	(COLORIMAGE, 'Color and image'),
+	# 	(SEPHEADER, 'Seperate header'),
+	# )
+
+	# MAIN = 1
+	# ABOUT_GOOD = 2
+	# ABOUT_US = 3
+	# CONTACTS = 4
+
+	font_family = models.CharField(max_length=250, default=default_font_family)
+	main = PageFeatures()
+	about_good = PageFeatures()
+	about_us = PageFeatures()
+	contacts = PageFeatures()
+	# h_size = models.IntegerField(default = 25)
+	# p_size = models.IntegerField(default = 12)
+
+	# main_type = models.IntegerField(choices = PAGE_TYPES,
+	# 							 default = COLOR)
+	# main_color = models.CharField(max_length = 7, default = '#ffffff')
+	# main_image = models.CharField(max_length = 1000, default = '')
+	# main_h_color = models.CharField(max_length = 30, default = 'black')
+	# main_h_size = models.IntegerField(default = 90)
+	# main_p_color = models.CharField(max_length = 30, default = 'black')
+	# main_p_size = models.IntegerField(default = 45)
+
+	# about_us_type = models.IntegerField(choices = PAGE_TYPES,
+	# 								 default = NONE)
+	# about_us_color = models.CharField(max_length = 7, default = '#ffffff')
+	# about_us_image = models.CharField(max_length = 1000, default = '')
+	# about_us_h_color = models.CharField(max_length = 30, default = 'black')
+	# about_us_p_color = models.CharField(max_length = 30, default = 'black')
+
+	# about_good_type = models.IntegerField(choices = PAGE_TYPES,
+	# 								   default = NONE)
+	# about_good_color = models.CharField(max_length = 7, default = '#ffffff')
+	# about_good_image = models.CharField(max_length = 1000, default = '')
+	# about_good_h_color = models.CharField(max_length = 30, default = 'black')
+	# about_good_p_color = models.CharField(max_length = 30, default = 'black')
+
+	# contacts_type = models.IntegerField(choices = PAGE_TYPES,
+	# 								 default = NONE)
+	# contacts_color = models.CharField(max_length = 7, default = '#ffffff')
+	# contacts_image = models.CharField(max_length = 1000, default = '')
+	# contacts_h_color = models.CharField(max_length = 30, default = 'black')
+	# contacts_p_color = models.CharField(max_length = 30, default = 'black')
 
 default_name = 'Django'
 default_slogan = 'Django makes it easier to build better Web apps more quickly and with less code.'

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SiteParametersForm, ContentForm, FeaturesForm
-from .models import SiteParameters, Content, Features
+from .forms import SiteParametersForm, ContentForm
+from .models import SiteParameters, Content, Features, PageFeatures
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -24,7 +24,7 @@ SEPHEADER = 4 # В качестве фона для загаловка испо�
 # Корневая директория приложения внутри проекта
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-class PageTypes():
+class PatternType():
 	"""
 	Перечень типов страниц
 	"""
@@ -96,7 +96,7 @@ def get_input_parameters(site_parameters):
 
 	return keywords_table
 
-def get_page_type(page, input_parameters):
+def get_page_pattern_type(page, input_parameters):
 	"""
 	Функция для классификации типа страницы на основе введенных
 	пользователем параметров
@@ -160,7 +160,7 @@ def get_image_url(images_urls, n):
 	shutterstock по ключевым словам, введенным пользователем
 	"""
 
-	image_url = None
+	image_url = ''
 	if images_urls:
 		if n < len(images_urls):
 			image_url = images_urls[n]
@@ -283,9 +283,6 @@ def choose_features(request, params_pk, content_pk):
 	# Параметры сайта, введенные пользоватем
 	site_params = get_object_or_404(SiteParameters, pk=params_pk)
 
-	# Свойства посадочной страницы
-	page_features = {}
-
 	# Входные параметры для обучения, полученные по введенным
 	input_parameters = get_input_parameters(site_params)
 
@@ -298,48 +295,42 @@ def choose_features(request, params_pk, content_pk):
 	# Индекс изобржаения
 	image_ind = 0
 
+	features = Features()
+
 	# Для каждой страницы определется тип, цвет, цвет загаловка
 	# и цвет текста
 	for page in ('main', 'about_good', 'about_us', 'contacts'):
-		page_type = get_page_type(page, input_parameters)
-		page_features['%s_type' % page] = page_type
+		page_pattern_type = get_page_pattern_type(page, input_parameters)
+		getattr(features, page).pattern_type = page_pattern_type
 
 		page_color = get_page_color(page, input_parameters)
-		page_features['%s_color' % page] = page_color
+		getattr(features, page).color = page_color
 
 		# Установить изображение для страницы, если
 		# ее тип подразумевает наличие изображения
 		page_image = None
-		if page_type != COLOR and page_type != NONE and themes != 'none':
+		if page_pattern_type != COLOR:
 			page_image = get_image_url(images_urls, image_ind)
 			image_ind += 1
-			page_features['%s_image' % page] = page_image
+			getattr(features, page).image = page_image
 			if not page_image:
-				page_features['%s_type' % page] = COLOR
+				getattr(features, page).pattern_type = COLOR
 
 		# Получить цвет загаловка и текста
-		if page_type in (COLOR, COLORIMAGE):
+		if page_pattern_type in (COLOR, COLORIMAGE):
 			page_background = page_color
 		else:
 			page_background = page_image
 
-		h_color, p_color = get_font_colors(page_type, page_background)
-		page_features['%s_h_color' % page] = h_color
-		page_features['%s_p_color' % page] = p_color
+		h_color, t_color = get_font_colors(page_pattern_type, page_background)
+		getattr(features, page).header_color = h_color
+		getattr(features, page).text_color = t_color
 
 		# Установить размер текста для главной страницы
 		if page == 'main':
-			page_features['%s_h_size' % page] = 120
-			page_features['%s_p_size' % page] = 48
+			getattr(features, page).header_size = 120
+			getattr(features, page).text_size = 48
 
-	# Сформировать свойства страницы
-	features = Features()
-	# features.font_family = 'Arial'
-	features.h_size = 48
-	features.p_size = 20
-
-	for k, v in page_features.items():
-		setattr(features, k, v)
 	features.save()
 	return redirect('show_page', params_pk = params_pk,
 								 content_pk = content_pk,
@@ -363,7 +354,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 		{
 			'content': content,
 			'css': 'css/dynamic.css',
-			'types': PageTypes(),
+			'types': PatternType(),
 			'pages': ('about_good', 'about_us', 'contacts'),
 			'features': features,
 		})
@@ -394,12 +385,10 @@ def create_styles(content, features):
 		},
 
 		'h1, h2': {
-			'font-size': features.h_size,
 			'text-align': 'center',
 		},
 
 		'p': {
-			'font-size': features.p_size,
 			'text-align': 'center',
 		},
 
@@ -476,37 +465,39 @@ def create_styles(content, features):
 
 	# Для каждой страницы формируется css свойства на основе 
 	# автоматически выбранных свойств
-	for page in ('main', 'about_good', 'about_us', 'contacts'):
+	for page_name in ('main', 'about_good', 'about_us', 'contacts'):
 		# if getattr(content, page, None):
-		styles.update(turn_features_into_css_rules(page, features))
+		page_features = getattr(features, page_name, None)
+		styles.update(turn_features_into_css_rules(page_features, page_name))
 	# else:
 	# 	styles.update(turn_features_into_css_rules('main', features))
 
 	return styles
 
-def turn_features_into_css_rules(page, features):
+def turn_features_into_css_rules(page_features, page_name):
 	"""
 	Функция создает словарь, который есть css свойства для выбранных
 	свойств для каждой страницы.
 	Возвращает словарь css свойств для страницы.
 	"""
 
-	assert page in ["main", "about_us", "about_good", "contacts"], 'Page name is incorrect'
-	assert isinstance(features, Features), "features is not an instance of Features"
+	assert page_name in ["main", "about_us", "about_good", "contacts"], 'page_name is incorrect'
+	assert isinstance(page_features, PageFeatures), "page_features is not an instance of PageFeatures"
 
-	class_name = '.' + page
+	class_name = '.' + page_name
 	header_class = class_name + ' h2' 
 	text_class = class_name + ' p'
 
-	page_type = getattr(features, '%s_type' % page)
-	color = getattr(features, '%s_color' % page)
-	image = getattr(features, '%s_image' % page)
-	h_color = getattr(features, '%s_h_color' % page)
-	p_color = getattr(features, '%s_p_color' % page)
+	
+	page_pattern_type = page_features.pattern_type
+	color = page_features.color
+	image = page_features.image
+	h_color = page_features.header_color
+	t_color = page_features.text_color
 
 	styles = {
 		class_name: {
-			'background': 'url(%s)' % image if page_type == IMAGE else color,
+			'background': 'url(%s)' % image if page_pattern_type == IMAGE else color,
 			'background-repeat': 'no-repeat',
 			# Если постаить размер 100% 115%,
 			# размер искажается, но это позволяет убрать ватермарк
@@ -521,28 +512,24 @@ def turn_features_into_css_rules(page, features):
 		},
 
 		text_class: {
-			'color': p_color,
+			'color': t_color,
 		},
 	}
 
-	# Только главная страницы имеет отдельно указанные
-	# размеры загаловка и текста
-	h_size = getattr(features, '%s_h_size' % page, None)
-	p_size = getattr(features, '%s_p_size' % page, None)
+	h_size = page_features.header_size
+	t_size = page_features.text_size
 
-	if h_size:
-		styles[header_class].update({
-			'font-size': h_size,
-		})
+	styles[header_class].update({
+		'font-size': h_size,
+	})
 
-	if p_size:
-		styles[text_class].update({
-			'font-size': p_size,
-		})
+	styles[text_class].update({
+		'font-size': t_size,
+	})
 
 	# Установить свойства для страницы, если ее тип
 	# подразумевает отдельно оформленный загаловок
-	if page_type == SEPHEADER:
+	if page_pattern_type == SEPHEADER:
 		sepheader_class = class_name + ' .sepheader'
 		styles.update({
 			sepheader_class: {

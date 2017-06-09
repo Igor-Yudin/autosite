@@ -27,8 +27,8 @@
 						{{ content.slogan|linebreaks }}
 					{% endif %}
 
-					{% if features|page:'main'|attr:'type' == types.ColorImage %}
-						<img src="{{ features|page:'main'|attr:'image' }}">
+					{% if features.main.pattern_type == types.ColorImage %}
+						<img src="{{ features.main.image }}">
 					{% endif %}
 				</header>
 			</div>
@@ -38,15 +38,19 @@
 		{% for page in pages %}
 			<section class="{{ page }}">
 
-				{% with type=features|page:page|attr:'type' image=features|page:page|attr:'image' header=content|page:page|attr:'header' text=content|page:page|attr:'text' %}
+				{% with page_features=features|get:page header=content|page:page|attr:'header' text=content|page:page|attr:'text' %}
 
-					{% if type == types.Image or type == types.Color %}
-						{% include  'main/page_usual.html' with header=header text=text page=page %}
-					{% elif type == types.ColorImage %}
-						{% include 'main/page_colorimage.html' with header=header text=text image=image page=page %}
-					{% elif type == types.SepHeader %}
-						{% include 'main/page_sepheader.html' with header=header text=text page=page %}
-					{% endif %}
+					{% with pattern_type=page_features.pattern_type image=page_features.image %}
+
+						{% if pattern_type == types.Image or pattern_type == types.Color %}
+							{% include  'main/page_usual.html' with header=header text=text page=page %}
+						{% elif pattern_type == types.ColorImage %}
+							{% include 'main/page_colorimage.html' with header=header text=text image=image page=page %}
+						{% elif pattern_type == types.SepHeader %}
+							{% include 'main/page_sepheader.html' with header=header text=text page=page %}
+						{% endif %}
+
+					{% endwith %}
 
 				{% endwith %}
 

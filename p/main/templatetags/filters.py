@@ -11,6 +11,7 @@ def linebreaksp(text):
 	text = text.split('\n')
 	return "".join(["<p>%s</p>" % block for block in text])
 
+# Возвращать кортеж, если надо работать с несколькими параметрами в фильтре следующем
 @register.filter(name='page')
 def page(obj, page):
 	"""
@@ -25,3 +26,10 @@ def attr(obj_page, attr):
 	"""
 	obj, page = obj_page
 	return getattr(obj, '{page}_{attr}'.format(page=page, attr=attr))
+
+@register.filter(name="get")
+def get(obj, attr):
+	"""
+	Returns attribute of obj.
+	"""
+	return getattr(obj, attr, None)

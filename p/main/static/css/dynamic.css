@@ -9,7 +9,7 @@
 }
 
 .about_good {
-	background: #c4c4c4;
+	background: #bab9b9;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -31,15 +31,7 @@
 }
 
 .about_us {
-	background: #ffffff;
-	background-attachment: scroll;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-size: cover;
-}
-
-.about_us .sepheader {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/64397/213104491/stock-photo-closeup-of-young-woman-hands-outstretched-in-cupped-shape-selective-focus-retro-toned-image-213104491.jpg);
+	background: #e7f3de;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -61,7 +53,7 @@
 }
 
 .contacts {
-	background: #c5f58b;
+	background: #ffcec0;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -103,7 +95,7 @@
 }
 
 .main {
-	background: url(https://image.shutterstock.com/display_pic_with_logo/1020994/524194510/stock-photo-excited-girl-dancing-and-listening-music-with-headphones-and-smart-phone-in-the-street-with-hair-524194510.jpg);
+	background: #a3a471;
 	background-attachment: scroll;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -111,12 +103,12 @@
 }
 
 .main h2 {
-	color: #ffffff;
+	color: #111111;
 	font-size: 120;
 }
 
 .main p {
-	color: #ffffff;
+	color: #161616;
 	font-size: 48;
 }
 

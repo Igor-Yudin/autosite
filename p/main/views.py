@@ -53,7 +53,7 @@ def input_parameters(request):
 		form = SiteParametersForm()
 	return render(request, 'main/input_parameters.html', {'form': form})
 
-def input_content(request, pk):
+def input_content(request, params_pk):
 	"""
 	Данное представление создает форму для ввода контента страницы,
 	произовдит валидацию введенного контента и в случае успеха
@@ -62,9 +62,14 @@ def input_content(request, pk):
 	form = ContentForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		content = form.save()
-		return redirect('choose_features', params_pk=pk, content_pk=content.pk)
+		site_params = get_object_or_404(SiteParameters, pk=params_pk)
+		features_pk = choose_features(site_params)
+		return redirect('show_page',
+						params_pk=params_pk,
+						content_pk=content.pk,
+						features_pk=features_pk)
 	else:
-		return render(request, 'main/input_content.html', {'form': form, 'pk': pk})
+		return render(request, 'main/input_content.html', {'form': form, 'params_pk': params_pk})
 
 def get_input_parameters(site_parameters):
 	"""
@@ -148,8 +153,9 @@ def get_images_urls(keys):
 	r = requests.get('{url}?query={keys}&orientation={orientation}&image_type={image_type}&sort={sort}'.format(**params))
 
 	images_urls = []
-	if r.status_code == 200 and r.json().get('total_count'):
-		images_urls = [img['assets']['preview']['url'] for img in r.json()['data']]
+	r_json = r.json()
+	if r.status_code == 200 and r_json.get('total_count'):
+		images_urls = [img['assets']['preview']['url'] for img in r_json['data']]
 	else:
 		print('Error: status code is {code}'.format(code=r.status_code))
 
@@ -268,7 +274,7 @@ def get_font_colors(page_type, page_background):
 		p_color = get_lighter_color(h_color)
 	return h_color, p_color
 
-def choose_features(request, params_pk, content_pk):
+def choose_features(site_params):
 	"""
 	Функция для определения параметров страницы.
 	Классифицирует параметры и перенаправляет
@@ -280,9 +286,6 @@ def choose_features(request, params_pk, content_pk):
 	# 2. По ключевым словам определить тему изображений, найти несколько фотографий для фона
 	# и обычных картинок, при этом их цвет должен соответствовать выбранным, иначе заменить его цветом
 	# 3. На этом контент заканчивается, передается дальше.
-
-	# Параметры сайта, введенные пользоватем
-	site_params = get_object_or_404(SiteParameters, pk=params_pk)
 
 	# Входные параметры для обучения, полученные по введенным
 	input_parameters = get_input_parameters(site_params)
@@ -331,11 +334,8 @@ def choose_features(request, params_pk, content_pk):
 		if page == 'main':
 			getattr(features, page).header_size = 120
 			getattr(features, page).text_size = 48
-
 	features.save()
-	return redirect('show_page', params_pk=params_pk,
-								 content_pk=content_pk,
-								 features_pk=features.pk)
+	return features.pk
 
 def show_page(request, params_pk, content_pk, features_pk):
 	"""
@@ -351,18 +351,20 @@ def show_page(request, params_pk, content_pk, features_pk):
 	with open("{0}/static/css/dynamic.css".format(BASE_DIR), 'w') as file_obj:
 		file_obj.write(styles)
 
-	headers = {page: getattr(content, '%s_header' % page) for page in ('about_good', 'about_us', 'contacts')}
-	texts = {page: getattr(content, '%s_text' % page) for page in ('about_good', 'about_us', 'contacts')}
+	pages = ('about_good', 'about_us', 'contacts')
+
+	headers = {page: getattr(content, '%s_header' % page) for page in pages}
+	texts = {page: getattr(content, '%s_text' % page) for page in pages}
 
 	return render(request, 'main/show_page.html',
 		{
+			'pages': pages,
 			'content': content,
-			'css': 'css/dynamic.css',
-			'types': PatternType(),
-			'pages': ('about_good', 'about_us', 'contacts'),
 			'features': features,
 			'headers': headers,
 			'texts': texts,
+			'PatternType': PatternType(),
+			'css': 'css/dynamic.css',
 		})
 
 def create_styles(content, features):

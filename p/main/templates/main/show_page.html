@@ -27,7 +27,7 @@
 						{{ content.slogan|linebreaks }}
 					{% endif %}
 
-					{% if features.main.pattern_type == types.ColorImage %}
+					{% if features.main.pattern_type == PatternType.ColorImage %}
 						<img src="{{ features.main.image }}" class="single">
 					{% endif %}
 				</header>
@@ -42,11 +42,11 @@
 
 					{% with pattern_type=page_features.pattern_type image=page_features.image %}
 
-						{% if pattern_type == types.Image or pattern_type == types.Color %}
+						{% if pattern_type == PatternType.Image or pattern_type == PatternType.Color %}
 							{% include  'main/page_usual.html' with header=header text=text page=page %}
-						{% elif pattern_type == types.ColorImage %}
+						{% elif pattern_type == PatternType.ColorImage %}
 							{% include 'main/page_colorimage.html' with header=header text=text image=image page=page %}
-						{% elif pattern_type == types.SepHeader %}
+						{% elif pattern_type == PatternType.SepHeader %}
 							{% include 'main/page_sepheader.html' with header=header text=text page=page %}
 						{% endif %}
 

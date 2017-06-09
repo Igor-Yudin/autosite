@@ -12,7 +12,7 @@
 
 {% block content %}
 	<div class="content">
-		<form method="POST" action="{% url 'input_content' pk=pk %}" enctype="multipart/form-data">
+		<form method="POST" action="{% url 'input_content' params_pk=params_pk %}" enctype="multipart/form-data">
 			{% csrf_token %}
 			{% for field in form %}
 				{% for error in field.errors %}

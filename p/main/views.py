@@ -363,6 +363,7 @@ def create_styles(content, features):
 	"""
 	Возвращает словарь с набором css свойств для свойств
 	"""
+	import re
 	styles = {
 
 		# Общие стили
@@ -386,6 +387,7 @@ def create_styles(content, features):
 
 		'h1, h2': {
 			'text-align': 'center',
+			'font-family': re.sub(features.font_family, 'serif', 'sans-serif'),
 		},
 
 		'p': {

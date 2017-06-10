@@ -1,5 +1,5 @@
 """
-WSGI config for maker project.
+WSGI config for autosite project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "maker.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "autosite.settings")
 
 application = get_wsgi_application()

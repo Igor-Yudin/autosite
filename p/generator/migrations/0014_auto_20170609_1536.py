@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0013_remove_pagefeatures_name'),
+        ('generator', '0013_remove_pagefeatures_name'),
     ]
 
     operations = [

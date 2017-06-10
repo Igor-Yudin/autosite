@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'generator/base.html' %}
 {% load filters %}
 
 {% load static %}
@@ -43,11 +43,11 @@
 					{% with pattern_type=page_features.pattern_type image=page_features.image %}
 
 						{% if pattern_type == PatternType.Image or pattern_type == PatternType.Color %}
-							{% include  'main/page_usual.html' with header=header text=text page=page %}
+							{% include  'generator/page_usual.html' with header=header text=text page=page %}
 						{% elif pattern_type == PatternType.ColorImage %}
-							{% include 'main/page_colorimage.html' with header=header text=text image=image page=page %}
+							{% include 'generator/page_colorimage.html' with header=header text=text image=image page=page %}
 						{% elif pattern_type == PatternType.SepHeader %}
-							{% include 'main/page_sepheader.html' with header=header text=text page=page %}
+							{% include 'generator/page_sepheader.html' with header=header text=text page=page %}
 						{% endif %}
 
 					{% endwith %}

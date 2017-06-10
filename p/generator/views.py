@@ -48,10 +48,10 @@ def input_parameters(request):
 		form = SiteParametersForm(request.POST)
 		if form.is_valid():
 			site_params = form.save()
-			return redirect('input_content', pk=site_params.pk)
+			return redirect('input_content', params_pk=site_params.pk)
 	else:
 		form = SiteParametersForm()
-	return render(request, 'main/input_parameters.html', {'form': form})
+	return render(request, 'generator/input_parameters.html', {'form': form})
 
 def input_content(request, params_pk):
 	"""
@@ -69,7 +69,7 @@ def input_content(request, params_pk):
 						content_pk=content.pk,
 						features_pk=features_pk)
 	else:
-		return render(request, 'main/input_content.html', {'form': form, 'params_pk': params_pk})
+		return render(request, 'generator/input_content.html', {'form': form, 'params_pk': params_pk})
 
 def get_input_parameters(site_parameters):
 	"""
@@ -356,7 +356,7 @@ def show_page(request, params_pk, content_pk, features_pk):
 	headers = {page: getattr(content, '%s_header' % page) for page in pages}
 	texts = {page: getattr(content, '%s_text' % page) for page in pages}
 
-	return render(request, 'main/show_page.html',
+	return render(request, 'generator/show_page.html',
 		{
 			'pages': pages,
 			'content': content,
